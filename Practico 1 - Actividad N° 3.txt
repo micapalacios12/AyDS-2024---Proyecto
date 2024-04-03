@@ -1,0 +1,104 @@
+3. Teniendo en cuenta el problema planteado en el taller de la asignatura se solicita lo siguiente:
+
+a)Escriban una narrativa con toda la información relevante que han recabado hasta el momento sobre la situación planteada.
+
+	La situación planteada es enseñar las normas y señales de tránsito, de acuerdo a la Ley de Tránsito, Nº 24.449. 
+	Esta ley regula el uso de la vía pública, la circulación de personas, animales y vehículos terrestres, 
+        y las actividades vinculadas con el transporte.
+	
+	Las señales de tránsito son aquellos carteles colocados al costado de la ruta o elevados sobre el piso con información útil para los conductores, peatones y ciclistas.
+	
+	Se clasifican en 3 grandes grupos, las cuales son:
+	
+	- Reglamentarias
+	- Preventivas
+	- Informativas
+	
+	- Reglamentarias
+
+		Estas se subdividen a su vez en: de prohibición, de restricción y de prioridad.
+
+		- Prohibición: simbolizan que determinada acción no puede realizarse. 
+		- Restricción: son aquellas que indican los límites de la velocidad, peso y tamaño de los vehículos, uso de estacionamiento y 
+                               carriles. 
+		- Prioridad: cambian o refuerzan la prioridad respecto de a quién corresponde pasar primero en una esquina o tramo del camino.
+		
+	-Señales preventivas
+
+		Se agrupan en: de máximo peligro y físicas.
+
+		- Máximo peligro: indican que hay que conducirse con extrema precaución sobre determinados lugares porque el peligro que hay 
+                                  alrededor es muy grande. 
+		- Físicas: simbolizan determinadas características de la ruta, por ejemplo: que se acerca una curva, un túnel o un puente.
+		
+		
+	- Señales informativas
+
+		Se clasifican en: de nomenclatura urbana (destinos y distancias), características de la vía y de información turística y de 
+                servicios.
+
+		- Nomenclatura vial y urbana: informan el nombre y la altura de las calles o avenidas; identifican la ruta en las zonas rurales. 
+                                              Además, muestran la distancia que falta para llegar a una localidad o destino determinado. 			- Características de la vía: indica características de las rutas o calles, sobre todo las modificaciones que puede tener. 
+		- Información turística y de servicios: brindan información útil para los conductores y peatones, como la cercanía de una 
+                                                        estación de servicio, un teléfono público o un restaurante.
+		
+		
+		
+	- Señales transitorias
+
+		Son señales que advierten acerca de la ejecución de trabajos de construcción y mantenimiento de la vía.
+
+	
+b) Expliciten a partir de la narrativa: 
+
+	● ¿Cúal es el problema a resolver?
+		
+		El problema a resolver es enseñar al usuario las señales y normas de tránsito de una forma didáctica. 
+		
+	● ¿Cúal es el contexto en el que se situa el problema?
+	
+		El contexto de este problema es que al usuario no le sea fastidioso aprender las normas y señales de transito.
+		
+	● Construyan un glosario, en el que definan el vocabulario relevante del contexto que como desarrolladores debemos conocer.
+	
+		jinetes: Persona que circula a caballo. 
+		carro mano: Persona que circula con un carro de mano (averiguar que significa)
+		camino sinuoso: camino con serie de curvas y vueltas.
+		mojon kilometrico: señal que indica las distancias en un camino o en una carretera.
+		punto panoramico: pequeño lugar con vista panoramica privilegiada.
+		
+		
+	● ¿Quiénes son los usuarios/actores que van a interactuar con el sistema?
+	
+		 Conductores nuevos, personas que deseen repasar las normas de tránsito, etc.
+	
+	● ¿Cómo y para que van a usar el sistema este usuario/actores?
+		
+		Los usuarios van a usar el sistema de una manera didáctica, para aprender las normas y señales de tránsito. 
+		
+
+c) A partir de la información que disponen realicen un listado de los requerimientos funcionales del sistema que necesita desarrollar. 
+
+	-El sistema debe proporcionar la interface de Crear Usuario.
+
+	-Los usuarios registrados deben poder iniciar sesión en el sistema.
+	
+        -El sistema debe proporcionar lecciones interactivas sobre las normas y señales de tránsito. Además, debe incluir contenido multimedia, como 
+         imágenes, videos o animaciones.
+
+        -Los usuarios deben poder avanzar a través de las lecciones a su propio ritmo.
+
+        -El sistema debe ofrecer pruebas para evaluar el conocimiento del usuario sobre las normas y señales de tránsito. Además, las pruebas deben incluir  
+         preguntas de opción múltiple, verdadero/falso, etc.
+         
+        -Se deben incluir simulaciones interactivas de situaciones de tráfico para que los usuarios practiquen su conocimiento donde, deben cubrir una  
+         variedad de escenarios de conducción, como cruces, señales de tráfico, etc.
+        
+        
+d) A partir de la información que disponen realicen un listado de los requerimientos no funcionales del sistema que necesita desarrollar. 
+
+	- La interfaz de usuario debe ser intuitiva y fácil de usar.
+	- Debe haber medidas de seguridad para proteger los datos de los usuarios, especialmente si se están registrando o ingresando información personal.
+	- El software debe ser compatible con una variedad de dispositivos y navegadores web.
+	
+	
