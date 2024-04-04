@@ -2,103 +2,126 @@
 
 a)Escriban una narrativa con toda la información relevante que han recabado hasta el momento sobre la situación planteada.
 
-	La situación planteada es enseñar las normas y señales de tránsito, de acuerdo a la Ley de Tránsito, Nº 24.449. 
-	Esta ley regula el uso de la vía pública, la circulación de personas, animales y vehículos terrestres, 
-        y las actividades vinculadas con el transporte.
+	La situación planteada es enseñar los aparatos y sistema del cuerpo humano. 
+	Diferentes órganos se agrupan entre sí y desarrollan funciones más complejas, dando lugar a los aparatos y sistemas que están formados por la suma de 		 	
+	varios órganos.
+	Para poder aprender sobre los sistemas y aparatos debemos conocer sobre los organos.
+	Los órganos son estructuras formadas por dos o más tejidos que realizan una o varias funciones específicas en el organismo. Algunos de los órganos más 
+	importantes son los siguientes:
+
+    		-Encéfalo. Es el mayor órgano del sistema nervioso central y se encuentra situado en el interior del cráneo.El encéfalo se divide en cerebro, 	
+    		cerebelo y bulbo raquídeo.
+    		-Corazón. Su función es bombear la sangre para que se distribuya por todo el organismo a través de las arterias. En situación de reposo bombea 			
+    		unos cinco litros de sangre por minuto, es decir 7200 litros al día.
+   	 	-Pulmón. Hace posible el intercambio gaseoso, en el pulmón la sangre se desprende del dióxido de carbono y se carga de oxígeno.
+   		-Riñón. Se encarga de la depuración de la sangre y expulsión de las sustancias de desecho a través de la orina.
+    		-Hígado. Se encuentra situado en la porción superior derecha del abdomen. Realiza numerosas funciones, entre ellas la producción de la bilis y 	
+    		la síntesis de diferentes proteínas plasmáticas. La ausencia de hígado es incompatible con la vida.
+    		-Páncreas. Es un órgano que se encuentra en el abdomen y pertenece al aparato digestivo y al sistema endocrino. Tiene una doble función, 	
+    		produce hormonas que van a la sangre, entre ellas la insulina, y secreta el jugo pancreático al intestino para facilitar el proceso de 	
+    		digestión.
+    		-Estómago. El estómago tiene gran importancia en el proceso de digestión, segrega gran cantidad de ácido clorhídrico que actúa sobre los 	
+    		alimentos y desnaturaliza parcialmente las proteínas que contiene, también produce una sustancia denominada pepsina que divide las grandes 	
+    		cadenas de proteínas en fragmentos más pequeños.
+    		-Intestino. Su función principal es absorber los nutrientes y el agua que se ingieren durante el proceso de alimentación. Se divide en dos 		
+    		partes: intestino delgado e intestino grueso.
+   		-Ojo. Hace posible la visión, dispone de células especializadas fotosensibles que se llaman conos y bastones.
+    		-Oído. Es un órgano sensorial responsable de la audición.
+    		-Tiroides. Es una glándula endocrina que se encuentra situada en el cuello. Secreta tiroxina que regula el metabolismo corporal.
+    		-Hipófisis. Es una pequeña glándula situada en la base del cráneo, junto al hipotálamo. A pesar de su pequeño tamaño es de gran importancia
+    		por secretar diferentes sustancias hormonales que afectan a todo el organismo.
+    		-Glándula suprarrenal. Son dos glándulas situadas sobre los riñones, producen diferentes sustancias, entre ellas adrenalina y 
+    		glucocorticoides.
+    		-Ovario. Forma parte del aparato reproductor femenino.
+    		-Testículo. Forma parte del aparato reproductor masculino.
+    		-Útero. Es un órgano hueco situado en la pelvis de la mujer, es donde se desarrolla el embrión hasta el momento del parto.
+    		
+	Ya que conocemos un poco sobre organos, los sistema y aparatos del cuerpo humano son: 
 	
-	Las señales de tránsito son aquellos carteles colocados al costado de la ruta o elevados sobre el piso con información útil para los conductores, peatones y ciclistas.
-	
-	Se clasifican en 3 grandes grupos, las cuales son:
-	
-	- Reglamentarias
-	- Preventivas
-	- Informativas
-	
-	- Reglamentarias
-
-		Estas se subdividen a su vez en: de prohibición, de restricción y de prioridad.
-
-		- Prohibición: simbolizan que determinada acción no puede realizarse. 
-		- Restricción: son aquellas que indican los límites de la velocidad, peso y tamaño de los vehículos, uso de estacionamiento y 
-                               carriles. 
-		- Prioridad: cambian o refuerzan la prioridad respecto de a quién corresponde pasar primero en una esquina o tramo del camino.
-		
-	-Señales preventivas
-
-		Se agrupan en: de máximo peligro y físicas.
-
-		- Máximo peligro: indican que hay que conducirse con extrema precaución sobre determinados lugares porque el peligro que hay 
-                                  alrededor es muy grande. 
-		- Físicas: simbolizan determinadas características de la ruta, por ejemplo: que se acerca una curva, un túnel o un puente.
-		
-		
-	- Señales informativas
-
-		Se clasifican en: de nomenclatura urbana (destinos y distancias), características de la vía y de información turística y de 
-                servicios.
-
-		- Nomenclatura vial y urbana: informan el nombre y la altura de las calles o avenidas; identifican la ruta en las zonas rurales. 
-                                              Además, muestran la distancia que falta para llegar a una localidad o destino determinado. 			- Características de la vía: indica características de las rutas o calles, sobre todo las modificaciones que puede tener. 
-		- Información turística y de servicios: brindan información útil para los conductores y peatones, como la cercanía de una 
-                                                        estación de servicio, un teléfono público o un restaurante.
-		
-		
-		
-	- Señales transitorias
-
-		Son señales que advierten acerca de la ejecución de trabajos de construcción y mantenimiento de la vía.
-
+		-Aparato digestivo. Es el conjunto de órganos encargado del proceso de la digestión, está formado por el esófago, estómago, intestino delgado
+		 e intestino grueso.
+		-Sistema nervioso. Especializado en la transmisión y procesamiento de señales nerviosas. Incluye el sistema nervioso central formado por el 	
+		cerebro, cerebelo y medula espinal y el sistema nervioso periférico formado por los nervios sensitivos y motores.
+    	        -Aparato respiratorio. El aparato respiratorio permite el intercambio de gases con el medio ambiente, el órgano principal que lo forma es el 
+    	        pulmón.
+    	        -Aparato circulatorio. Está constituido por un fluido que se llama sangre, un conjunto de conductos (arterias, venas, capilares) y una bomba 	
+    	        impulsora que es el corazón.
+    	        -Sistema endocrino. Formado por el conjunto de órganos y tejidos que producen las hormonas. Las hormonas son sustancias químicas que se 
+    	        transportan principalmente a través de la sangre y actúan sobre otras células para regular sus funciones. La hormona tiroidea secretada por la 
+    	        glándula tiroides aumenta la velocidad a que se producen las reacciones químicas de la mayoría de las células del organismo humano, por lo que 
+    	        aumenta el ritmo de actividad corporal. Otras hormonas tienen funciones diferentes, por ejemplo la insulina producida por el páncreas controla 
+    	        el metabolismo de la glucosa y facilita la entrada de esta sustancia en las células.
+		-Sistema óseo. Está formado por el conjunto de huesos y cartílagos que constituyen el esqueleto humano.
+		-Sistema muscular. Lo componen los diferentes músculos esqueléticos. La suma del sistema muscular más el sistema óseo da lugar al aparato 	
+		locomotor que hace posible el movimiento.
+		Sistema excretor. Se encarga de la producción, almacenamiento y expulsión de la orina. Está formado por el riñón, los ureteres, la vejiga 
+		urinaria y la uretra.
+		-Aparato reproductor. Es el conjunto de órganos relacionados con la reproducción sexual, puede distinguirse el aparato reproductor masculino y 
+		el aparato reproductor femenino.
+    		-Sistema inmunológico. El sistema inmunológico proporciona la capacidad para que el cuerpo distinga sus propias células y tejidos de las 
+    		células y sustancias externas y neutralice o destruya estas últimas mediante diferentes mecanismos, entre ellos la producción de anticuerpos.1
+    		-Sistema linfático. Es el sistema que transporta la linfa. El sistema linfático tiene algunas similitudes con el sistema circulatorio, pero el 		
+    		líquido que transporta es linfa y no sangre, la linfa procede del líquido extracelular.
+    		-Sistema tegumentario. Está formado por la piel que recubre todo el organismo. En el ser humano adulto ocupa una extensión de 2 m² y pesa 4,1 
+    		kg. Tiene un espesor que oscila entre 0,5 mm en los párpados y 4 mm en el talón. De la piel dependen varias estructuras llamadas anexos
+    		cutáneos: pelos, uñas, glándulas sebáceas y sudoríparas. Tiene la función de proteger el cuerpo mediante una capa aislante que evita 
+    		infecciones y ayuda a mantener estable la temperatura corporal. Además la piel sintetiza algunas sustancias muy importantes, entre ellas la 
+    		vitamina D y posee corpúsculos sensitivos que detectan las sensaciones de tacto, dolor, calor y frío.
 	
 b) Expliciten a partir de la narrativa: 
 
 	● ¿Cúal es el problema a resolver?
 		
-		El problema a resolver es enseñar al usuario las señales y normas de tránsito de una forma didáctica. 
+		El problema a resolver es enseñar al usuario los aparatos y sistemas de una forma didáctica. 
 		
 	● ¿Cúal es el contexto en el que se situa el problema?
 	
-		El contexto de este problema es que al usuario no le sea fastidioso aprender las normas y señales de transito.
+		El contexto de este problema es que los recursos educativos como libros y clases presenciales pueden resultar costosos o poco atractivos para 		
+		estudiantes jovenes o adultos que desean aprender de manera autodidacta.
 		
 	● Construyan un glosario, en el que definan el vocabulario relevante del contexto que como desarrolladores debemos conocer.
-	
-		jinetes: Persona que circula a caballo. 
-		carro mano: Persona que circula con un carro de mano (averiguar que significa)
-		camino sinuoso: camino con serie de curvas y vueltas.
-		mojon kilometrico: señal que indica las distancias en un camino o en una carretera.
-		punto panoramico: pequeño lugar con vista panoramica privilegiada.
+		
+		-Aparato: Conjunto de organos que desempañan una misma función y mas amplia que un sistema.
+		-Sistema: Conjunto de organos que trabajan juntos para realizar una función especifica en el cuerpo humano o en otro organizmo. Cada sistema 	
+		tiene su funcion particular.
+		-
 		
 		
 	● ¿Quiénes son los usuarios/actores que van a interactuar con el sistema?
 	
-		 Conductores nuevos, personas que deseen repasar las normas de tránsito, etc.
+		 Los usuarios/actores que van a interactuar con este sistema son los estudiantes y todo aquel usuario interesado en aprender sobre el cuerpo
+		  humano
 	
 	● ¿Cómo y para que van a usar el sistema este usuario/actores?
 		
-		Los usuarios van a usar el sistema de una manera didáctica, para aprender las normas y señales de tránsito. 
+		Los usuarios van a usar el sistema para aprender de manera interactiva, reforzando conocimientos y personalizando su aprendisaje segun sus 
+		necesidades y preferencias. 
 		
 
 c) A partir de la información que disponen realicen un listado de los requerimientos funcionales del sistema que necesita desarrollar. 
 
 	-El sistema debe proporcionar la interface de Crear Usuario.
 
-	-Los usuarios registrados deben poder iniciar sesión en el sistema.
-	
-        -El sistema debe proporcionar lecciones interactivas sobre las normas y señales de tránsito. Además, debe incluir contenido multimedia, como 
+	-El sistema debe proporcionar lecciones interactivas sobre el cuerpo humano. Además, debe incluir contenido multimedia, como 
          imágenes, videos o animaciones.
 
-        -Los usuarios deben poder avanzar a través de las lecciones a su propio ritmo.
+        -El sistema debe proporcinar actividades practicas relacionada con cada leccion para que los usuarios pongan en practica sus conocimientos. Estas 	
+        incluiran cuestionarios interactivos y ejercicios de identificacion de aparatos y sistemas
 
-        -El sistema debe ofrecer pruebas para evaluar el conocimiento del usuario sobre las normas y señales de tránsito. Además, las pruebas deben incluir  
-         preguntas de opción múltiple, verdadero/falso, etc.
+        -El sistema debe ofrecer pruebas para evaluar el conocimiento del usuario. Además, las pruebas deben incluir  
+         preguntas de múltiple, verdadero/falso, etc.
          
-        -Se deben incluir simulaciones interactivas de situaciones de tráfico para que los usuarios practiquen su conocimiento donde, deben cubrir una  
-         variedad de escenarios de conducción, como cruces, señales de tráfico, etc.
+        -El sistema debe ofrecer un sistema de puntajes, para motivar a los usaurios a participar y preogresar en su aprendisaje. 	
         
+        -El sistema debe ofrecer Niveles,ofrecerá diferentes niveles de dificultad.
+        
+        -El sistema debe ofrecer una Correcion inmediata de sus actividades practicas y evaluaciones.
         
 d) A partir de la información que disponen realicen un listado de los requerimientos no funcionales del sistema que necesita desarrollar. 
 
-	- La interfaz de usuario debe ser intuitiva y fácil de usar.
-	- Debe haber medidas de seguridad para proteger los datos de los usuarios, especialmente si se están registrando o ingresando información personal.
-	- El software debe ser compatible con una variedad de dispositivos y navegadores web.
+	-El sistema debe ser fácil de usar y accesible para usuarios de todas las edades.
+	-La interfaz de usuario debe ser atractiva visualmente para mantener el interes del usuario.
+	-El sistema debe tener tiempos de carga rápidos y funcionar sin problemas.
+	-Debe haber medidas de seguridad para proteger los datos de los usuarios.
 	
 	
