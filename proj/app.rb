@@ -31,7 +31,8 @@ post '/login' do
     redirect  '/dashboard'
 
   else
-    erb :login, locals: {message: 'Invalid email or password.' }
+    erb :login, locals: {
+      error: 'Invalid email or password.' }
   end
 end
 
@@ -75,8 +76,8 @@ end
 
 
 get '/dashboard' do
-  if session[:user_id]
-    @user = User.find(session[:user_id])
+  if session[:username]
+    @user = User.find(session[:username])
     erb :dashboard
   else
     redirect '/login'

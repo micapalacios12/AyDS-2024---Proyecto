@@ -25,7 +25,6 @@ GEM
     drb (2.2.1)
     i18n (1.14.5)
       concurrent-ruby (~> 1.0)
-    mini_portile2 (2.8.6)
     minitest (5.23.0)
     mustermann (3.0.0)
       ruby2_keywords (~> 0.0.1)
@@ -50,8 +49,11 @@ GEM
     sinatra-activerecord (2.0.27)
       activerecord (>= 4.1)
       sinatra (>= 1.0)
-    sqlite3 (1.7.3)
-      mini_portile2 (~> 2.8.0)
+    sqlite3 (1.7.3-aarch64-linux)
+    sqlite3 (1.7.3-arm-linux)
+    sqlite3 (1.7.3-arm64-darwin)
+    sqlite3 (1.7.3-x86-linux)
+    sqlite3 (1.7.3-x86_64-darwin)
     sqlite3 (1.7.3-x86_64-linux)
     tilt (2.3.0)
     timeout (0.4.1)
@@ -60,10 +62,15 @@ GEM
     webrick (1.8.1)
 
 PLATFORMS
-  ruby
+  aarch64-linux
+  arm-linux
+  arm64-darwin
+  x86-linux
+  x86_64-darwin
   x86_64-linux
 
 DEPENDENCIES
+  activerecord
   bcrypt
   rackup
   rake

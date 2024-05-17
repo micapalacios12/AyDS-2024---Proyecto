@@ -10,5 +10,7 @@ class CreateUsersTable < ActiveRecord::Migration[7.1]
 
     add_index :users, :username, unique: true
     add_index :users, :email, unique: true
-  end
+    add_column :usuarios, :password_digest, :string
+    end
+  
 end
