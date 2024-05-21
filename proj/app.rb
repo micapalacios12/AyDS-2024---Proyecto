@@ -62,7 +62,7 @@ post '/register' do
 
   if user.save
     session[:user_id] = user.id
-    redirect '/dashboard'
+    redirect '/login'
   else
     erb :register, locals: { message: 'Registration failed. Please try again.' }
   end
