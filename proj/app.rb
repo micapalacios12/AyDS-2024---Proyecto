@@ -1,42 +1,37 @@
-# app.rb
 require 'sinatra'
 require 'sinatra/activerecord'
 require 'bcrypt'
 
-require './models/user.rb'
-
+require './models/user'
 
 enable :sessions
 set :database_file, './config/database.yml'
 
-#Pagina principal
-
+# Página principal
 get '/' do
   erb :home
 end
 
-#Pagina de registro
+# Página de login
 get '/login' do
   erb :login
 end
 
 post '/login' do
-  email = params [:email]
-  password = params [:password]
+  email = params[:email]
+  password = params[:password]
 
   user = User.find_by(email: email)
 
   if user && user.authenticate(password)
-    sessions[:user_id] = user.id
-    redirect  '/dashboard'
-
+    session[:user_id] = user.id
+    redirect '/dashboard'
   else
-    erb :login, locals: {
-      error: 'Invalid email or password.' }
+    erb :login, locals: { message: 'Invalid email or password.' }
   end
 end
 
-#ruta de registro
+# Página de registro
 get '/register' do
   erb :register
 end
@@ -46,7 +41,6 @@ post '/register' do
   email = params[:email]
   password = params[:password]
   password_confirmation = params[:password_confirmation]
-
 
   if [username, email, password, password_confirmation].any?(&:empty?)
     return erb :register, locals: { message: 'Please fill in all fields.' }
@@ -74,10 +68,9 @@ post '/register' do
   end
 end
 
-
 get '/dashboard' do
-  if session[:username]
-    @user = User.find(session[:username])
+  if session[:user_id]
+    @user = User.find(session[:user_id])
     erb :dashboard
   else
     redirect '/login'
@@ -88,3 +81,4 @@ get '/logout' do
   session.clear
   redirect '/login'
 end
+
