@@ -25,7 +25,7 @@ post '/login' do
 
   if user && user.authenticate(password)
     session[:user_id] = user.id
-    redirect '/dashboard'
+    redirect '/select_system'
   else
     erb :login, locals: { message: 'Invalid email or password.' }
   end
@@ -68,17 +68,22 @@ post '/register' do
   end
 end
 
-get '/dashboard' do
+get '/select_system' do
   if session[:user_id]
     @user = User.find(session[:user_id])
-    erb :dashboard
+    erb :select_system
   else
     redirect '/login'
   end
 end
 
-get '/logout' do
-  session.clear
-  redirect '/login'
+get '/play' do
+  @system = params[:system] # Obtener el sistema seleccionado de los parámetros de la URL
+  erb :"play_#{@system}" # Renderizar la vista correspondiente al sistema seleccionado
 end
 
+
+get '/logout' do
+  session.clear
+  redirect '/home'
+end
