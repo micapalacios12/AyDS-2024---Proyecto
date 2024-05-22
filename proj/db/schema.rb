@@ -10,7 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_15_213018) do
+ActiveRecord::Schema[7.1].define(version: 2024_05_22_204010) do
+  create_table "options", force: :cascade do |t|
+    t.string "text"
+    t.boolean "correct", default: false
+    t.integer "question_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["question_id"], name: "index_options_on_question_id"
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.string "text"
+    t.string "system"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "names"
     t.string "username"
@@ -20,4 +36,5 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_15_213018) do
     t.datetime "updated_at", precision: nil, null: false
   end
 
+  add_foreign_key "options", "questions"
 end
