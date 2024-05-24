@@ -1,1 +1,21 @@
 <h1>Juego del Sistema Respiratorio</h1>
+
+<% if locals[:message] %>
+  <p><%= locals[:message] %></p>
+<% end %>
+
+<% if @current_question %>
+  <p><%= @current_question.text %></p>
+  <form method="POST" action="/play/answer">
+    <% @current_question.options.each do |option| %>
+      <label><input type="radio" name="option_id" value="<%= option.id %>"> <%= option.text %></label><br>
+    <% end %>
+    <button type="submit">Responder</button>
+  </form>
+<% else %>
+  <h1>¡Has terminado el juego!</h1>
+  <p>No hay más preguntas disponibles.</p>
+  <a href="/select_system">Volver a seleccionar sistema</a>
+  <a href="/logout">Cerrar sesión</a>
+
+<% end %>
