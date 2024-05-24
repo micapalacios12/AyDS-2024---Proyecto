@@ -24,7 +24,7 @@ post '/login' do
   password = params[:password]
 
   user = User.find_by(email: email)
-  
+
   if user && user.authenticate(password)
     session[:user_id] = user.id
     redirect '/select_system'
@@ -92,7 +92,7 @@ get '/play' do
   end
 end
 
-# Ruta para mostrar la pregunta actual
+# Ruta para mostrar la pregunta actual y manejar la respuesta del usuario
 get '/play/question' do
   @system = session[:system]
   @current_question_index = session[:current_question_index]
@@ -100,22 +100,21 @@ get '/play/question' do
 
   if @current_question_index < @questions.count
     @current_question = @questions[@current_question_index]
-    erb :"play_#{@system}"
+    erb :play
   else
-    redirect '/select_system' # Redirige al usuario a seleccionar sistema al completar todas las preguntas
+    redirect '/select_system'
   end
 end
 
-# Ruta para manejar la respuesta del usuario
-post '/play/answer' do
+post '/play/question' do
   @system = session[:system]
   @current_question_index = session[:current_question_index]
   @questions = Question.where(system: @system)
   @current_question = @questions[@current_question_index]
-  
+
   selected_option_id = params[:option_id].to_i
   selected_option = Option.find(selected_option_id)
-  
+
   if selected_option.correct?
     @message = "¡Respuesta correcta!"
   else
@@ -123,7 +122,18 @@ post '/play/answer' do
   end
 
   session[:current_question_index] += 1
-  erb :"play_#{@system}", locals: { message: @message }
+
+  if session[:current_question_index] < @questions.count
+    @current_question = @questions[session[:current_question_index]]
+    erb :play, locals: { message: @message }
+  else
+    redirect '/game_over'
+  end
+end
+
+get '/game_over' do
+  @system = session[:system]
+  erb :game_over
 end
 
 # Cerrar sesión
@@ -131,4 +141,3 @@ get '/logout' do
   session.clear
   redirect '/'
 end
-

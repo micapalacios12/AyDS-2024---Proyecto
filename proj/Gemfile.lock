@@ -39,9 +39,6 @@ GEM
       rack (>= 3)
       webrick (~> 1.8)
     ruby2_keywords (0.0.5)
-    seed-fu (2.3.9)
-      activerecord (>= 3.1)
-      activesupport (>= 3.1)
     sinatra (4.0.0)
       mustermann (~> 3.0)
       rack (>= 3.0.0, < 4)
@@ -74,7 +71,6 @@ PLATFORMS
 DEPENDENCIES
   bcrypt
   rackup
-  seed-fu
   sinatra
   sinatra-activerecord
   sqlite3 (~> 1.4)
