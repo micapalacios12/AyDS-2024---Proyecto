@@ -93,182 +93,186 @@ Option.create([
 
 #Preguntas y respuestas del sistema respiratorio
 
-question1 = Question.create(
+question6 = Question.create(
   system: 'respiratorio',
   text: '¿Cuál es la función principal del sistema respiratorio?'
 )
 
 Option.create([
-  {text: 'Transportar nutrientes a las células', correct: false, question_id: question1.id},
-  {text: 'Intercambiar gases entre el cuerpo y el ambiente', correct: true, question_id: question1.id},
-  {text: 'Producir hormonas', correct: false, question_id: question1.id},
-  {text: 'Descomponer alimentos en nutrientes', correct: false, question_id: question1.id}
+  {text: 'Transportar nutrientes a las células', correct: false, question_id: question6.id},
+  {text: 'Intercambiar gases entre el cuerpo y el ambiente', correct: true, question_id: question6.id},
+  {text: 'Producir hormonas', correct: false, question_id: question6.id},
+  {text: 'Descomponer alimentos en nutrientes', correct: false, question_id: question6.id}
 ])
 
-question2 = Question.create(
+question7 = Question.create(
   system: 'respiratorio',
   text: '¿Cúal es el órgano principal del sistema respiratorio?'
 )
 
 Option.create([
-  {text: 'El corazón', correct: false, question_id: question2.id},
-  {text: 'El cerebro', correct: false, question_id: question2.id},
-  {text: 'El hígado', correct: false, question_id: question2.id},
-  {text: 'Los pulmones', correct: true, question_id: question2.id}
+  {text: 'El corazón', correct: false, question_id: question7.id},
+  {text: 'El cerebro', correct: false, question_id: question7.id},
+  {text: 'El hígado', correct: false, question_id: question7.id},
+  {text: 'Los pulmones', correct: true, question_id: question7.id}
 ])
 
-question3 = Question.create(
+question8 = Question.create(
   system: 'respiratorio',
   text: '¿Cuál es la función principal de los alvéolos?'
 )
 
 Option.create([
-  {text: 'Producir moco para atrapar particulas extrañas', correct: false, question_id: question3.id},
-  {text: 'Permitir el intercambio de oxígeno y dióxido de carbono', correct: true, question_id: question3.id},
-  {text: 'Producir sangre', correct: false, question_id: question3.id},
-  {text: 'Producir hormonas', correct: false, question_id: question3.id}
+  {text: 'Producir moco para atrapar particulas extrañas', correct: false, question_id: question8.id},
+  {text: 'Permitir el intercambio de oxígeno y dióxido de carbono', correct: true, question_id: question8.id},
+  {text: 'Producir sangre', correct: false, question_id: question8.id},
+  {text: 'Producir hormonas', correct: false, question_id: question8.id}
 ])
 
-question4 = Question.create(
+question9 = Question.create(
   system: 'respiratorio',
   text: '¿Qué músculo es responsable de la respiración?'
 )
 
 Option.create([
-  {text: 'El diafragma', correct: true, question_id: question4.id},
-  {text: 'El músculo pectoral', correct: false, question_id: question4.id},
-  {text: 'El músculo del brazo', correct: false, question_id: question4.id},
+  {text: 'El diafragma', correct: true, question_id: question9.id},
+  {text: 'El músculo pectoral', correct: false, question_id: question9.id},
+  {text: 'El músculo del brazo', correct: false, question_id: question9.id},
+  {text: 'El corazon', correct: false, question_id: question9.id}
 ])
 
-question5 = Question.create(
+question10 = Question.create(
   system: 'respiratorio',
   text: '¿Que parte del sistema respiratorio se inflama durante un ataque de asma?'
 )
 
 Option.create([
-  {text: 'Los alveolos', correct: false, question_id: question5.id},
-  {text: 'Los bronquios', correct: true, question_id: question5.id},
-  {text: 'Los pulmones', correct: false, question_id: question5.id},
-  {text: 'Los bronquiolos', correct: false, question_id: question5.id}
+  {text: 'Los alveolos', correct: false, question_id: question10.id},
+  {text: 'Los bronquios', correct: true, question_id: question10.id},
+  {text: 'Los pulmones', correct: false, question_id: question10.id},
+  {text: 'Los bronquiolos', correct: false, question_id: question10.id}
 ])
 
 #Preguntas y respuestas del sistema circulatorio
 
-question1 = Question.create(
+question11 = Question.create(
   system: 'circulatorio',
   text: '¿Cuál es el órgano principal del sistema circulatorio?'
 )
 
 Option.create([
-  {text: 'El corazón', correct: true, question_id: question1.id},
-  {text: 'Los pulmones', correct: false, question_id: question1.id},
-  {text: 'Los riñones', correct: false, question_id: question1.id},
-  {text: 'Los intestinos', correct: false, question_id: question1.id}
+  {text: 'El corazón', correct: true, question_id: question11.id},
+  {text: 'Los pulmones', correct: false, question_id: question11.id},
+  {text: 'Los riñones', correct: false, question_id: question11.id},
+  {text: 'Los intestinos', correct: false, question_id: question11.id}
 ])
 
-question2 = Question.create(
+question12 = Question.create(
   system: 'circulatorio',
   text: '¿Cuál es la función principal del corazón?'
 )
 
 Option.create([
-  {text: 'Producir sangre', correct: false, question_id: question2.id},
-  {text: 'Producir hormonas', correct: false, question_id: question2.id},
-  {text: 'Bombear sangre', correct: true, question_id: question2.id},
-  {text: 'Producir calor', correct: false, question_id: question2.id}
+  {text: 'Producir sangre', correct: false, question_id: question12.id},
+  {text: 'Producir hormonas', correct: false, question_id: question12.id},
+  {text: 'Bombear sangre', correct: true, question_id: question12.id},
+  {text: 'Producir calor', correct: false, question_id: question12.id}
 ])
 
-question3 = Question.create(
+question13 = Question.create(
   system: 'circulatorio',
   text: '¿Cuál es la función principal de los vasos sanguíneos?'
 )
 
 Option.create([
-  {text: 'Producir sangre', correct: false, question_id: question3.id},
-  {text: 'Producir hormonas', correct: false, question_id: question3.id},
-  {text: 'Bombear sangre', correct: false, question_id: question3.id},
-  {text: 'Transportar sangre', correct: true, question_id: question3.id}
+  {text: 'Producir sangre', correct: false, question_id: question13.id},
+  {text: 'Producir hormonas', correct: false, question_id: question13.id},
+  {text: 'Bombear sangre', correct: false, question_id: question13.id},
+  {text: 'Transportar sangre', correct: true, question_id: question13.id}
 ])
 
-question4 = Question.create(
+question14 = Question.create(
   system: 'circulatorio',
   text: '¿Cuál es la función principal de los riñones?'
 )
 
 Option.create([
-  {text: 'Producir sangre', correct: false, question_id: question4.id},
-  {text: 'Producir enzimas', correct: false, question_id: question4.id},
-  {text: 'Producir bilis', correct: false, question_id: question4.id},
-  {text: 'Filtrar sangre', correct: true, question_id: question4.id}
+  {text: 'Producir sangre', correct: false, question_id: question14.id},
+  {text: 'Producir enzimas', correct: false, question_id: question14.id},
+  {text: 'Producir bilis', correct: false, question_id: question14.id},
+  {text: 'Filtrar sangre', correct: true, question_id: question14.id}
 ])
 
-question5 = Question.create(
+question15 = Question.create(
   system: 'circulatorio',
   text: '¿Qué es el pulso?'
 )
 
 Option.create([
-  {text: 'La sangre que sale del corazón', correct: false, question_id: question5.id},
-  {text: 'La sangre que entra al corazón', correct: false, question_id: question5.id},
-  {text: 'La sangre que circula por el cuerpo', correct: false, question_id: question5.id},
-  {text: 'La sangre que sale del corazón y entra al cuerpo', correct: true, question_id: question5.id}
+  {text: 'La sangre que sale del corazón', correct: false, question_id: question15.id},
+  {text: 'La sangre que entra al corazón', correct: false, question_id: question15.id},
+  {text: 'La sangre que circula por el cuerpo', correct: false, question_id: question15.id},
+  {text: 'La sangre que sale del corazón y entra al cuerpo', correct: true, question_id: question15.id}
 ])
 
 #Preguntas y respuestas del sistema reproductor
 
-question1 = Question.create(
+question16 = Question.create(
   system: 'reproductor',
   text: '¿Cuál es la función principal del sistema reproductor?'
 )
 
 Option.create([
-  {text: 'Producir sangre', correct: false, question_id: question1.id},
-  {text: 'Permitir la reproducción y asegurar la continuidad de la especie', correct: true, question_id: question1.id},
-  {text: 'Producir calor', correct: false, question_id: question1.id},
-  {text: 'Regular la temperatura corporal', correct: false, question_id: question1.id}
+  {text: 'Producir sangre', correct: false, question_id: question16.id},
+  {text: 'Permitir la reproducción y asegurar la continuidad de la especie', correct: true, question_id: question16.id},
+  {text: 'Producir calor', correct: false, question_id: question16.id},
+  {text: 'Regular la temperatura corporal', correct: false, question_id: question16.id}
 ])
 
-question2 = Question.create(
+question17 = Question.create(
   system: 'reproductor',
   text: '¿Qué órganos componen el sistema reproductor femenino?'
 )
 
 Option.create([
-  {text: 'Ovarios, trompas de Falopio, útero y vagina', correct: true, question_id: question2.id},
-  {text: 'Testículos, conductos deferentes, vesículas seminales y pene', correct: false, question_id: question2.id},
-  {text: 'Ovarios, trompas de Falopio, útero y clítoris', correct: false, question_id: question2.id}
+  {text: 'Ovarios, trompas de Falopio, útero y vagina', correct: true, question_id: question17.id},
+  {text: 'Testículos, conductos deferentes, vesículas seminales y pene', correct: false, question_id: question17.id},
+  {text: 'Ovarios, trompas de Falopio, útero y clítoris', correct: false, question_id: question17.id},
+  {text: 'Ovarios, trompas de Falopio, vagina y clítoris', correct: false, question_id: question17.id}
 ])
 
-question3 = Question.create(
+question18 = Question.create(
   system: 'reproductor',
   text: '¿Qué es la fertilización?'
 )
 
 Option.create([
-  {text: 'El proceso por el cual el óvulo es transportado por las trompas de Falopio', correct: false, question_id: question3.id},
-  {text: 'El proceso por el cual el óvulo es transportado por el útero', correct: false, question_id: question3.id},
-  {text: 'La unión del espermatozoide y el óvulo para formar un cigoto', correct: true, question_id: question3.id}
+  {text: 'El proceso por el cual el óvulo es transportado por las trompas de Falopio', correct: false, question_id: question18.id},
+  {text: 'El proceso por el cual el óvulo es transportado por el útero', correct: false, question_id: question18.id},
+  {text: 'La unión del espermatozoide y el óvulo para formar un cigoto', correct: true, question_id: question18.id},
+  {text: 'La union del ovulo a las trompas de Falopio ', correct: false, question_id: question18.id}
 ])
 
-question4 = Question.create(
+question19 = Question.create(
   system: 'reproductor',
   text: '¿Qué es la menstruación?'
 )
 
 Option.create([
-  {text: 'El proceso por el cual el óvulo es transportado por el útero', correct: false, question_id: question4.id},
-  {text: 'La liberación mensual de un óvulo del ovario', correct: false, question_id: question4.id},
-  {text: 'El proceso mediante el cual el útero expulsa su revestimiento', correct: true, question_id: question4.id}
+  {text: 'El proceso por el cual el óvulo es transportado por el útero', correct: false, question_id: question19.id},
+  {text: 'La liberación mensual de un óvulo del ovario', correct: false, question_id: question19.id},
+  {text: 'El proceso mediante el cual el útero expulsa su revestimiento(endometrio)', correct: true, question_id: question19.id},
+  {text: 'El proceso de la union de espermatozoide y el ovulo', correct: false, question_id: question19.id}
 ])
 
-question5 = Question.create(
+question20 = Question.create(
   system: 'reproductor',
   text: '¿Qué hormona es principalmente responsable de la regulación del ciclo menstrual?'
 )
 
 Option.create([
-  {text: 'Testosterona', correct: false, question_id: question5.id},
-  {text: 'Progesterona', correct: false, question_id: question5.id},
-  {text: 'Estrógeno', correct: true, question_id: question5.id}
-
+  {text: 'Testosterona', correct: false, question_id: question20.id},
+  {text: 'Estrógeno', correct: true, question_id: question20.id},
+  {text: 'Progesterona', correct: false, question_id: question20.id},
+  {text: 'Tiroxina', correct: false, question_id: question20.id}
 ])
