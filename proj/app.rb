@@ -39,12 +39,13 @@ get '/register' do
 end
 
 post '/register' do
+  names = params[:names]
   username = params[:username]
   email = params[:email]
   password = params[:password]
   password_confirmation = params[:password_confirmation]
 
-  if [username, email, password, password_confirmation].any?(&:empty?)
+  if [names, username, email, password, password_confirmation].any?(&:empty?)
     return erb :register, locals: { message: 'Please fill in all fields.' }
   end
 
@@ -60,7 +61,7 @@ post '/register' do
     return erb :register, locals: { message: 'Passwords do not match.' }
   end
 
-  user = User.new(username: username, email: email, password: password)
+  user = User.new(names: names, username: username, email: email, password: password)
 
   if user.save
     session[:user_id] = user.id
@@ -69,6 +70,7 @@ post '/register' do
     erb :register, locals: { message: 'Registration failed. Please try again.' }
   end
 end
+
 
 # Página de selección de sistema
 get '/select_system' do
@@ -140,4 +142,42 @@ end
 get '/logout' do
   session.clear
   redirect '/'
+end
+
+# Página de registro
+get '/register' do
+  erb :register
+end
+
+post '/register' do
+  names = params[:names]
+  username = params[:username]
+  email = params[:email]
+  password = params[:password]
+  password_confirmation = params[:password_confirmation]
+
+  if [names, username, email, password, password_confirmation].any?(&:empty?)
+    return erb :register, locals: { message: 'Please fill in all fields.' }
+  end
+
+  if User.exists?(username: username)
+    return erb :register, locals: { message: 'Username already taken.' }
+  end
+
+  if User.exists?(email: email)
+    return erb :register, locals: { message: 'Email already registered.' }
+  end
+
+  if password != password_confirmation
+    return erb :register, locals: { message: 'Passwords do not match.' }
+  end
+
+  user = User.new(names: names, username: username, email: email, password: password)
+
+  if user.save
+    session[:user_id] = user.id
+    redirect '/login'
+  else
+    erb :register, locals: { message: 'Registration failed. Please try again.' }
+  end
 end

@@ -1,13 +1,95 @@
-<p>Welcome, <%= @user.username %>!</p>
-
-<h1>Elige con qué sistema quieres jugar</h1>
-
-<ul>
-  <li><a href="/play?system=digestivo">Sistema Digestivo</a></li>
-  <li><a href="/play?system=respiratorio">Sistema Respiratorio</a></li>
-  <li><a href="/play?system=circulatorio">Sistema Circulatorio</a></li>
-  <li><a href="/play?system=reproductor">Sistema Reproductor</a></li>
-</ul>
-
-
-<a href="/logout">Logout</a>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seleccionar Sistema - AnatomyEasy</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f8ff;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+    }
+    h1 {
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
+    .system-selection {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+    .system {
+      width: 200px;
+      text-align: center;
+    }
+    .system img {
+      width: 100%;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+    .system img:hover {
+      transform: scale(1.05);
+    }
+    .system p {
+      margin-top: 10px;
+      font-size: 1.1em;
+      color: #3498db;
+      font-weight: bold;
+    }
+    a {
+      text-decoration: none;
+      color: #3498db;
+    }
+    a:hover {
+      color: #2980b9;
+    }
+    .logout {
+      margin-top: 20px;
+      font-size: 1em;
+      color: #e74c3c;
+    }
+  </style>
+</head>
+<body>
+  <h1>Elige que sistema quieres aprender</h1>
+  <p>Bienvenido, <%= @user.names %>!</p>
+  <div class="system-selection">
+    <div class="system">
+      <a href="/play?system=digestivo">
+        <img src="/images/digestivo.jpeg" alt="Sistema Digestivo">
+        <p>Sistema Digestivo</p>
+      </a>
+    </div>
+    <div class="system">
+      <a href="/play?system=respiratorio">
+        <img src="/images/respiratorio.jpeg" alt="Sistema Respiratorio">
+        <p>Sistema Respiratorio</p>
+      </a>
+    </div>
+    <div class="system">
+      <a href="/play?system=circulatorio">
+        <img src="/images/circulatorio.jpeg" alt="Sistema Circulatorio">
+        <p>Sistema Circulatorio</p>
+      </a>
+    </div>
+    <div class="system">
+      <a href="/play?system=reproductor">
+        <img src="/images/reproductor.jpeg" alt="Sistema Reproductor">
+        <p>Sistema Reproductor</p>
+      </a>
+    </div>
+  </div>
+  <a href="/logout" class="logout">Logout</a>
+</body>
+</html>
