@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lección - <%= @system.capitalize %></title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      width: 100%;
+    }
+    h1.title {
+      color: #333;
+      font-size: 24px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    h1.subtitle {
+      color: #555;
+      font-size: 20px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .pdf-container {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .pdf-container embed {
+      width: 100%;
+      height: 500px;
+    }
+    .start-button {
+      background-color: #3498db;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      display: block;
+      margin: 20px auto 0;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+    .start-button:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1 class="title">Lección - <%= @system.capitalize %></h1>
+  <h1 class="subtitle">Lee detalladamente</h1>
+
+  <div class="pdf-container">
+    <% if @system %>
+      <embed src="/files/<%= @system %>.pdf" type="application/pdf" />
+    <% else %>
+      <p>No se ha seleccionado ningún sistema.</p>
+    <% end %>
+  </div>
+  
+  <form method="POST" action="/start_play">
+    <button type="submit" class="start-button">Estoy listo para responder las preguntas</button>
+  </form>
+</div>
+</body>
+</html>
+

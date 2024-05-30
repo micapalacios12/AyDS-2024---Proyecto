@@ -82,17 +82,28 @@ get '/select_system' do
   end
 end
 
-# Página de juego
-get '/play' do
+
+get '/lesson' do
   if session[:user_id]
     @system = params[:system]
-    session[:current_question_index] = 0
-    session[:system] = @system
+    session[:system] = @system  # Guardar el sistema en la sesión
+    erb :lesson
+  else
+    redirect '/login'
+  end
+end
+
+
+# Ruta para iniciar el juego desde la lección
+post '/start_play' do
+  if session[:user_id]
+    session[:current_question_index] = 0  # Inicializar el índice de la pregunta actual
     redirect '/play/question'
   else
     redirect '/login'
   end
 end
+
 
 # Ruta para mostrar la pregunta actual y manejar la respuesta del usuario
 get '/play/question' do
@@ -144,40 +155,3 @@ get '/logout' do
   redirect '/'
 end
 
-# Página de registro
-get '/register' do
-  erb :register
-end
-
-post '/register' do
-  names = params[:names]
-  username = params[:username]
-  email = params[:email]
-  password = params[:password]
-  password_confirmation = params[:password_confirmation]
-
-  if [names, username, email, password, password_confirmation].any?(&:empty?)
-    return erb :register, locals: { message: 'Please fill in all fields.' }
-  end
-
-  if User.exists?(username: username)
-    return erb :register, locals: { message: 'Username already taken.' }
-  end
-
-  if User.exists?(email: email)
-    return erb :register, locals: { message: 'Email already registered.' }
-  end
-
-  if password != password_confirmation
-    return erb :register, locals: { message: 'Passwords do not match.' }
-  end
-
-  user = User.new(names: names, username: username, email: email, password: password)
-
-  if user.save
-    session[:user_id] = user.id
-    redirect '/login'
-  else
-    erb :register, locals: { message: 'Registration failed. Please try again.' }
-  end
-end
