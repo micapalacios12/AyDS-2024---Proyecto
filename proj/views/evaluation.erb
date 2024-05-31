@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Evaluación</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: url('images/evaluacion.jpg') no-repeat center center fixed;
+      background-size: cover;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 800px;
+      width: 90%;
+      text-align: center;
+      overflow-y: auto;
+      max-height: 90vh;
+    }
+    h1 {
+      color: #333;
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 18px;
+      color: #555;
+    }
+    .question {
+      margin-bottom: 20px;
+    }
+    .option {
+      display: flex;
+      align-items: center;
+      font-size: 18px;
+      margin: 10px 0;
+    }
+    .option input {
+      margin-right: 10px;
+    }
+    input[type="submit"] {
+      background-color: #3498db;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    input[type="submit"]:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Evaluación</h1>
+    <form action="/submit_evaluation" method="post">
+      <% @questions.each do |question| %>
+        <div class="question">
+          <p><%= question.text %></p>
+          <% question.options.each do |option| %>
+            <label class="option">
+              <input type="radio" name="question<%= question.id %>" value="<%= option.id %>">
+              <%= option.text %>
+            </label>
+          <% end %>
+        </div>
+      <% end %>
+      <input type="submit" value="Enviar">
+    </form>
+  </div>
+</body>
+</html>

@@ -1,23 +1,82 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
   <meta charset="UTF-8">
   <title>Play</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: url('/images/fondo.jpg') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      max-width: 800px;
+      padding: 20px;
+      text-align: center;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      color: #333;
+      font-size: 30px;
+    }
+    p {
+      font-size: 18px;
+    }
+    form {
+      background-color: #fff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    .option {
+      display: flex;
+      align-items: center;
+      font-size: 15px;
+      margin: 10px 0;
+    }
+    .option input {
+      margin-right: 10px;
+    }
+    input[type="submit"] {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    input[type="submit"]:hover {
+      background-color: #0056b3;
+    }
+  </style>
 </head>
 <body>
-  <h1>Questions for <%= @system %> System</h1>
+  <div class="container">
+    <h1>Preguntas sobre el sistema <%= @system %> </h1>
 
-  <% if locals[:message] %>
-    <p><%= locals[:message] %></p>
-  <% end %>
-
-  <form action="/play/question" method="post">
-    <p><%= @current_question.text %></p>
-    <% @current_question.options.each do |option| %>
-      <input type="radio" name="option_id" value="<%= option.id %>"> <%= option.text %><br>
+    <% if locals[:message] %>
+      <p><%= locals[:message] %></p>
     <% end %>
-    <input type="submit" value="Submit">
-    
-  </form>
+
+    <form action="/play/question" method="post">
+      <p><%= @current_question.text %></p>
+      <% @current_question.options.each do |option| %>
+        <label class="option">
+          <input type="radio" name="option_id" value="<%= option.id %>"> 
+          <%= option.text %>
+        </label>
+      <% end %>
+      <input type="submit" value="Responder">
+    </form>
+  </div>
 </body>
 </html>

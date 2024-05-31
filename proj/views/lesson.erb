@@ -59,6 +59,22 @@
     .start-button:hover {
       background-color: #2980b9;
     }
+    .refresh-button {
+      background-color: #e74c3c;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      display: block;
+      margin: 20px auto 0;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+    .refresh-button:hover {
+      background-color: #c0392b;
+    }
   </style>
 </head>
 <body>
@@ -77,7 +93,10 @@
   <form method="POST" action="/start_play">
     <button type="submit" class="start-button">Estoy listo para responder las preguntas</button>
   </form>
+  
+  <form method="GET" action="/select_system">
+    <button type="submit" class="refresh-button">No estoy listo, me gustaria aprender otro sistema</button>
+  </form>
 </div>
 </body>
 </html>
-

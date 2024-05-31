@@ -128,6 +128,7 @@ post '/play/question' do
   selected_option_id = params[:option_id].to_i
   selected_option = Option.find(selected_option_id)
 
+
   if selected_option.correct?
     @message = "¡Respuesta correcta!"
   else
@@ -149,9 +150,31 @@ get '/game_over' do
   erb :game_over
 end
 
+#Ruta para preparar la evaluacion
+get '/ready_for_evaluation' do
+  @system = session[:system]
+  @questions = Question.where(system: @system)
+  erb :evaluation
+
+end
+
+#Ruta para procesar las respuestas del usuario y muestra el resultado de la evaluación
+post '/submit_evaluation' do
+  @score = 0
+  @questions = Question.where(system: session[:system])
+
+  @questions.each do |question|
+    selected_option_id = params["question#{question.id}"].to_i
+    selected_option = Option.find(selected_option_id)
+    @score += 1 if selected_option.correct?
+  end
+
+  erb :evaluation_result, locals: { score: @score }
+end
+
+
 # Cerrar sesión
 get '/logout' do
   session.clear
   redirect '/'
 end
-
