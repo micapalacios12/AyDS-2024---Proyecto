@@ -136,6 +136,7 @@ post '/play/question' do
   end
 
   session[:current_question_index] += 1
+  session[:last_message] = @message #Guardar el mensaje de la sesion
 
   if session[:current_question_index] < @questions.count
     @current_question = @questions[session[:current_question_index]]
@@ -147,6 +148,7 @@ end
 
 get '/game_over' do
   @system = session[:system]
+  @last_message = session[:last_message] #Recuperar el mensaje de las sesion
   erb :game_over
 end
 
