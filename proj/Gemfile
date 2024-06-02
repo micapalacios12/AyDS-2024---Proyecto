@@ -7,3 +7,10 @@ gem 'sqlite3', '~> 1.4'
 gem "bcrypt"
 gem "rackup"
 gem "puma"
+group :development, :test do
+    gem 'rspec'
+    gem 'rack-test'
+    gem 'rake'
+  end
+  gem 'database_cleaner'
+
