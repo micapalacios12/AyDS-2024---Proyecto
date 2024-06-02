@@ -128,11 +128,13 @@ post '/play/question' do
   selected_option_id = params[:option_id].to_i
   selected_option = Option.find(selected_option_id)
 
+  correct_option = @current_question.options.find_by(correct: true)
+
 
   if selected_option.correct?
     @message = "¡Respuesta correcta!"
   else
-    @message = "Respuesta incorrecta. Inténtalo de nuevo."
+    @message = "Respuesta incorrecta. La correcta es: #{correct_option.text}."
   end
 
   session[:current_question_index] += 1
