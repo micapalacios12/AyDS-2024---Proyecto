@@ -1,30 +1,30 @@
 # spec/spec_helper.rb
+
+require 'simplecov'
+SimpleCov.start
+
+# Configurar el entorno de pruebas
 ENV['RACK_ENV'] = 'test'
 
-require File.expand_path '../../app.rb', __FILE__
+# Cargar la aplicación principal de Sinatra
+require File.expand_path('../../app.rb', __FILE__)
+
+# Requiere las bibliotecas necesarias para las pruebas
 require 'rspec'
 require 'rack/test'
-require 'active_record'
 require 'database_cleaner'
 
+# Configurar RSpec
 RSpec.configure do |config|
+  # Incluye Rack::Test para poder hacer pruebas de integración de tu aplicación web
   config.include Rack::Test::Methods
 
+  # Define el método `app` para usar la aplicación de Sinatra en las pruebas
   def app
     Sinatra::Application
   end
 
-  config.expect_with :rspec do |expectations|
-    expectations.include_chain_clauses_in_custom_matcher_descriptions = true
-  end
-
-  config.mock_with :rspec do |mocks|
-    mocks.verify_partial_doubles = true
-  end
-
-  config.shared_context_metadata_behavior = :apply_to_host_groups
-
-  # Configuración para limpiar la base de datos entre pruebas
+  # Configuración de DatabaseCleaner para limpiar la base de datos antes de las pruebas
   config.before(:suite) do
     DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
@@ -35,7 +35,4 @@ RSpec.configure do |config|
       example.run
     end
   end
-
-  config.order = :random
-  Kernel.srand config.seed
 end

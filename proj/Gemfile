@@ -13,4 +13,4 @@ group :development, :test do
     gem 'rake'
   end
   gem 'database_cleaner'
-
+gem "simplecov"
