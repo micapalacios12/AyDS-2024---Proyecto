@@ -16,7 +16,7 @@
           null,
           null,
           1,
-          0,
+          2,
           null,
           null,
           null,
@@ -237,6 +237,33 @@
           null
         ]
       },
+      "/home/mary/Documentos/AyDS/AyDS-2024---Proyecto/proj/spec/app_spec.rb": {
+        "lines": [
+          null,
+          1,
+          null,
+          1,
+          1,
+          null,
+          1,
+          2,
+          null,
+          null,
+          1,
+          1,
+          1,
+          1,
+          null,
+          null,
+          1,
+          1,
+          1,
+          null,
+          null,
+          null,
+          null
+        ]
+      },
       "/home/mary/Documentos/AyDS/AyDS-2024---Proyecto/proj/spec/models/option_spec.rb": {
         "lines": [
           null,
@@ -393,6 +420,6 @@
         ]
       }
     },
-    "timestamp": 1724366311
+    "timestamp": 1724681331
   }
 }
