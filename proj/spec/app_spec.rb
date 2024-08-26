@@ -20,4 +20,16 @@ RSpec.describe 'App Routes', type: :request do
     end
   end
 
+  context 'GET /login' do
+    it 'returns a successful response' do
+      get '/login'
+      expect(last_response).to be_ok
+    end
+  
+    it 'renders the login page content' do
+      get '/login'
+      expect(last_response.body).to include("Iniciar Sesión")
+    end
+  end
+  
 end 
