@@ -1,5 +1,5 @@
-current directory: /home/mary/Documentos/AyDS/AyDS-2024---Proyecto/proj/vendor/bundle/ruby/3.2.0/gems/bigdecimal-3.1.8/ext/bigdecimal
-/home/mary/.rbenv/versions/3.2.0/bin/ruby -I /home/mary/.rbenv/versions/3.2.0/lib/ruby/3.2.0 extconf.rb
+current directory: /home/micapalacios/1. UNRC/CURSADA 2024/3. INGENIERIA DE SOFTWARE/TALLER/AyDS-2024---Proyecto/proj/vendor/bundle/ruby/3.2.0/gems/bigdecimal-3.1.8/ext/bigdecimal
+/home/micapalacios/.rvm/rubies/ruby-3.2.0/bin/ruby -I /home/micapalacios/.rvm/rubies/ruby-3.2.0/lib/ruby/3.2.0 extconf.rb
 checking for __builtin_clz()... yes
 checking for __builtin_clzl()... yes
 checking for __builtin_clzll()... yes
@@ -31,18 +31,18 @@ checking for rb_category_warn() in ruby.h... yes
 checking for RB_WARN_CATEGORY_DEPRECATED in ruby.h... yes
 creating Makefile
 
-current directory: /home/mary/Documentos/AyDS/AyDS-2024---Proyecto/proj/vendor/bundle/ruby/3.2.0/gems/bigdecimal-3.1.8/ext/bigdecimal
-make DESTDIR\= sitearchdir\=./.gem.20240826-9614-hui9jw sitelibdir\=./.gem.20240826-9614-hui9jw clean
+current directory: /home/micapalacios/1. UNRC/CURSADA 2024/3. INGENIERIA DE SOFTWARE/TALLER/AyDS-2024---Proyecto/proj/vendor/bundle/ruby/3.2.0/gems/bigdecimal-3.1.8/ext/bigdecimal
+make DESTDIR\= sitearchdir\=./.gem.20240826-23518-xep7b6 sitelibdir\=./.gem.20240826-23518-xep7b6 clean
 
-current directory: /home/mary/Documentos/AyDS/AyDS-2024---Proyecto/proj/vendor/bundle/ruby/3.2.0/gems/bigdecimal-3.1.8/ext/bigdecimal
-make DESTDIR\= sitearchdir\=./.gem.20240826-9614-hui9jw sitelibdir\=./.gem.20240826-9614-hui9jw
+current directory: /home/micapalacios/1. UNRC/CURSADA 2024/3. INGENIERIA DE SOFTWARE/TALLER/AyDS-2024---Proyecto/proj/vendor/bundle/ruby/3.2.0/gems/bigdecimal-3.1.8/ext/bigdecimal
+make DESTDIR\= sitearchdir\=./.gem.20240826-23518-xep7b6 sitelibdir\=./.gem.20240826-23518-xep7b6
 compiling bigdecimal.c
 compiling missing.c
 linking shared-object bigdecimal.so
 
-current directory: /home/mary/Documentos/AyDS/AyDS-2024---Proyecto/proj/vendor/bundle/ruby/3.2.0/gems/bigdecimal-3.1.8/ext/bigdecimal
-make DESTDIR\= sitearchdir\=./.gem.20240826-9614-hui9jw sitelibdir\=./.gem.20240826-9614-hui9jw install
-/usr/bin/install -c -m 0755 bigdecimal.so ./.gem.20240826-9614-hui9jw
+current directory: /home/micapalacios/1. UNRC/CURSADA 2024/3. INGENIERIA DE SOFTWARE/TALLER/AyDS-2024---Proyecto/proj/vendor/bundle/ruby/3.2.0/gems/bigdecimal-3.1.8/ext/bigdecimal
+make DESTDIR\= sitearchdir\=./.gem.20240826-23518-xep7b6 sitelibdir\=./.gem.20240826-23518-xep7b6 install
+/usr/bin/install -c -m 0755 bigdecimal.so ./.gem.20240826-23518-xep7b6
 
-current directory: /home/mary/Documentos/AyDS/AyDS-2024---Proyecto/proj/vendor/bundle/ruby/3.2.0/gems/bigdecimal-3.1.8/ext/bigdecimal
-make DESTDIR\= sitearchdir\=./.gem.20240826-9614-hui9jw sitelibdir\=./.gem.20240826-9614-hui9jw clean
+current directory: /home/micapalacios/1. UNRC/CURSADA 2024/3. INGENIERIA DE SOFTWARE/TALLER/AyDS-2024---Proyecto/proj/vendor/bundle/ruby/3.2.0/gems/bigdecimal-3.1.8/ext/bigdecimal
+make DESTDIR\= sitearchdir\=./.gem.20240826-23518-xep7b6 sitelibdir\=./.gem.20240826-23518-xep7b6 clean
