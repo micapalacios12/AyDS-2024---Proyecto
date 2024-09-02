@@ -128,8 +128,21 @@ RSpec.describe 'App Routes', type: :request do
       follow_redirect!
       expect(last_request.path).to eq('/login')
     end
-  end
 
+    it 'sets the system in the session and loads the lesson page if authenticated' do
+      user = User.create(username: 'testuser', email: 'test@example.com', password: 'password123')
+      post '/login', username: 'testuser', email: 'test@example.com', password: 'password123'
+      
+      # Enviar el parámetro :system con la solicitud
+      get '/lesson', { system: 'math' }, 'rack.session' => { user_id: user.id }
+      
+      # Verifica que el sistema se haya guardado en la sesión
+      expect(last_response).to be_ok
+      expect(last_response.body).to include('Lesson Page Content') # Ajusta según el contenido de tu página de lección
+      expect(last_request.env['rack.session']['system']).to eq('math')
+    end
+  end
+  
   context 'POST /start_play' do
     it 'starts the game if authenticated' do # Verifica que se inicie el juego si está autenticado
       user = User.create(username: 'testuser', email: 'test@example.com', password: 'password123')
@@ -173,7 +186,7 @@ context 'GET /play/question' do
     get '/play/question'
     expect(last_response).to be_redirect
     follow_redirect!
-    expect(last_request.path).to eq('/login')
+    expect(last_request.path).to eq('/select_system')
   end
 
   it 'loads the question page if authenticated and questions are available' do
