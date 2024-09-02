@@ -45,7 +45,7 @@ post '/register' do
   password = params[:password]
   password_confirmation = params[:password_confirmation]
 
-  if params[:name]&.empty? || params[:username]&.empty? || params[:email]&.empty?
+  if params[:name]&.empty? || params[:username]&.empty? || params[:email]&.empty? #modificacion
     return erb :register, locals: { message: 'Please fill in all fields.' }
   end
 
