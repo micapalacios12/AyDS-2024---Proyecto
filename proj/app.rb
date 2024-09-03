@@ -71,7 +71,6 @@ post '/register' do
   end
 end
 
-
 # Página de selección de sistema
 get '/select_system' do
   if session[:user_id]
