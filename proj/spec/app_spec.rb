@@ -76,22 +76,45 @@ RSpec.describe 'App Routes', type: :request do
 
   #Prueba para el POST de registro con datos válidos
   context 'POST /register' do
-    it 'registers a new user and redirects to login' do # Verifica que se registre un nuevo usuario y se redirija a la página de login
+    it 'registers a new user and redirects to login' do
       post '/register', names: 'John Doe', username: 'johndoe', email: 'john@example.com', password: 'password123', password_confirmation: 'password123'
       expect(last_response).to be_redirect
       follow_redirect!
       expect(last_request.path).to eq('/login')
     end
-
-    it 'fails to register with mismatched passwords' do #No se puede registrar con contraseñas no coincidentes
+  
+    it 'fails to register with mismatched passwords' do
       post '/register', names: 'John Doe', username: 'johndoe', email: 'john@example.com', password: 'password123', password_confirmation: 'wrongpassword'
       expect(last_response.body).to include('Passwords do not match.')
     end
-  end
+  
+    it 'fails to register when the username is already taken' do
+      # Crea un usuario con el mismo nombre de usuario para simular la situación
+      User.create(names: 'John Doe', username: 'johndoe', email: 'john@example.com', password: 'password123')
+      
+      post '/register', names: 'Jane Doe', username: 'johndoe', email: 'jane@example.com', password: 'password123', password_confirmation: 'password123'
+      expect(last_response.body).to include('Username already taken.')
+    end
+  
+    it 'fails to register when the email is already registered' do
+      # Crea un usuario con el mismo email para simular la situación
+      User.create(names: 'John Doe', username: 'johnny', email: 'john@example.com', password: 'password123')
+      
+      post '/register', names: 'Jane Doe', username: 'janedoe', email: 'john@example.com', password: 'password123', password_confirmation: 'password123'
+      expect(last_response.body).to include('Email already registered.')
+    end
+  
+    it 'shows an error message for missing fields' do
+      post '/register', names: 'John Doe', username: '', email: '', password: '', password_confirmation: ''
+      expect(last_response.body).to include('Please fill in all fields.')
+    end
 
-  context 'POST /register with missing fields' do # registrarse con campos faltantes
-    it 'shows an error message for missing fields' do #muestra un mensaje de error por campos faltantes
-      post '/register', names: 'John Doe', username: 'johndoe', email: 'john@example.com'
+    it 'shows an error message if user registration fails' do
+      # Simula que `user.save` falla
+      allow_any_instance_of(User).to receive(:save).and_return(false)
+      
+      post '/register', names: 'John Doe', username: 'johndoe', email: 'john@example.com', password: 'password123', password_confirmation: 'password123'
+      
       expect(last_response.body).to include('Registration failed. Please try again.')
     end
   end
@@ -122,7 +145,7 @@ RSpec.describe 'App Routes', type: :request do
 
   #Pruebas adicionales para las rutas de lección, juego y evaluación
   context 'GET /lesson' do
-    it 'sets the system in the session and loads the lesson page if authenticated' do # Establece el sistema en la sesión y carga la página de la lección si está autenticado
+    it 'sets the system in the session and loads the lesson page if authenticated' do
       user = User.create(username: 'testuser', email: 'test@example.com', password: 'password123')
       post '/login', username: 'testuser', email: 'test@example.com', password: 'password123'
       
@@ -133,7 +156,18 @@ RSpec.describe 'App Routes', type: :request do
       expect(last_response).to be_ok
       expect(last_response.body).to include('Estoy listo para responder las preguntas') # Ajusta según el contenido de tu página de lección
     end
+  
+    it 'redirects to login if not authenticated' do
+      # Caso donde no hay user_id en la sesión
+      get '/lesson', { system: 'digestivo' }
+      
+      # Verifica la redirección a la página de login
+      expect(last_response).to be_redirect
+      follow_redirect!
+      expect(last_request.path).to eq('/login')
+    end
   end
+  
   
   context 'POST /start_play' do
     it 'starts the game if authenticated' do # Verifica que se inicie el juego si está autenticado
@@ -196,18 +230,105 @@ RSpec.describe 'App Routes', type: :request do
     end
   end
 
-# Pruebas para manejar respuestas en /play/question
-context 'POST /play/question' do
-  it 'advances to the next question after answering' do #avanza a la siguiente pregunta después de responder
-    user = User.create(username: 'testuser', email: 'test@example.com', password: 'password123')
-    post '/login', email: 'test@example.com', password: 'password123'
-    post '/start_play', {}, 'rack.session' => { user_id: user.id, system: 'digestivo' }
-
-    #post '/play/question', option_id: correct_option.id, 'rack.session' => { user_id: user.id, current_question_index: 1, system: 'digestivo' }
-    #expect(last_response.body).to include('¡Respuesta correcta!')
-    #expect(session[:current_question_index]).to eq(1)
+  # Prueba para avanzar a la siguiente pregunta después de responder correctamente
+  context 'POST /play/question with correct answer' do
+    it 'advances to the next question and shows a correct message' do
+      user = User.create(username: 'testuser', email: 'test@example.com', password: 'password123')
+      post '/login', username: 'testuser', email: 'test@example.com', password: 'password123'
+      
+      # Crear preguntas y opciones
+      question1 = Question.create!(text: '¿Cuál es la función principal del sistema digestivo?', system: 'digestivo')
+      correct_option = Option.create!(text: 'Descomponer los alimentos en nutrientes', correct: true, question: question1)
+      Option.create!(text: 'Producir hormonas', correct: false, question: question1)
+  
+      question2 = Question.create!(text: '¿Cuál es el órgano principal del sistema digestivo?', system: 'digestivo')
+      Option.create!(text: 'Estómago', correct: true, question: question2)
+      Option.create!(text: 'Hígado', correct: false, question: question2)
+      
+      # Iniciar juego
+      post '/start_play', {}, 'rack.session' => { user_id: user.id, system: 'digestivo', current_question_index: 0 }
+  
+      # Responder la pregunta correctamente
+      post '/play/question', option_id: correct_option.id, 'rack.session' => { user_id: user.id, current_question_index: 0, system: 'digestivo' }
+      
+      expect(last_response).to be_ok
+      expect(last_response.body).to include('¡Respuesta correcta!')
+      # Verifica que el índice de la pregunta se ha incrementado
+      expect(last_request.env['rack.session']['current_question_index']).to eq(1)
+    end
   end
-end
+
+  context 'POST /play/question with incorrect answer' do
+    it 'shows the correct answer message and does not advance if the answer is incorrect' do
+      user = User.create(username: 'testuser', email: 'test@example.com', password: 'password123')
+      post '/login', username: 'testuser', email: 'test@example.com', password: 'password123'
+      
+      # Crear preguntas y opciones
+      question1 = Question.create!(text: '¿Cuál es la función principal del sistema digestivo?', system: 'digestivo')
+      correct_option = Option.create!(text: 'Descomponer los alimentos en nutrientes', correct: true, question: question1)
+      incorrect_option = Option.create!(text: 'Producir hormonas', correct: false, question: question1)
+
+      # Iniciar juego
+      post '/start_play', {}, 'rack.session' => { user_id: user.id, system: 'digestivo', current_question_index: 0 }
+
+      # Responder la pregunta incorrectamente
+      post '/play/question', option_id: incorrect_option.id, 'rack.session' => { user_id: user.id, current_question_index: 0, system: 'digestivo' }
+      
+      # Verificar el resultado
+      expect(last_response).to be_ok
+      expect(last_response.body).to include("Respuesta incorrecta. La correcta es: #{correct_option.text}.")
+      # Verifica que el índice de la pregunta no se ha incrementado
+      expect(last_request.env['rack.session']['current_question_index']).to eq(0)
+    end
+  end
+  context 'GET /ready_for_evaluation' do
+    it 'renders the evaluation page with the correct questions' do
+      user = User.create(username: 'testuser', email: 'test@example.com', password: 'password123')
+      post '/login', username: 'testuser', email: 'test@example.com', password: 'password123'
+      
+      # Crear preguntas para el sistema
+      question1 = Question.create!(text: '¿Cuál es la función principal del sistema digestivo?', system: 'digestivo')
+      question2 = Question.create!(text: '¿Cuál es el órgano principal del sistema digestivo?', system: 'digestivo')
+
+      # Iniciar sesión y establecer el sistema en la sesión
+      post '/start_play', {}, 'rack.session' => { user_id: user.id, system: 'digestivo' }
+      
+      # Acceder a la ruta para la evaluación
+      get '/ready_for_evaluation', {}, 'rack.session' => { user_id: user.id, system: 'digestivo' }
+
+      expect(last_response).to be_ok
+      expect(last_response.body).to include('¿Cuál es la función principal del sistema digestivo?')
+      expect(last_response.body).to include('¿Cuál es el órgano principal del sistema digestivo?')
+      expect(last_request.env['rack.session']['system']).to eq('digestivo')
+    end
+  end
+
+  context 'POST /submit_evaluation' do
+    it 'processes the user answers and shows the evaluation result' do
+      user = User.create(username: 'testuser', email: 'test@example.com', password: 'password123')
+      post '/login', username: 'testuser', email: 'test@example.com', password: 'password123'
+      
+      # Crear preguntas y opciones
+      question1 = Question.create!(text: '¿Cuál es la función principal del sistema digestivo?', system: 'digestivo')
+      correct_option1 = Option.create!(text: 'Descomponer los alimentos en nutrientes', correct: true, question: question1)
+      Option.create!(text: 'Producir hormonas', correct: false, question: question1)
+
+      question2 = Question.create!(text: '¿Cuál es el órgano principal del sistema digestivo?', system: 'digestivo')
+      correct_option2 = Option.create!(text: 'Estómago', correct: true, question: question2)
+      Option.create!(text: 'Hígado', correct: false, question: question2)
+
+      # Simular las respuestas del usuario
+      post '/submit_evaluation', {
+        "question#{question1.id}" => correct_option1.id,
+        "question#{question2.id}" => correct_option2.id
+      }, 'rack.session' => { user_id: user.id, system: 'digestivo' }
+
+      # Verificar el resultado
+      expect(last_response).to be_ok
+      expect(last_response.body).to include('Resultado de la Evaluación')
+      expect(last_response.body).to include("Tu puntuación: 2 de 2") # Ajusta según el puntaje real
+    end
+  end
 
   context 'GET /game_over' do
     it 'shows the game over page with the last message' do # Verifica que se muestre la página de fin del juego con el último mensaje

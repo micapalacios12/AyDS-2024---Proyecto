@@ -45,7 +45,7 @@ post '/register' do
   password = params[:password]
   password_confirmation = params[:password_confirmation]
 
-  if params[:name]&.empty? || params[:username]&.empty? || params[:email]&.empty? #modificacion
+  if params[:names]&.empty? || params[:username]&.empty? || params[:email]&.empty? #modificacion
     return erb :register, locals: { message: 'Please fill in all fields.' }
   end
 
@@ -129,14 +129,13 @@ post '/play/question' do
 
   correct_option = @current_question.options.find_by(correct: true)
 
-
   if selected_option.correct?
     @message = "¡Respuesta correcta!"
+    session[:current_question_index] += 1 # Solo avanza si la respuesta es correcta
   else
     @message = "Respuesta incorrecta. La correcta es: #{correct_option.text}."
   end
 
-  session[:current_question_index] += 1
   session[:last_message] = @message #Guardar el mensaje de la sesion
 
   if session[:current_question_index] < @questions.count
