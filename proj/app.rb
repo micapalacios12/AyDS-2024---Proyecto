@@ -133,7 +133,7 @@ post '/play/question' do
     @message = "¡Respuesta correcta!"
     session[:current_question_index] += 1 # Solo avanza si la respuesta es correcta
   else
-    @message = "Respuesta incorrecta. La correcta es: #{correct_option.text}."
+    @message = "Respuesta incorrecta. Vuelve a intentarlo."
   end
 
   session[:last_message] = @message #Guardar el mensaje de la sesion
