@@ -281,6 +281,31 @@ RSpec.describe 'App Routes', type: :request do
       expect(last_request.env['rack.session']['current_question_index']).to eq(0)
     end
   end
+
+  # Prueba para enviar una respuesta sin seleccionar opción
+context 'POST /play/question without selecting an option' do
+  it 'shows an error message and does not advance' do
+    user = User.create(username: 'testuser', email: 'test@example.com', password: 'password123')
+    post '/login', username: 'testuser', email: 'test@example.com', password: 'password123'
+
+    # Crear preguntas y opciones
+    question = Question.create!(text: '¿Cuál es la función principal del sistema digestivo?', system: 'digestivo')
+    Option.create!(text: 'Descomponer los alimentos en nutrientes', correct: true, question: question)
+    Option.create!(text: 'Producir hormonas', correct: false, question: question)
+
+    # Iniciar el juego
+    post '/start_play', {}, 'rack.session' => { user_id: user.id, system: 'digestivo', current_question_index: 0 }
+
+    # Enviar la solicitud sin seleccionar ninguna opción
+    post '/play/question', {}, 'rack.session' => { user_id: user.id, current_question_index: 0, system: 'digestivo' }
+
+    expect(last_response).to be_ok
+    expect(last_response.body).to include('Por favor, selecciona una opción antes de responder.')
+    # Verificar que el índice de la pregunta no se ha incrementado
+    expect(last_request.env['rack.session']['current_question_index']).to eq(0)
+  end
+end
+
   context 'GET /ready_for_evaluation' do
     it 'renders the evaluation page with the correct questions' do
       user = User.create(username: 'testuser', email: 'test@example.com', password: 'password123')
