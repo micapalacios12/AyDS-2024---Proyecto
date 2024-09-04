@@ -276,7 +276,7 @@ RSpec.describe 'App Routes', type: :request do
       
       # Verificar el resultado
       expect(last_response).to be_ok
-      expect(last_response.body).to include("Respuesta incorrecta. La correcta es: #{correct_option.text}.")
+      expect(last_response.body).to include("Respuesta incorrecta. Vuelve a intentarlo")
       # Verifica que el índice de la pregunta no se ha incrementado
       expect(last_request.env['rack.session']['current_question_index']).to eq(0)
     end
