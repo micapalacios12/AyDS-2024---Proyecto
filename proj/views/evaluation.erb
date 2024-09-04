@@ -47,6 +47,11 @@
     .option input {
       margin-right: 10px;
     }
+    .error-message {
+      color: red;
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
     input[type="submit"] {
       background-color: #3498db;
       color: white;
@@ -62,22 +67,25 @@
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>Evaluación</h1>
-    <form action="/submit_evaluation" method="post">
-      <% @questions.each do |question| %>
-        <div class="question">
-          <p><%= question.text %></p>
-          <% question.options.each do |option| %>
-            <label class="option">
-              <input type="radio" name="question<%= question.id %>" value="<%= option.id %>">
-              <%= option.text %>
-            </label>
-          <% end %>
-        </div>
+<div class="container">
+<h1>Evaluación</h1>
+<% if locals[:message] %>
+  <p class="error-message"><%= locals[:message] %></p>
+<% end %>
+<form action="/submit_evaluation" method="post">
+  <% @questions.each do |question| %>
+    <div class="question">
+      <p><%= question.text %></p>
+      <% question.options.each do |option| %>
+        <label class="option">
+          <input type="radio" name="question<%= question.id %>" value="<%= option.id %>">
+          <%= option.text %>
+        </label>
       <% end %>
-      <input type="submit" value="Enviar">
-    </form>
-  </div>
+    </div>
+  <% end %>
+  <input type="submit" value="Enviar">
+</form>
+</div>
 </body>
 </html>

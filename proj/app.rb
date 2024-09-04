@@ -171,20 +171,29 @@ get '/ready_for_evaluation' do
 
 end
 
-#Ruta para procesar las respuestas del usuario y muestra el resultado de la evaluación
+# Ruta para procesar las respuestas del usuario y mostrar el resultado de la evaluación
 post '/submit_evaluation' do
   @score = 0
   @questions = Question.where(system: session[:system])
 
-  @questions.each do |question|
-    selected_option_id = params["question#{question.id}"].to_i
-    selected_option = Option.find(selected_option_id)
-    @score += 1 if selected_option.correct?
+  # Verifica si se ha seleccionado una opción para cada pregunta
+  @unanswered_questions = @questions.select do |question|
+    params["question#{question.id}"].nil? || params["question#{question.id}"].empty?
   end
 
-  erb :evaluation_result, locals: { score: @score }
-end
+  if @unanswered_questions.any?
+    @message = "Por favor, selecciona una opción para cada pregunta."
+    erb :evaluation, locals: { message: @message, questions: @questions }
+  else
+    @questions.each do |question|
+      selected_option_id = params["question#{question.id}"].to_i
+      selected_option = Option.find(selected_option_id)
+      @score += 1 if selected_option.correct?
+    end
 
+    erb :evaluation_result, locals: { score: @score }
+  end
+end
 
 # Cerrar sesión
 get '/logout' do

@@ -326,7 +326,7 @@ end
       expect(last_response.body).to include('¿Cuál es el órgano principal del sistema digestivo?')
       expect(last_request.env['rack.session']['system']).to eq('digestivo')
     end
-  end
+  end  
 
   context 'POST /submit_evaluation' do
     it 'processes the user answers and shows the evaluation result' do
@@ -354,6 +354,31 @@ end
       expect(last_response.body).to include("Tu puntuación: 2 de 2") # Ajusta según el puntaje real
     end
   end
+
+  context 'POST /submit_evaluation with unanswered questions' do
+    it 'shows an error message when some questions are unanswered' do
+      user = User.create(username: 'testuser', email: 'test@example.com', password: 'password123')
+      post '/login', username: 'testuser', email: 'test@example.com', password: 'password123'
+      
+      # Crear preguntas
+      question1 = Question.create!(text: '¿Cuál es la función principal del sistema digestivo?', system: 'digestivo')
+      question2 = Question.create!(text: '¿Cuál es el órgano principal del sistema digestivo?', system: 'digestivo')
+  
+      # Iniciar sesión y establecer el sistema en la sesión
+      post '/start_play', {}, 'rack.session' => { user_id: user.id, system: 'digestivo' }
+      
+      # Enviar respuestas dejando una pregunta sin responder
+      post '/submit_evaluation', {
+        "question#{question1.id}" => Option.create!(text: 'Descomponer los alimentos en nutrientes', correct: true, question: question1).id
+        # No se envía una respuesta para question2
+      }, 'rack.session' => { user_id: user.id, system: 'digestivo' }
+  
+      expect(last_response).to be_ok
+      expect(last_response.body).to include('Por favor, selecciona una opción para cada pregunta.')
+      expect(last_response.body).to include('¿Cuál es el órgano principal del sistema digestivo?')
+    end
+  end
+  
 
   context 'GET /game_over' do
     it 'shows the game over page with the last message' do # Verifica que se muestre la página de fin del juego con el último mensaje
