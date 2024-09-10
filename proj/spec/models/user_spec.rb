@@ -47,7 +47,7 @@ RSpec.describe User, type: :model do
       User.create!(names: 'Test User', username: 'testuser', email: 'testuser1@example.com', password: 'password')
       user = User.new(names: 'Another User', username: 'testuser', email: 'testuser2@example.com', password: 'password')
       expect(user).to_not be_valid
-      expect(user.errors[:username]).to include("has already been taken")
+      expect(user.errors[:username]).to include("Username already taken.")
     end
 
     it 'is not valid with a duplicate email' do
@@ -55,7 +55,8 @@ RSpec.describe User, type: :model do
       User.create!(names: 'Test User', username: 'testuser1', email: 'testuser@example.com', password: 'password')
       user = User.new(names: 'Another User', username: 'testuser2', email: 'testuser@example.com', password: 'password')
       expect(user).to_not be_valid
-      expect(user.errors[:email]).to include("has already been taken")
+      expect(user.errors[:email]).to include("Email already registered.")
+
     end
   end
 end

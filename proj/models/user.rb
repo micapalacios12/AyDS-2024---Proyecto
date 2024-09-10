@@ -6,10 +6,10 @@ class User < ActiveRecord::Base
   has_secure_password
 
   # Valida que el nombre de usuario esté presente y sea único
-  validates :username, presence: true, uniqueness: true
+  validates :username, presence: true, uniqueness: { message: 'Username already taken.' }
 
   # Valida que el email esté presente y sea único
-  validates :email, presence: true, uniqueness: true
+  validates :email, presence: true, uniqueness: { message: 'Email already registered.' }
 
   # Valida que la contraseña esté presente y tenga al menos 8 caracteres
   validates :password, presence: true, length: { minimum: 8 }, allow_nil: true

@@ -115,7 +115,7 @@ RSpec.describe 'App Routes', type: :request do
       
       post '/register', names: 'John Doe', username: 'johndoe', email: 'john@example.com', password: 'password123', password_confirmation: 'password123'
       
-      expect(last_response.body).to include('Registration failed. Please try again.')
+      expect(last_response.body).to include('Registration failed.')
     end
   end
   

@@ -45,29 +45,25 @@ post '/register' do
   password = params[:password]
   password_confirmation = params[:password_confirmation]
 
-  if params[:names]&.empty? || params[:username]&.empty? || params[:email]&.empty? #modificacion
+  # Validar campos vacíos
+  if params[:names]&.empty? || params[:username]&.empty? || params[:email]&.empty?
     return erb :register, locals: { message: 'Please fill in all fields.' }
   end
 
-  if User.exists?(username: username)
-    return erb :register, locals: { message: 'Username already taken.' }
-  end
-
-  if User.exists?(email: email)
-    return erb :register, locals: { message: 'Email already registered.' }
-  end
-
+  # Validar coincidencia de contraseñas
   if password != password_confirmation
     return erb :register, locals: { message: 'Passwords do not match.' }
   end
 
+  # Crear el nuevo usuario
   user = User.new(names: names, username: username, email: email, password: password)
 
   if user.save
     session[:user_id] = user.id
     redirect '/login'
   else
-    erb :register, locals: { message: 'Registration failed. Please try again.' }
+    message = user.errors[:username].first || user.errors[:email].first || 'Registration failed.'
+    erb :register, locals: { message: message }
   end
 end
 
