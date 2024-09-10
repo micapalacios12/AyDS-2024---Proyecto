@@ -1,0 +1,14 @@
+<h1>Selecciona el nivel para <%= @system.capitalize %></h1>
+
+<form action="/lesson" method="post">
+  <input type="radio" id="nivel1" name="level" value="1">
+  <label for="nivel1">Nivel 1</label><br>
+
+  <input type="radio" id="nivel2" name="level" value="2">
+  <label for="nivel2">Nivel 2</label><br>
+
+  <input type="radio" id="nivel3" name="level" value="3">
+  <label for="nivel3">Nivel 3</label><br>
+
+  <button type="submit">Ver lección</button>
+</form>

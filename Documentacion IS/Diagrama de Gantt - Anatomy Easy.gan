@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?><project name="Diagrama de Gantt - Anatomy Easy" company="" webLink="https://www.pivotaltracker.com/n/projects/2716499" view-date="2024-09-02" view-index="0" gantt-divider-location="351" resource-divider-location="300" version="3.2.3247" locale="es_ES">
+    <description/>
+    <view zooming-state="default:2" id="gantt-chart">
+        <field id="tpd3" name="Nombre" width="200" order="0"/>
+        <field id="tpd4" name="Fecha de inicio" width="75" order="1"/>
+        <field id="tpd5" name="Fecha de fin" width="75" order="2"/>
+        <option id="filter.completedTasks" value="false"/>
+        <timeline><![CDATA[6]]></timeline>
+        <option id="color.recent"><![CDATA[#ff0033]]></option>
+    </view>
+    <view id="resource-table">
+        <field id="0" name="Nombre" width="210" order="0"/>
+        <field id="1" name="Función" width="86" order="1"/>
+    </view>
+    <!-- -->
+    <calendars>
+        <day-types>
+            <day-type id="0"/>
+            <day-type id="1"/>
+            <default-week id="1" name="default" sun="0" mon="0" tue="0" wed="0" thu="0" fri="0" sat="0"/>
+            <only-show-weekends value="false"/>
+            <overriden-day-types/>
+            <days/>
+        </day-types>
+    </calendars>
+    <tasks empty-milestones="true">
+        <taskproperties>
+            <taskproperty id="tpd0" name="type" type="default" valuetype="icon"/>
+            <taskproperty id="tpd1" name="priority" type="default" valuetype="icon"/>
+            <taskproperty id="tpd2" name="info" type="default" valuetype="icon"/>
+            <taskproperty id="tpd3" name="name" type="default" valuetype="text"/>
+            <taskproperty id="tpd4" name="begindate" type="default" valuetype="date"/>
+            <taskproperty id="tpd5" name="enddate" type="default" valuetype="date"/>
+            <taskproperty id="tpd6" name="duration" type="default" valuetype="int"/>
+            <taskproperty id="tpd7" name="completion" type="default" valuetype="int"/>
+            <taskproperty id="tpd8" name="coordinator" type="default" valuetype="text"/>
+            <taskproperty id="tpd9" name="predecessorsr" type="default" valuetype="text"/>
+        </taskproperties>
+        <task id="5" name="Corrección en &quot;play/questions&quot;" color="#ff0033" meeting="false" start="2024-09-04" duration="1" complete="0" thirdDate="2024-08-28" thirdDate-constraint="0" priority="0" expand="true">
+            <depend id="6" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="6" name="Corrección de respuestas incorrectas" color="#ff0033" meeting="false" start="2024-09-05" duration="1" complete="0" thirdDate="2024-08-28" thirdDate-constraint="0" priority="0" expand="true">
+            <depend id="7" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="7" name="Corrección de errores en evaluación" color="#ff0033" meeting="false" start="2024-09-06" duration="1" complete="0" thirdDate="2024-08-28" thirdDate-constraint="0" priority="0" expand="false">
+            <depend id="8" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="8" name="Agregar opción &quot;Mi perfil&quot;" color="#ff0033" meeting="false" start="2024-09-07" duration="10" complete="0" thirdDate="2024-08-26" thirdDate-constraint="0" priority="2" expand="true">
+            <depend id="12" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="9" name="Definir niveles a cada sistema" color="#8cb6ce" meeting="false" start="2024-09-04" duration="12" complete="0" thirdDate="2024-08-28" thirdDate-constraint="0" priority="2" expand="true">
+            <depend id="10" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="10" name="Implementar niveles" color="#8cb6ce" meeting="false" start="2024-09-16" duration="4" complete="0" thirdDate="2024-08-31" thirdDate-constraint="0" expand="true">
+            <depend id="11" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="11" name="Probar niveles" color="#8cb6ce" meeting="false" start="2024-09-20" duration="1" complete="0" thirdDate="2024-09-04" thirdDate-constraint="0" expand="true">
+            <depend id="13" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="13" name="Implementar evaluacion final" color="#8cb6ce" meeting="false" start="2024-09-21" duration="1" complete="0" thirdDate="2024-09-01" thirdDate-constraint="0" expand="true">
+            <depend id="12" type="2" difference="0" hardness="Strong"/>
+        </task>
+        <task id="12" name="Pruebas finales" color="#8cb6ce" meeting="false" start="2024-09-22" duration="1" complete="0" thirdDate="2024-09-02" thirdDate-constraint="0" expand="true"/>
+    </tasks>
+    <resources>
+        <resource id="0" name="Marysol Gutierrez" function="Default:0" contacts="" phone=""/>
+        <resource id="1" name="Micaela Palacios" function="Default:0" contacts="" phone=""/>
+    </resources>
+    <allocations>
+        <allocation task-id="6" resource-id="0" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="5" resource-id="0" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="7" resource-id="0" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="8" resource-id="0" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="12" resource-id="0" function="SoftwareDevelopment:2" responsible="true" load="100.0"/>
+        <allocation task-id="12" resource-id="1" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="11" resource-id="1" function="Default:1" responsible="true" load="100.0"/>
+        <allocation task-id="10" resource-id="1" function="Default:1" responsible="true" load="100.0"/>
+    </allocations>
+    <vacations/>
+    <previous/>
+    <roles roleset-name="Default"/>
+    <roles roleset-name="SoftwareDevelopment"/>
+</project>
