@@ -77,6 +77,33 @@ get '/select_system' do
   end
 end
 
+# Mostrar la página de perfil
+get '/profile' do
+  @user = current_user
+  erb :profile
+end
+
+# Procesar la actualización del perfil
+post '/update_profile' do
+  user = current_user
+  user.update(
+    names: params[:name],  # Usa `names` en lugar de `name`
+    password: params[:password], 
+    avatar: params[:avatar]
+  )
+  redirect '/profile'
+end
+
+
+
+helpers do
+  def current_user
+    @current_user ||= User.find(session[:user_id]) if session[:user_id]
+  end
+  
+end
+
+
 
 get '/lesson' do
   if session[:user_id]
