@@ -46,7 +46,17 @@
     button:hover {
       background-color: #2980b9;
     }
-  </style>
+
+    </style>
+  <script>
+    function checkLevel(level) {
+      if (level > 1) {
+        alert("Primero debes completar el Nivel 1.");
+        return false;
+      }
+      return true;
+    }
+  </script>
 </head>
 <body>
   
@@ -55,7 +65,7 @@
   <ul>
     <% @levels.each do |level| %>
       <li>
-        <form action="/lesson/<%= @system %>/<%= level %>" method="get">
+        <form action="/lesson/<%= @system %>/<%= level %>" method="get" onsubmit="return checkLevel(<%= level %>)">
           <button type="submit">Nivel <%= level %></button>
         </form>
       </li>

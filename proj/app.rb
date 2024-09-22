@@ -5,6 +5,8 @@ require 'bcrypt'
 require './models/user'
 require './models/question'
 require './models/option'
+require './models/lesson'
+
 
 enable :sessions
 set :database_file, './config/database.yml'
@@ -94,31 +96,31 @@ end
 
 
 
-get '/lesson' do
-  if session[:user_id]
-    @system = params[:system]
-    session[:system] = @system  # Guardar el sistema en la sesión
-    erb :lesson
-  else
-    redirect '/login'
-  end
-end
+#get '/lesson' do
+ # if session[:user_id]
+  #  @system = params[:system]
+   # session[:system] = @system  # Guardar el sistema en la sesión
+    #erb :lesson
+  #else
+   # redirect '/login'
+  #end
+#end
 
 # Ruta para mostrar la leccion del nivel seleccionado
 get '/lesson/:system/:level' do
   if session[:user_id]
+    #@session[:system] = @system
     @system = params[:system]
+    
     @level = params[:level].to_i
-    @lesson = Lesson.find_by(system: @system, level: @level)
+    #@lesson = Lesson.find_by(system: @system, level: @level)
 
-    if @level
-      erb :level
+    if @level == 1
+      erb :lesson
     else
-      erb :error, locals: { message: "Lesson not found for this level." }
+      erb :select_level
     end
-  else
-    redirect '/login'
-  end
+  end  
 end
 
 
@@ -138,19 +140,20 @@ get '/play/question' do
   @system = session[:system]
   @current_question_index = session[:current_question_index]
   @questions = Question.where(system: @system)
-
-  if @current_question_index < @questions.count
-    @current_question = @questions[@current_question_index]
-    erb :play
-  else
-    redirect '/select_system'
-  end
+  
+    if @current_question_index < @questions.count
+      @current_question = @questions[@current_question_index]
+      erb :play
+    else
+     redirect '/select_system'
+    end
 end
 
 post '/play/question' do
   @system = session[:system]
   @current_question_index = session[:current_question_index]
   @questions = Question.where(system: @system)
+  
   @current_question = @questions[@current_question_index]
 
   # Verificar si se ha seleccionado una opción

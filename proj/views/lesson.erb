@@ -90,7 +90,7 @@
     <% end %>
   </div>
   
-  <form method="POST" action="/start_play">
+  <form method="POST" action="/play/question">
     <button type="submit" class="start-button">Estoy listo para responder las preguntas</button>
   </form>
   
@@ -101,14 +101,6 @@
 </body>
 </html>
 
-<h2>Lesson for <%= @system %>, Level <%= @level %></h2>
 
-<p><%= @sys%></p>
-
-<form action="/start_play" method="post">
-  <input type="hidden" name="system" value="<%= @system %>">
-  <input type="hidden" name="level" value="<%= @level %>">
-  <button type="submit">Start Quiz</button>
-</form>
 
 

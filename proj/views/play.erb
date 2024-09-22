@@ -66,9 +66,7 @@
     <% if locals[:message] %>
       <p><%= locals[:message] %></p>
     <% end %>
-
     <form action="/play/question" method="post">
-      <p><%= @current_question.text %></p>
       <% @current_question.options.each do |option| %>
         <label class="option">
           <input type="radio" name="option_id" value="<%= option.id %>"> 
