@@ -81,12 +81,41 @@ get '/select_system' do
   end
 end
 
+# MOstrar los niveles para el sistema seleccionado
+get '/select_level/:system' do
+  if session[:user_id]
+    @system = params[:system]
+    @levels = [1, 2, 3] # Definir los tres niveles
+    erb :select_level
+  else
+    redirect '/login'
+  end
+end
+
+
 
 get '/lesson' do
   if session[:user_id]
     @system = params[:system]
     session[:system] = @system  # Guardar el sistema en la sesión
     erb :lesson
+  else
+    redirect '/login'
+  end
+end
+
+# Ruta para mostrar la leccion del nivel seleccionado
+get '/lesson/:system/:level' do
+  if session[:user_id]
+    @system = params[:system]
+    @level = params[:level].to_i
+    @lesson = Lesson.find_by(system: @system, level: @level)
+
+    if @level
+      erb :level
+    else
+      erb :error, locals: { message: "Lesson not found for this level." }
+    end
   else
     redirect '/login'
   end

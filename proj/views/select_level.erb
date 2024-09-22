@@ -1,14 +1,66 @@
-<h1>Selecciona el nivel para <%= @system.capitalize %></h1>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seleccionar Nivel - AnatomyEasy</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f8ff;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+    }
+    h1 {
+      color: #2c3e50;
+      margin-bottom: 20px;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      margin: 20px 0;
+    }
+    form {
+      display: flex;
+      justify-content: center;
+    }
+    button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 20px 40px;
+      font-size: 24px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  
+  <h1>Elige el nivel que quieres aprender del Sistema <%= @system %></h1>
 
-<form action="/lesson" method="post">
-  <input type="radio" id="nivel1" name="level" value="1">
-  <label for="nivel1">Nivel 1</label><br>
+  <ul>
+    <% @levels.each do |level| %>
+      <li>
+        <form action="/lesson/<%= @system %>/<%= level %>" method="get">
+          <button type="submit">Nivel <%= level %></button>
+        </form>
+      </li>
+    <% end %>
+  </ul>
 
-  <input type="radio" id="nivel2" name="level" value="2">
-  <label for="nivel2">Nivel 2</label><br>
-
-  <input type="radio" id="nivel3" name="level" value="3">
-  <label for="nivel3">Nivel 3</label><br>
-
-  <button type="submit">Ver lección</button>
-</form>
+</body>
+</html>
