@@ -109,12 +109,10 @@ end
 # Ruta para mostrar la leccion del nivel seleccionado
 get '/lesson/:system/:level' do
   if session[:user_id]
-    #@session[:system] = @system
     @system = params[:system]
+    session[:system] = @system
     
     @level = params[:level].to_i
-    #@lesson = Lesson.find_by(system: @system, level: @level)
-
     if @level == 1
       erb :lesson
     else
@@ -137,17 +135,19 @@ end
 
 # Ruta para mostrar la pregunta actual y manejar la respuesta del usuario
 get '/play/question' do
-  @system = session[:system]
-  @current_question_index = session[:current_question_index]
-  @questions = Question.where(system: @system)
-  
-    if @current_question_index < @questions.count
-      @current_question = @questions[@current_question_index]
-      erb :play
-    else
-     redirect '/select_system'
-    end
-end
+  if session[:user_id]
+    @system = session[:system]
+    @current_question_index = session[:current_question_index] || 0
+    @questions = Question.where(system: @system)
+    
+      if @current_question_index < @questions.count
+          @current_question = @questions[@current_question_index]
+          erb :play
+      else
+        redirect '/select_system'
+      end
+  end
+end 
 
 post '/play/question' do
   @system = session[:system]
@@ -165,7 +165,7 @@ post '/play/question' do
     selected_option = Option.find_by(id: selected_option_id)
 
     if selected_option
-      correct_option = @current_question.options.find_by(correct: true)
+      @correct_option = @current_question.options.find_by(correct: true)
 
       if selected_option.correct?
         @message = "¡Respuesta correcta!"
@@ -180,7 +180,7 @@ post '/play/question' do
         @current_question = @questions[session[:current_question_index]]
         erb :play, locals: { message: @message }
       else
-        redirect '/game_over'
+        redirect '/next_level'
       end
     end  
   end
@@ -189,10 +189,10 @@ end
 
 
 
-get '/game_over' do
+get '/next_level' do
   @system = session[:system]
   @last_message = session[:last_message] #Recuperar el mensaje de las sesion
-  erb :game_over
+  erb :next_level
 end
 
 #Ruta para preparar la evaluacion
