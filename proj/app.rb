@@ -5,7 +5,6 @@ require 'bcrypt'
 require './models/user'
 require './models/question'
 require './models/option'
-require './models/lesson'
 
 
 enable :sessions
