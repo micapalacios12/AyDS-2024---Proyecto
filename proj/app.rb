@@ -93,8 +93,6 @@ get '/select_level/:system' do
   end
 end
 
-
-
 #get '/lesson' do
  # if session[:user_id]
   #  @system = params[:system]

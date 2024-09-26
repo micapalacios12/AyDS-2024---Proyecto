@@ -6,7 +6,7 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: url('ruta/a/tu/imagen.jpg') no-repeat center center fixed;
+      background: url('images/evaluation.jpg') no-repeat center center fixed;
       background-size: cover;
       margin: 0;
       padding: 0;
@@ -50,10 +50,11 @@
 </head>
 <body>
   <div class="container">
+    <p> Felicidades, has completado la evaluación con éxito!! </p>
     <h1>Resultado de la Evaluación</h1>
     <p>Tu puntuación: <%= score %> de <%= @questions.count %></p>
     <a href="/select_system">Regresar a la selección de sistema</a>
-    <a href="/logout">Cerrar sesión</a>
+    <a href="/select_level"> Seleccionar otro nivel</a>
   </div>
 </body>
 </html>
