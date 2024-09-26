@@ -22,12 +22,32 @@
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
       text-align: center;
       min-height: 500px;
+      position: relative;
     }
 
-    /* Encabezado */
-    h1 {
-      color: #2c3e50;
-      margin-bottom: 20px;
+    /* Icono de configuración */
+    .settings-icon {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 1.5em;
+      color: #34495e;
+      cursor: pointer;
+    }
+
+
+    /* Estilo del enlace y el ícono de flecha */
+    .back-arrow {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-size: 1.5em;
+      color: #3498db;
+      text-decoration: none;
+    }
+
+    .back-arrow:hover {
+      color: #2980b9;
     }
 
     /* Contenedor de imagen de perfil */
@@ -59,14 +79,14 @@
 
     /* Encabezado de progreso de sistemas */
     .progress-container h2 {
-      font-size: 1.5em; /* Tamaño del encabezado ajustado */
+      font-size: 1.5em; 
       margin-bottom: 15px;
       color: #2c3e50;
     }
 
     /* Sistema y su barra de progreso */
     .system-progress {
-      margin-bottom: 15px; /* Margen ajustado */
+      margin-bottom: 15px; 
     }
 
     .system-progress span {
@@ -82,7 +102,7 @@
       background-color: #f3f3f3;
       border-radius: 10px;
       overflow: hidden;
-      height: 15px; /* Altura ajustada */
+      height: 15px; 
       width: 100%;
     }
 
@@ -104,7 +124,15 @@
   </style>
 </head>
 <body>
+  <!-- Enlace para regresar a 'select_system' -->
+  <a href="/select_system" class="back-arrow">
+    <i class="fas fa-arrow-left"></i> <!-- Ícono de flecha -->
+  </a>
   <div class="container">
+    <div class="settings-icon">
+      <a href="/configuracion"><i class="fas fa-cog"></i></a> <!-- Icono con enlace a la vista de configuración -->
+    </div>
+
     <div class="profile-picture">
       <% if @user.avatar.present? %>
         <img src="/images/<%= @user.avatar %>" alt="Avatar">

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configuración de Perfil - AnatomyEasy</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body {
+      background-color: #f0f8ff;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Contenedor general */
+    .container {
+      max-width: 600px;
+      margin: 15px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    /* Encabezado */
+    h1 {
+      color: #2c3e50;
+      margin-bottom: 20px;
+      margin-top: 0
+    }
+
+    /* Contenedor de imagen de perfil */
+    .profile-picture {
+      margin-bottom: 20px;
+    }
+
+    .profile-picture img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 2px solid #ccc;
+      object-fit: cover;
+    }
+
+    /* Estilos de formulario */
+    .form-group {
+      margin-bottom: 15px;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: bold;
+      color: #34495e;
+    }
+
+    .form-group input[type="text"],
+    .form-group input[type="email"],
+    .form-group input[type="password"] {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .form-group .avatar-option {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 10px;
+    }
+  
+    .form-group .avatar-option img {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-right: 10px;
+    }
+
+    .form-group select {
+      width: 100%;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    /* Botón de guardar cambios */
+    .submit-btn {
+      background-color: #3498db;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .submit-btn:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Configuración de Perfil</h1>
+
+    <!-- Imagen actual del perfil -->
+    <div class="profile-picture">
+      <% if @user.avatar.present? %>
+        <img src="/images/<%= @user.avatar %>" alt="Avatar">
+      <% else %>
+        <img src="/images/default_avatar.png" alt="Avatar por defecto">
+      <% end %>
+    </div>
+
+    <!-- Formulario para modificar datos -->
+    <form action="/configuracion" method="POST">
+      <!-- Selección de avatar -->
+      <div class="form-group">
+        <label for="avatar">Seleccionar Avatar</label>
+        <div class="avatar-option">
+          <label>
+            <input type="radio" name="avatar" value="default_avatar.png" <%= 'checked' if @user.avatar == 'default_avatar.png' %>>
+            <img src="/images/default_avatar.png" alt="Avatar por defecto">
+          </label>
+          <label>
+            <input type="radio" name="avatar" value="avatar1.png" <%= 'checked' if @user.avatar == 'avatar1.png' %>>
+            <img src="/images/avatar1.png" alt="Avatar 1">
+          </label>
+          <label>
+            <input type="radio" name="avatar" value="avatar2.png" <%= 'checked' if @user.avatar == 'avatar2.png' %>>
+            <img src="/images/avatar2.png" alt="Avatar 2">
+          </label>
+          <label>
+            <input type="radio" name="avatar" value="avatar3.png" <%= 'checked' if @user.avatar == 'avatar3.png' %>>
+            <img src="/images/avatar3.png" alt="Avatar 3">
+          </label>
+          <label>
+            <input type="radio" name="avatar" value="avatar4.png" <%= 'checked' if @user.avatar == 'avatar4.png' %>>
+            <img src="/images/avatar4.png" alt="Avatar 4">
+          </label>
+          <label>
+            <input type="radio" name="avatar" value="avatar5.png" <%= 'checked' if @user.avatar == 'avatar5.png' %>>
+            <img src="/images/avatar5.png" alt="Avatar 5">
+          </label>
+          <label>
+            <input type="radio" name="avatar" value="avatar6.png" <%= 'checked' if @user.avatar == 'avatar6.png' %>>
+            <img src="/images/avatar6.png" alt="Avatar 6">
+          </label>
+        </div>
+    </div>
+
+      <!-- Campo para cambiar nombres -->
+      <div class="form-group">
+        <label for="names">Nombre</label>
+        <input type="text" name="names" id="names" value="<%= @user.names %>">
+      </div>
+
+      <!-- Campo para cambiar username -->
+      <div class="form-group">
+        <label for="username">Nombre de Usuario</label>
+        <input type="text" name="username" id="username" value="<%= @user.username %>">
+      </div>
+
+      <!-- Campo para cambiar email -->
+      <div class="form-group">
+        <label for="email">Correo Electrónico</label>
+        <input type="email" name="email" id="email" value="<%= @user.email %>">
+      </div>
+
+      <!-- Campo para cambiar la contraseña -->
+      <div class="form-group">
+        <label for="password">Nueva Contraseña</label>
+        <input type="password" name="password" id="password" placeholder="Dejar en blanco si no deseas cambiarla">
+      </div>
+
+      <div class="form-group">
+        <label for="password_confirmation">Confirmar Nueva Contraseña</label>
+        <input type="password" name="password_confirmation" id="password_confirmation" placeholder="Repite la nueva contraseña">
+      </div>
+
+      <!-- Botón para guardar los cambios -->
+      <button type="submit" class="submit-btn">Guardar Cambios</button>
+    </form>
+  </div>
+</body>
+</html>
