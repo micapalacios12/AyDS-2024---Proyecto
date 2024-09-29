@@ -113,7 +113,7 @@
     <p>No se encontró ningún material de lección para este sistema.</p>
   <% end %>
   
-  <form method="POST" action="/level3/start_play">
+  <form method="POST" action="/level/<%= @level %>/start_play">
     <button type="submit" class="start-button">Estoy listo para responder las preguntas</button>
   </form>
   

@@ -10,7 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_05_22_204010) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_29_144033) do
+  create_table "lessons", force: :cascade do |t|
+    t.string "system"
+    t.integer "level"
+    t.string "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "options", force: :cascade do |t|
     t.string "text"
     t.boolean "correct", default: false
@@ -25,6 +33,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_05_22_204010) do
     t.string "system"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "level"
   end
 
   create_table "users", force: :cascade do |t|

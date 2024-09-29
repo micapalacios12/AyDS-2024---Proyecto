@@ -125,36 +125,26 @@ get '/lesson/:system/:level' do
 end
 
 
-# Ruta para comenzar el cuestionario dependiendo del nivel
+# Ruta para iniciar el juego desde la lección
 post '/level/:level/start_play' do
-  @level = params[:level].to_i
-  @questions = load_questions_for_level(@level)  # Cargar preguntas según el nivel
-  
-  if @questions.empty?
-    redirect '/select_level'
+  if session[:user_id]
+    @level = params[:level].to_i
+    session[:level] = @level
+    session[:current_question_index] = 0  # Inicializar el índice de la pregunta actual
+    redirect '/play/question'
   else
-    erb :play, locals: { level: @level, questions: @questions }
+   redirect '/login'
   end
 end
-
-
-# Ruta para iniciar el juego desde la lección
-#post '/start_play' do
- # if session[:user_id]
-  #  session[:current_question_index] = 0  # Inicializar el índice de la pregunta actual
-   # redirect '/play/question'
-  #else
-   # redirect '/login'
-  #end
-#end
 
 
 # Ruta para mostrar la pregunta actual y manejar la respuesta del usuario
 get '/play/question' do
   if session[:user_id]
+    @level = session[:level]
     @system = session[:system]
     @current_question_index = session[:current_question_index] || 0
-    @questions = Question.where(system: @system)
+    @questions = Question.where(system: @system, level: @level)
     
       if @current_question_index < @questions.count
           @current_question = @questions[@current_question_index]
@@ -166,11 +156,15 @@ get '/play/question' do
 end 
 
 post '/play/question' do
+  @level = session[:level]
   @system = session[:system]
   @current_question_index = session[:current_question_index]
-  @questions = Question.where(system: @system)
+  
+  @questions = Question.where(system: @system, level: @level)
   
   @current_question = @questions[@current_question_index]
+
+  
 
   # Verificar si se ha seleccionado una opción
   if params[:option_id].nil? || params[:option_id].empty?
@@ -196,25 +190,24 @@ post '/play/question' do
         @current_question = @questions[session[:current_question_index]]
         erb :play, locals: { message: @message }
       else
-        redirect '/next_level'
+        redirect '/finish_play'
       end
     end  
   end
 end
 
 
-
-
-get '/next_level' do
+get '/finish_play' do
   @system = session[:system]
   @last_message = session[:last_message] #Recuperar el mensaje de las sesion
-  erb :next_level
+  erb :finish_play
 end
 
 #Ruta para preparar la evaluacion
 get '/ready_for_evaluation' do
   @system = session[:system]
-  @questions = Question.where(system: @system)
+  @level = session[:level]
+  @questions = Question.where(system: @system, level: @level)
   erb :evaluation
 
 end
@@ -222,7 +215,10 @@ end
 # Ruta para procesar las respuestas del usuario y mostrar el resultado de la evaluación
 post '/submit_evaluation' do
   @score = 0
-  @questions = Question.where(system: session[:system])
+  @system = session[:system]
+  @level = session[:level]
+  @questions = Question.where(system: session[:system], level: session[:level])
+
 
   # Verifica si se ha seleccionado una opción para cada pregunta
   @unanswered_questions = @questions.select do |question|

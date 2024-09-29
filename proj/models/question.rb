@@ -9,4 +9,6 @@ class Question < ActiveRecord::Base
   # Valida que la pregunta esté presente
   validates :text, presence: true
 
+  validates :level, presence: true
+
 end
