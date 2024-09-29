@@ -87,7 +87,7 @@ get '/select_level/:system' do
   if session[:user_id]
     @system = params[:system]
     @levels = [1, 2, 3] # Definir los tres niveles
-    erb :select_level
+    erb :select_level, locals: {system: session[:system] }
   else
     redirect '/login'
   end
@@ -108,26 +108,45 @@ get '/lesson/:system/:level' do
   if session[:user_id]
     @system = params[:system]
     session[:system] = @system
-    
     @level = params[:level].to_i
+
+    #Verificar el nivel y cargar la vista adecuada
+    #
     if @level == 1
       erb :lesson
-    else
-      erb :select_level
+    elsif @level == 2
+      erb :lesson_level2
+    elsif @level == 3
+      erb :lesson_level3
+    else 
+      erb :select_system
     end
   end  
 end
 
 
-# Ruta para iniciar el juego desde la lección
-post '/start_play' do
-  if session[:user_id]
-    session[:current_question_index] = 0  # Inicializar el índice de la pregunta actual
-    redirect '/play/question'
+# Ruta para comenzar el cuestionario dependiendo del nivel
+post '/level/:level/start_play' do
+  @level = params[:level].to_i
+  @questions = load_questions_for_level(@level)  # Cargar preguntas según el nivel
+  
+  if @questions.empty?
+    redirect '/select_level'
   else
-    redirect '/login'
+    erb :play, locals: { level: @level, questions: @questions }
   end
 end
+
+
+# Ruta para iniciar el juego desde la lección
+#post '/start_play' do
+ # if session[:user_id]
+  #  session[:current_question_index] = 0  # Inicializar el índice de la pregunta actual
+   # redirect '/play/question'
+  #else
+   # redirect '/login'
+  #end
+#end
 
 
 # Ruta para mostrar la pregunta actual y manejar la respuesta del usuario

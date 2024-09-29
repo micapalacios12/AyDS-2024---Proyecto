@@ -48,15 +48,7 @@
     }
 
     </style>
-  <script>
-    function checkLevel(level) {
-      if (level > 1) {
-        alert("Primero debes completar el Nivel 1.");
-        return false;
-      }
-      return true;
-    }
-  </script>
+
 </head>
 <body>
   
@@ -65,12 +57,16 @@
   <ul>
     <% @levels.each do |level| %>
       <li>
-        <form action="/lesson/<%= @system %>/<%= level %>" method="get" onsubmit="return checkLevel(<%= level %>)">
+        <form action="/lesson/<%= @system %>/<%= level %>" method="get" >
           <button type="submit">Nivel <%= level %></button>
         </form>
       </li>
     <% end %>
   </ul>
+
+  <form method="GET" action="/select_system">
+  <button type="submit" class="refresh-button">Volver a seleccionar otro sistema </button>
+
 
 </body>
 </html>

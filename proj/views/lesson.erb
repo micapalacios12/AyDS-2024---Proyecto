@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Lección - <%= @system.capitalize %></title>
+  <title>Lección Nivel <%= @level %> - <%= @system.capitalize %></title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -79,18 +79,18 @@
 </head>
 <body>
 <div class="container">
-  <h1 class="title">Lección - <%= @system.capitalize %></h1>
+  <h1 class="title">Lección Nivel - <%= @level %> - <%= @system.capitalize %></h1>
   <h1 class="subtitle">Lee detalladamente</h1>
 
   <div class="pdf-container">
     <% if @system %>
-      <embed src="/files/<%= @system %>.pdf" type="application/pdf" />
+      <embed src="/files/level1/<%= @system %>.pdf" type="application/pdf" />
     <% else %>
       <p>No se ha seleccionado ningún sistema.</p>
     <% end %>
   </div>
   
-  <form method="POST" action="/start_play">
+  <form method="POST" action="/level1/start_play">
     <button type="submit" class="start-button">Estoy listo para responder las preguntas</button>
   </form>
   
