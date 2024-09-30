@@ -2,12 +2,13 @@ require 'sinatra'
 require 'sinatra/activerecord'
 require 'bcrypt'
 
+#Carga de modelos necesarios
 require './models/user'
 require './models/question'
 require './models/option'
 
 
-enable :sessions
+enable :sessions #Habilita uso de sesiones 
 set :database_file, './config/database.yml'
 
 # Página principal
@@ -24,7 +25,7 @@ post '/login' do
   email = params[:email]
   password = params[:password]
 
-  user = User.find_by(email: email)
+  user = User.find_by(email: email) #Busca el usuario por su mail
 
   if user && user.authenticate(password)
     session[:user_id] = user.id
@@ -69,10 +70,9 @@ post '/register' do
 end
 
 
-
 # Mostrar la página de perfil
 get '/profile' do
-  @user = current_user
+  @user = current_user #usuario actual
   erb :profile
 end
 
@@ -87,6 +87,7 @@ post '/update_profile' do
   redirect '/profile'
 end
 
+#Pagina de configuracion
 get '/configuracion' do
   @user = current_user 
   erb :configuracion
@@ -118,8 +119,7 @@ post '/configuracion' do
   end
 end
 
-
-
+#Método para obtener el usuario actual
 helpers do
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
@@ -138,7 +138,7 @@ get '/select_system' do
   end
 end
 
-# MOstrar los niveles para el sistema seleccionado
+# Mostrar los niveles para el sistema seleccionado
 get '/select_level/:system' do
   if session[:user_id]
     @user = User.find(session[:user_id])
@@ -220,8 +220,6 @@ post '/play/question' do
   @questions = Question.where(system: @system, level: @level)
   
   @current_question = @questions[@current_question_index]
-
-  
 
   # Verificar si se ha seleccionado una opción
   if params[:option_id].nil? || params[:option_id].empty?
