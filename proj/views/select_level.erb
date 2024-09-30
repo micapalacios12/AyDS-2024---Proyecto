@@ -61,7 +61,7 @@
   <ul>
     <% @levels.each do |level| %>
       <li>
-        <% if level == 1 || (level == 2 && @user.level_completed >= 2) || (level == 3 && @user.level_completed >= 3) %>
+        <% if level == 1 || (level == 2 && @user.level_completed > 1 ) || (level == 3 && @user.level_completed > 2) %>
           <form action="/lesson/<%= @system %>/<%= level %>" method="get">
             <button type="submit">Nivel <%= level %></button>
           </form>

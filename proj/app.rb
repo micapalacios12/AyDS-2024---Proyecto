@@ -68,18 +68,8 @@ post '/register' do
   end
 end
 
-# Página de selección de sistema
-get '/select_system' do
-  if session[:user_id]
-    @user = User.find(session[:user_id])
-    erb :select_system
-  else
-    redirect '/login'
-  end
-end
 
-# MOstrar los niveles para el sistema seleccionado
-get '/select_level/:system' do
+
 # Mostrar la página de perfil
 get '/profile' do
   @user = current_user
@@ -138,14 +128,23 @@ helpers do
 end
 
 
+# Página de selección de sistema
+get '/select_system' do
+  if session[:user_id]
+    @user = User.find(session[:user_id])
+    erb :select_system
+  else
+    redirect '/login'
+  end
+end
 
-get '/lesson' do
+# MOstrar los niveles para el sistema seleccionado
+get '/select_level/:system' do
   if session[:user_id]
     @user = User.find(session[:user_id])
     @system = params[:system]
     session[:system] = @system
     @levels = [1, 2, 3] # Definir los tres niveles
-
     erb :select_level, locals: {system: session[:system], levels: @levels }
   else
     redirect '/login'

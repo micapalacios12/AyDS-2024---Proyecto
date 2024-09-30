@@ -19,7 +19,6 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_30_145612) do
     t.datetime "updated_at", null: false
   end
 
-ActiveRecord::Schema[7.1].define(version: 2024_09_19_164913) do
   create_table "options", force: :cascade do |t|
     t.string "text"
     t.boolean "correct", default: false
@@ -44,8 +43,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_09_19_164913) do
     t.string "password_digest"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.integer "level_completed", default: 1
     t.string "avatar"
+    t.integer "level_completed", default: 1
   end
 
   add_foreign_key "options", "questions"
