@@ -85,23 +85,17 @@ end
 # MOstrar los niveles para el sistema seleccionado
 get '/select_level/:system' do
   if session[:user_id]
+    @user = User.find(session[:user_id])
     @system = params[:system]
+    session[:system] = @system
     @levels = [1, 2, 3] # Definir los tres niveles
-    erb :select_level, locals: {system: session[:system] }
+
+    erb :select_level, locals: {system: session[:system], levels: @levels }
   else
     redirect '/login'
   end
 end
 
-#get '/lesson' do
- # if session[:user_id]
-  #  @system = params[:system]
-   # session[:system] = @system  # Guardar el sistema en la sesión
-    #erb :lesson
-  #else
-   # redirect '/login'
-  #end
-#end
 
 # Ruta para mostrar la leccion del nivel seleccionado
 get '/lesson/:system/:level' do
@@ -129,11 +123,19 @@ end
 post '/level/:level/start_play' do
   if session[:user_id]
     @level = params[:level].to_i
+    user = User.find(session[:user_id])
+
+  # Comprobar si el nivel seleccionado está desbloqueado
+  if @level > user.level_completed
+    @message = "Necesitas completar el nivel #{user.level_completed} antes de acceder a este nivel."
+    return erb :select_level, locals: { system: session[:system], levels: [1, 2, 3], message: @message }
+  else
     session[:level] = @level
     session[:current_question_index] = 0  # Inicializar el índice de la pregunta actual
     redirect '/play/question'
+  end
   else
-   redirect '/login'
+    redirect '/login'
   end
 end
 
@@ -219,6 +221,7 @@ post '/submit_evaluation' do
   @level = session[:level]
   @questions = Question.where(system: session[:system], level: session[:level])
 
+  total_questions = @questions.count
 
   # Verifica si se ha seleccionado una opción para cada pregunta
   @unanswered_questions = @questions.select do |question|
@@ -233,6 +236,16 @@ post '/submit_evaluation' do
       selected_option_id = params["question#{question.id}"].to_i
       selected_option = Option.find(selected_option_id)
       @score += 1 if selected_option.correct?
+    end
+    # Si el puntaje es perfecto, desbloquear el siguiente nivel
+    if @score == total_questions
+      current_user = User.find(session[:user_id])
+      if current_user.level_completed == @level
+        current_user.update(level_completed: @level + 1) # Desbloquear el siguiente nivel
+      end
+      @message = "¡Felicitaciones! Has desbloqueado el nivel #{@level + 1}."
+    else
+      @message = "No obtuviste todas las respuestas correctas. Vuelve a intentarlo."
     end
 
     erb :evaluation_result, locals: { score: @score }

@@ -50,11 +50,10 @@
 </head>
 <body>
   <div class="container">
-    <p> Felicidades, has completado la evaluación con éxito!! </p>
     <h1>Resultado de la Evaluación</h1>
     <p>Tu puntuación: <%= score %> de <%= @questions.count %></p>
     <a href="/select_system">Regresar a la selección de sistema</a>
-    <a href="/select_level/:system"> Seleccionar otro nivel</a>
+    <a href="/select_level/<%= session[:system]%>"> Seleccionar otro nivel</a>
   </div>
 </body>
 </html>
