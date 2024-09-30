@@ -80,6 +80,66 @@ end
 
 # MOstrar los niveles para el sistema seleccionado
 get '/select_level/:system' do
+# Mostrar la página de perfil
+get '/profile' do
+  @user = current_user
+  erb :profile
+end
+
+# Procesar la actualización del perfil
+post '/update_profile' do
+  user = current_user
+  user.update(
+    names: params[:name],  
+    password: params[:password], 
+    avatar: params[:avatar]
+  )
+  redirect '/profile'
+end
+
+get '/configuracion' do
+  @user = current_user 
+  erb :configuracion
+end
+
+post '/configuracion' do
+  @user = current_user
+
+  # Actualizar el avatar si se selecciona uno
+  if params[:avatar].present?
+    @user.avatar = params[:avatar]
+  end
+
+  # Actualizar el nombre, username, email
+  @user.names = params[:names] if params[:names].present?
+  @user.username = params[:username] if params[:username].present?
+  @user.email = params[:email] if params[:email].present?
+
+  # Actualizar la contraseña si se proporciona una nueva
+  if params[:password].present? && params[:password_confirmation] == params[:password]
+    @user.password = params[:password]
+  end
+
+  # Guardar los cambios
+  if @user.save
+    redirect '/profile'  # Redirigir de nuevo al perfil o a otra página
+  else
+    erb :configuracion  # Volver a la vista de configuración en caso de error
+  end
+end
+
+
+
+helpers do
+  def current_user
+    @current_user ||= User.find(session[:user_id]) if session[:user_id]
+  end
+  
+end
+
+
+
+get '/lesson' do
   if session[:user_id]
     @user = User.find(session[:user_id])
     @system = params[:system]
