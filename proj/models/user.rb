@@ -13,4 +13,6 @@ class User < ActiveRecord::Base
 
   # Valida que la contraseña esté presente y tenga al menos 8 caracteres
   validates :password, presence: true, length: { minimum: 8 }, allow_nil: true
+
+  validates :level_completed, presence: true
 end

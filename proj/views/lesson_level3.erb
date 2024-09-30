@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lección Nivel 3 - <%= @system.capitalize %></title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      width: 100%;
+    }
+    h1.title {
+      color: #333;
+      font-size: 24px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    h1.subtitle {
+      color: #555;
+      font-size: 20px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .pdf-container {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .pdf-container embed {
+      width: 100%;
+      height: 500px;
+    }
+    .video-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 20px 0;
+    }
+    video {
+      max-width: 100%;
+      height: auto;
+      border: 2px solid #3498db;
+      border-radius: 10px;
+    }
+
+    .start-button {
+      background-color: #3498db;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      display: block;
+      margin: 20px auto 0;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+    .start-button:hover {
+      background-color: #2980b9;
+    }
+    .refresh-button {
+      background-color: #e74c3c;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      display: block;
+      margin: 20px auto 0;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+    .refresh-button:hover {
+      background-color: #c0392b;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1 class="title">Lección Nivel 3 - <%= @system.capitalize %></h1>
+  <h1 class="subtitle">Lee detalladamente</h1>
+
+ <!-- Mostrar solo PDF si está disponible -->
+  <% if File.exist?(File.join(settings.public_folder, 'files', 'level3', "#{@system}.pdf")) %>
+    <div class="pdf-container">
+      <embed src="/files/level3/<%= @system %>.pdf" type="application/pdf" />
+    </div>
+  <% elsif File.exist?(File.join(settings.public_folder, 'files', 'level3', "#{@system}.mp4")) %>
+    <!-- Si no hay PDF, mostrar video si está disponible -->
+    <div class="video-container">
+      <video width="640" height="360" controls>
+        <source src="/files/level3/<%= @system %>.mp4" type="video/mp4" />
+        Tu navegador no soporta la reproducción de videos.
+      </video>
+    </div>
+  <% else %>
+    <!-- Si ninguno está disponible -->
+    <p>No se encontró ningún material de lección para este sistema.</p>
+  <% end %>
+  
+  <form method="POST" action="/level/<%= @level %>/start_play">
+    <button type="submit" class="start-button">Estoy listo para responder las preguntas</button>
+  </form>
+  
+  <form method="GET" action="/select_system">
+    <button type="submit" class="refresh-button">No estoy listo, me gustaria aprender otro sistema</button>
+  </form>
+</div>
+</body>
+</html>
+
+
+
+

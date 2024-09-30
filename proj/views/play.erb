@@ -28,7 +28,7 @@
       font-size: 30px;
     }
     p {
-      font-size: 18px;
+      font-size: 19px;
     }
     form {
       background-color: #fff;
@@ -57,6 +57,12 @@
     input[type="submit"]:hover {
       background-color: #0056b3;
     }
+    .correct {
+      color: green;
+    }
+    .incorrect {
+      color: red;
+    }
   </style>
 </head>
 <body>
@@ -68,10 +74,14 @@
     <% end %>
 
     <form action="/play/question" method="post">
-      <p><%= @current_question.text %></p>
+    <p><%= @current_question.text %></p> <!-- Mostrar la pregunta -->
       <% @current_question.options.each do |option| %>
         <label class="option">
-          <input type="radio" name="option_id" value="<%= option.id %>"> 
+          <input type="radio" name="option_id" value="<%= option.id %>"
+            <% if @selected_option_id == option.id %> <!-- Marcar la opción seleccionada -->
+              class="<%= @correct_option ? '.correct' : '.incorrect' %>"
+            <% end %> 
+          >
           <%= option.text %>
         </label>
       <% end %>
