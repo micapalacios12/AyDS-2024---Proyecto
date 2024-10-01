@@ -203,53 +203,64 @@ get '/play/question' do
     @current_question_index = session[:current_question_index] || 0
     @questions = Question.where(system: @system, level: @level)
     
-      if @current_question_index < @questions.count
-          @current_question = @questions[@current_question_index]
-          erb :play
-      else
-        redirect '/select_system'
-      end
+    puts "Nivel: #{@level}, Sistema: #{@system}, Preguntas: #{@questions.count}" # Depuración
+
+    if @current_question_index < @questions.count
+      @current_question = @questions[@current_question_index]
+      erb :play, locals: { message: session[:last_message] } # Pasar el mensaje guardado
+    else
+      redirect '/select_system' # Redirigir si no hay más preguntas
+    end
+  else
+    redirect '/login'
   end
-end 
+end
 
 post '/play/question' do
   @level = session[:level]
   @system = session[:system]
   @current_question_index = session[:current_question_index]
-  
+
   @questions = Question.where(system: @system, level: @level)
   
-  @current_question = @questions[@current_question_index]
+  if @current_question_index < @questions.count
+    @current_question = @questions[@current_question_index]
 
-  # Verificar si se ha seleccionado una opción
-  if params[:option_id].nil? || params[:option_id].empty?
-    @message = "Por favor, selecciona una opción antes de responder."
-    erb :play, locals: { message: @message }
-  else
-    selected_option_id = params[:option_id].to_i
-    selected_option = Option.find_by(id: selected_option_id)
+    # Verificar si se ha seleccionado una opción
+    if params[:option_id].nil? || params[:option_id].empty?
+      @message = "Por favor, selecciona una opción antes de responder."
+      erb :play, locals: { message: @message }
+    else
+      selected_option_id = params[:option_id].to_i
+      selected_option = Option.find_by(id: selected_option_id)
 
-    if selected_option
-      @correct_option = @current_question.options.find_by(correct: true)
+      if selected_option
+        @correct_option = @current_question.options.find_by(correct: true)
 
-      if selected_option.correct?
-        @message = "¡Respuesta correcta!"
-        session[:current_question_index] += 1 # Solo avanza si la respuesta es correcta
+        if selected_option.correct?
+          @message = "¡Respuesta correcta!"
+          session[:current_question_index] += 1 # Avanzar al siguiente índice
+        else
+          @message = "Respuesta incorrecta. Vuelve a intentarlo."
+        end
+
+        session[:last_message] = @message # Guardar el mensaje en la sesión
+
+        if session[:current_question_index] < @questions.count
+          redirect '/play/question' # Redirigir para mostrar la siguiente pregunta
+        else
+          redirect '/finish_play' # Redirigir al final del juego
+        end
       else
-        @message = "Respuesta incorrecta. Vuelve a intentarlo."
-      end
-
-      session[:last_message] = @message #Guardar el mensaje de la sesión
-
-      if session[:current_question_index] < @questions.count
-        @current_question = @questions[session[:current_question_index]]
+        @message = "Opción no válida."
         erb :play, locals: { message: @message }
-      else
-        redirect '/finish_play'
       end
-    end  
+    end
+  else
+    redirect '/finish_play' # Redirigir si no hay más preguntas
   end
 end
+
 
 
 get '/finish_play' do
