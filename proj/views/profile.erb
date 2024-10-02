@@ -144,50 +144,21 @@
       <p><%= @user.names %></p>  <!-- Mostrar el nombre del usuario -->
     </div>
     <div class="progress-container">
-      <h2>Progreso de Sistemas</h2>
+  <h2>Progreso de Sistemas</h2>
 
-      <!-- Sistema Digestivo -->
-      <div class="system-progress">
-        <span>Digestivo</span>
-        <div class="progress-bar">
-          <!-- Tres divisiones para los 3 niveles -->
-          <div class="progress-level"></div>
-          <div class="progress-level"></div>
-          <div class="progress-level"></div>
-        </div>
+  <% systems = ['Digestivo', 'Respiratorio', 'Circulatorio', 'Reproductor'] %>
+  <% systems.each_with_index do |system_name, index| %>
+    <div class="system-progress">
+      <span><%= system_name %></span>
+      <div class="progress-bar">
+        <% 3.times do |level| %>
+          <div class="progress-level <%= 'completed' if @user.get_level_completed(index) > level %>"></div>
+        <% end %>
       </div>
-
-      <!-- Sistema Respiratorio -->
-      <div class="system-progress">
-        <span>Respiratorio</span>
-        <div class="progress-bar">
-          <div class="progress-level"></div>
-          <div class="progress-level"></div>
-          <div class="progress-level"></div>
-        </div>
-      </div>
-
-      <!-- Sistema Circulatorio -->
-      <div class="system-progress">
-        <span>Circulatorio</span>
-        <div class="progress-bar">
-          <div class="progress-level"></div>
-          <div class="progress-level"></div>
-          <div class="progress-level"></div>
-        </div>
-      </div>
-
-      <!-- Sistema Reproductor -->
-      <div class="system-progress">
-        <span>Reproductor</span>
-        <div class="progress-bar">
-          <div class="progress-level"></div>
-          <div class="progress-level"></div>
-          <div class="progress-level"></div>
-        </div>
-      </div>
-
     </div>
+  <% end %>
+</div>
+
   </div>
 </body>
 </html>
