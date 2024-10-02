@@ -56,12 +56,24 @@
   <% if locals[:message] %>
     <div class="alert alert-warning"><%= locals[:message] %></div>
   <% end %>
-  <h1>Elige el nivel que quieres aprender del Sistema <%= @system %></h1>
+<% if @user && @user.level_completed.present? %>
+  <% user_levels = @user.level_completed.split(',').map(&:to_i) %>
+<% else %>
+  <% user_levels = [] %>
+<% end %>
 
+<h1>Elige el nivel que quieres aprender del Sistema <%= @system %></h1>
+
+<% systems_list = ['digestivo', 'respiratorio', 'circulatorio', 'reproductor'] %>
+<% current_system_index = systems_list.index(@system) %>
+
+<% if current_system_index %>
+  <% current_level = user_levels[current_system_index] || 0 %>
+  
   <ul>
-    <% @levels.each do |level| %>
+    <% levels.each_with_index do |level, index| %>
       <li>
-        <% if level == 1 || (level == 2 && @user.level_completed > 1 ) || (level == 3 && @user.level_completed > 2) %>
+        <% if level == 1 || (level == 2 && current_level >= 2) || (level == 3 && current_level >= 3) %>
           <form action="/lesson/<%= @system %>/<%= level %>" method="get">
             <button type="submit">Nivel <%= level %></button>
           </form>
@@ -72,8 +84,14 @@
     <% end %>
   </ul>
 
-  <form method="GET" action="/select_system">
-    <button type="submit" class="refresh-button">Volver a seleccionar otro sistema</button>
-  </form>
+<% else %>
+  <p>Error: Sistema no encontrado.</p>
+<% end %>
+
+<form method="GET" action="/select_system">
+  <button type="submit" class="refresh-button">Volver a seleccionar otro sistema</button>
+</form>
+
+
 </body>
 </html>

@@ -78,7 +78,7 @@
       <p><%= question.text %></p>
       <% question.options.each do |option| %>
         <label class="option">
-          <input type="radio" name="question<%= question.id %>" value="<%= option.id %>">
+        <input type="radio" name="question<%= question.id %>" value="<%= option.id %>">
           <%= option.text %>
         </label>
       <% end %>

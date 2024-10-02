@@ -119,13 +119,7 @@ post '/configuracion' do
   end
 end
 
-#Método para obtener el usuario actual
-helpers do
-  def current_user
-    @current_user ||= User.find(session[:user_id]) if session[:user_id]
-  end
-  
-end
+
 
 
 # Página de selección de sistema
@@ -138,18 +132,23 @@ get '/select_system' do
   end
 end
 
-# Mostrar los niveles para el sistema seleccionado
 get '/select_level/:system' do
   if session[:user_id]
     @user = User.find(session[:user_id])
     @system = params[:system]
     session[:system] = @system
-    @levels = [1, 2, 3] # Definir los tres niveles
-    erb :select_level, locals: {system: session[:system], levels: @levels }
+
+    @levels = [1, 2, 3]
+    @current_level = get_level(@user, @system) # Usar la función auxiliar para obtener el nivel
+
+    erb :select_level, locals: { system: @system, levels: @levels, current_level: @current_level }
   else
     redirect '/login'
   end
 end
+
+
+
 
 
 # Ruta para mostrar la leccion del nivel seleccionado
@@ -177,22 +176,33 @@ end
 # Ruta para iniciar el juego desde la lección
 post '/level/:level/start_play' do
   if session[:user_id]
+    @user = User.find(session[:user_id])
+    @system = session[:system]
     @level = params[:level].to_i
-    user = User.find(session[:user_id])
 
-  # Comprobar si el nivel seleccionado está desbloqueado
-  if @level > user.level_completed
-    @message = "Necesitas completar el nivel #{user.level_completed} antes de acceder a este nivel."
-    return erb :select_level, locals: { system: session[:system], levels: [1, 2, 3], message: @message }
-  else
-    session[:level] = @level
-    session[:current_question_index] = 0  # Inicializar el índice de la pregunta actual
-    redirect '/play/question'
-  end
+    puts "User Level Completed: #{@user.level_completed}"
+
+    current_level_completed = get_level(@user, @system)
+    puts "Nivel solicitado: #{@level}"
+    puts "Nivel completado actual: #{current_level_completed}"
+
+
+    if @level <= current_level_completed
+      session[:level] = @level
+      session[:current_question_index] = 0
+      redirect '/play/question'
+    else
+      @message = "Necesitas completar el nivel #{current_level_completed} antes de acceder a este nivel."
+      erb :select_level, locals: { system: @system, levels: [1, 2, 3], message: @message }
+    end
   else
     redirect '/login'
   end
 end
+
+
+
+
 
 
 # Ruta para mostrar la pregunta actual y manejar la respuesta del usuario
@@ -201,9 +211,9 @@ get '/play/question' do
     @level = session[:level]
     @system = session[:system]
     @current_question_index = session[:current_question_index] || 0
-    @questions = Question.where(system: @system, level: @level)
     
-    puts "Nivel: #{@level}, Sistema: #{@system}, Preguntas: #{@questions.count}" # Depuración
+    @questions = get_questions_for_level(@system, @level)
+    
 
     if @current_question_index < @questions.count
       @current_question = @questions[@current_question_index]
@@ -221,7 +231,7 @@ post '/play/question' do
   @system = session[:system]
   @current_question_index = session[:current_question_index]
 
-  @questions = Question.where(system: @system, level: @level)
+  @questions = get_questions_for_level(@system, @level)
   
   if @current_question_index < @questions.count
     @current_question = @questions[@current_question_index]
@@ -273,51 +283,106 @@ end
 get '/ready_for_evaluation' do
   @system = session[:system]
   @level = session[:level]
-  @questions = Question.where(system: @system, level: @level)
+  @questions = get_questions_for_level(@system, @level)
   erb :evaluation
 
 end
 
 # Ruta para procesar las respuestas del usuario y mostrar el resultado de la evaluación
 post '/submit_evaluation' do
-  @score = 0
-  @system = session[:system]
-  @level = session[:level]
-  @questions = Question.where(system: session[:system], level: session[:level])
+  if session[:user_id]
+    @score = 0
+    @user = User.find(session[:user_id])
+    @system = session[:system]
 
-  total_questions = @questions.count
+    # Obtener el nivel actual completado por el usuario en este sistema
+    current_level = get_level(@user, @system)
 
-  # Verifica si se ha seleccionado una opción para cada pregunta
-  @unanswered_questions = @questions.select do |question|
-    params["question#{question.id}"].nil? || params["question#{question.id}"].empty?
-  end
+    # Obtener las preguntas para el nivel actual
+    @questions = get_questions_for_level(@system, session[:level])
+    total_questions = @questions.count
 
-  if @unanswered_questions.any?
-    @message = "Por favor, selecciona una opción para cada pregunta."
-    erb :evaluation, locals: { message: @message, questions: @questions }
-  else
-    @questions.each do |question|
-      selected_option_id = params["question#{question.id}"].to_i
-      selected_option = Option.find(selected_option_id)
-      @score += 1 if selected_option.correct?
+    # Verifica si se ha seleccionado una opción para cada pregunta
+    @unanswered_questions = @questions.select do |question|
+      params["question#{question.id}"].nil? || params["question#{question.id}"].empty?
     end
-    # Si el puntaje es perfecto, desbloquear el siguiente nivel
-    if @score == total_questions
-      current_user = User.find(session[:user_id])
-      if current_user.level_completed == @level
-        current_user.update(level_completed: @level + 1) # Desbloquear el siguiente nivel
-      end
-      @message = "¡Felicitaciones! Has desbloqueado el nivel #{@level + 1}."
+
+    if @unanswered_questions.any?
+      @message = "Por favor, selecciona una opción para cada pregunta."
+      erb :evaluation, locals: { message: @message, questions: @questions }
     else
-      @message = "No obtuviste todas las respuestas correctas. Vuelve a intentarlo."
-    end
+      # Calcular el puntaje
+      @questions.each do |question|
+        selected_option_id = params["question#{question.id}"].to_i
+        selected_option = Option.find(selected_option_id)
 
-    erb :evaluation_result, locals: { score: @score }
+        # Incrementar el puntaje si la respuesta seleccionada es correcta
+        @score += 1 if selected_option && selected_option.correct?
+      end
+
+      # Si el usuario ha respondido correctamente todas las preguntas, desbloquear el siguiente nivel
+      if @score == total_questions
+        if session[:level].to_i == current_level
+          next_level = [current_level + 1, 3].min # Asegurarse de que no exceda el nivel máximo
+          update_level(@user, @system, next_level)
+        end
+      end
+
+      # Mostrar la vista de resultado de la evaluación
+      erb :evaluation_result, locals: { score: @score, questions: @questions }
+    end
+  else
+    redirect '/login'
   end
 end
+
 
 # Cerrar sesión
 get '/logout' do
   session.clear
   redirect '/'
+end
+
+
+
+
+helpers do
+
+  #Método para obtener el usuario actual
+  def current_user
+    @current_user ||= User.find(session[:user_id]) if session[:user_id]
+  end
+  
+  
+
+  def get_questions_for_level(system, level)
+    Question.where(system: system, level: level)
+  end
+
+
+  # Obtiene el nivel actual del usuario para un sistema específico
+  def get_level(user, system)
+    systems_list = ['digestivo', 'respiratorio', 'circulatorio', 'reproductor']
+    user_levels = user.level_completed.present? ? user.level_completed.split(',').map(&:to_i) : [0] * systems_list.size
+    current_system_index = systems_list.index(system)
+    
+    if current_system_index && current_system_index < user_levels.size
+      puts "Nivel completado: #{user_levels[current_system_index]}"
+      user_levels[current_system_index]
+    else
+      1 # Nivel predeterminado
+    end
+  end
+
+  # Actualiza el nivel completado del usuario para un sistema específico
+  def update_level(user, system, new_level)
+    systems_list = ['digestivo', 'respiratorio', 'circulatorio', 'reproductor']
+    user_levels = user.level_completed.present? ? user.level_completed.split(',').map(&:to_i) : [0] * systems_list.size
+    current_system_index = systems_list.index(system)
+    
+    if current_system_index
+      user_levels[current_system_index] = [new_level, 3].min # Limitar el nivel máximo a 3
+      user.update(level_completed: user_levels.join(','))
+    end
+  end
 end
