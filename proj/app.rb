@@ -16,6 +16,17 @@ get '/' do
   erb :home
 end
 
+# Página para usuarios regulares
+get '/home_user' do
+  erb :home_user
+end
+
+# Página para administradores
+get '/home_admin' do
+  erb :home_admin
+end
+
+
 # Página de login
 get '/login' do
   erb :login

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_10_01_142052) do
+ActiveRecord::Schema[7.1].define(version: 2024_10_09_155622) do
   create_table "lessons", force: :cascade do |t|
     t.string "system"
     t.integer "level"
@@ -45,6 +45,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_01_142052) do
     t.datetime "updated_at", precision: nil, null: false
     t.string "avatar"
     t.string "level_completed", default: "1,1,1,1"
+    t.string "role", default: "user"
   end
 
   add_foreign_key "options", "questions"
