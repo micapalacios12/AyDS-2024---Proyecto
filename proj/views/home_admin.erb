@@ -19,24 +19,72 @@
     .container {
       text-align: center;
       background-color: #fff;
-      padding: 20px;
+      padding: 30px;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
     }
     h1 {
       color: #2c3e50;
     }
-    p {
-      font-size: 1.2em;
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    label {
+      margin-top: 10px;
+      font-size: 1.1em;
+    }
+    input {
+      padding: 10px;
+      margin-top: 5px;
       margin-bottom: 20px;
+      width: 80%;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      text-decoration: none;
+      color: #fff;
+      background-color: #3498db;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #2980b9;
+    }
+    .message {
+      margin-top: 20px;
+      color: #e74c3c;
+      font-weight: bold;
+    }
+    .footer {
+      margin-top: 20px;
+      font-size: 0.9em;
+      color: #888;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Panel de Administración</h1>
-    <p>Aquí puedes gestionar las configuraciones de la aplicación y usuarios.</p>
-    <!-- Aquí podrías agregar botones o enlaces a otras funcionalidades para admins -->
+    <p>Inicia sesión para gestionar la aplicación y los usuarios.</p>
+
+    <form action="/admin/login" method="post">
+      <label for="email">Email:</label>
+      <input type="email" id="email" name="email" required>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+      <button type="submit">Iniciar Sesión</button>
+    </form>
+    <% if locals[:message] %>
+      <p class="message"><%= locals[:message] %></p>
+    <% end %>
   </div>
 </body>
 </html>
