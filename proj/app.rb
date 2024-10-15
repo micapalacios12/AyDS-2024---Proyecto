@@ -243,16 +243,25 @@ post '/play/question' do
     else
       selected_option_id = params[:option_id].to_i
       selected_option = Option.find_by(id: selected_option_id)
-
+       
       if selected_option
-        @correct_option = @current_question.options.find_by(correct: true)
+        #@correct_option = @current_question.options.find_by(correct: true)
 
         if selected_option.correct?
+        #Verificar si la opcion seleccionada es la correcta
           @message = "¡Respuesta correcta!"
           session[:current_question_index] += 1 # Avanzar al siguiente índice
+          
+          #Actualiza el contador de respuestas correctas en la pregunta
+          @current_question.increment(:correc_count)
         else
           @message = "Respuesta incorrecta. Vuelve a intentarlo."
+          #Actualiza el contador de respuestas correctas en la pregunta
+          @current_question.increment(:incorrect_count)
         end
+
+        #Guarda los cambios en la pregunta
+        @current_question.save
 
         session[:last_message] = @message # Guardar el mensaje en la sesión
 
@@ -269,6 +278,19 @@ post '/play/question' do
   else
     redirect '/finish_play' # Redirigir si no hay más preguntas
   end
+end
+
+#Rutas para consultas de preguntas
+get '/question/incorrect/:n' do
+  n = params[:n].to_i
+  @questions_incorrectas = Question.listar_preguntas_incorrectas(n)
+  erb :questions_incorrectas
+end
+
+get '/question/correct/:n' do
+  n = params[:n].to_i
+  @questions_correctas = Question.listar_preguntas_correctas(n)
+  erb :questions_correctas
 end
 
 

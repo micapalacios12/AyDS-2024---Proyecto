@@ -11,4 +11,12 @@ class Question < ActiveRecord::Base
 
   validates :level, presence: true
 
+  #Metodos para listas las preguntas
+  def self.listar_preguntas_incorrectas(n)
+    order(incorrect_count: :desc).limit(n) || []
+  end
+
+  def self.listar_preguntas_correctas(n)
+    order(correc_count: :desc).limit(n) || []
+  end
 end

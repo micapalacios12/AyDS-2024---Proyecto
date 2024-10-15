@@ -1,0 +1,10 @@
+<h2>Preguntas con más respuestas incorrectas</h2>
+<% if @preguntas_incorrectas.any? %>
+  <ul>
+    <% @preguntas_incorrectas.each do |pregunta| %>
+      <li><%= pregunta.texto %> - <%= pregunta.incorrect_count %> respuestas incorrectas</li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No hay preguntas incorrectas disponibles.</p>
+<% end %>

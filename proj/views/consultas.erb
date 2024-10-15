@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Consultas - AnatomyEasy</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f8ff;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      text-align: center;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+    h1 {
+      color: #2c3e50;
+    }
+    .back-button {
+      background-color: #3498db;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+      margin-top: 20px;
+    }
+    .back-button:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Consultas Disponibles</h1>
+    <ul>
+      <li>Listar las N preguntas que han sido contestadas de manera incorrecta mayor cantidad de veces.</li>
+      <li>Listar las N preguntas que han sido contestadas de manera correcta mayor cantidad de veces.</li>
+    </ul>
+    <button class="back-button" onclick="window.location.href='/admin/dashboard'">Volver al Panel</button>
+  </div>
+</body>
+</html>

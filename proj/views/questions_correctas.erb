@@ -1,0 +1,7 @@
+<!-- views/preguntas_correctas.erb -->
+<h2>Preguntas con más respuestas correctas</h2>
+<ul>
+  <% @preguntas_correctas.each do |pregunta| %>
+    <li><%= pregunta.text %> - <%= pregunta.correct_count %> respuestas correctas</li>
+  <% end %>
+</ul>
