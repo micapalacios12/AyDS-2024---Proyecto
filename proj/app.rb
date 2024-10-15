@@ -16,6 +16,49 @@ get '/' do
   erb :home
 end
 
+# Página para usuarios regulares
+get '/home_user' do
+  erb :home_user
+end
+
+# Página para administradores
+get '/home_admin' do
+  erb :home_admin
+end
+
+# Ruta para procesar el inicio de sesión del admin
+post '/admin/login' do
+  email = params[:email]
+  password = params[:password]
+
+  # Busca el usuario por el email
+  user = User.find_by(email: email)
+
+  # Verifica si el usuario existe, la contraseña es correcta y es admin
+  if user && user.authenticate(password) && user.role == 'admin'
+    session[:user_id] = user.id
+    redirect '/admin/dashboard'
+  else
+    erb :home_admin, locals: { message: 'Email o contraseña inválidos, o no eres administrador.' }
+  end
+end
+
+# Ruta para mostrar el panel de administrador después de iniciar sesión
+get '/admin/dashboard' do
+  redirect '/home_admin' unless session[:user_id] && User.find(session[:user_id]).role == 'admin'
+  erb :admin_dashboard # Esta es la nueva vista que crearemos
+end
+
+# Ruta para cargar preguntas
+get '/admin/cargar-preguntas' do
+  erb :cargar_preguntas
+end
+
+# Ruta para consultas
+get '/admin/consultas' do
+  erb :consultas
+end
+
 # Página de login
 get '/login' do
   erb :login

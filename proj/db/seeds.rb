@@ -3,6 +3,20 @@ require_relative '../models/question'
 
 require_relative '../models/option'
 
+User.create!(
+  username: 'admin1',
+  email: 'admin1@gmail.com',
+  password: 'password123',
+  role: 'admin'
+)
+
+User.create!(
+  username: 'admin2',
+  email: 'admin2@gmail.com',
+  password: 'password123',
+  role: 'admin'
+)
+
 # Eliminar las preguntas y opciones existentes para evitar duplicados
 Question.destroy_all
 Option.destroy_all

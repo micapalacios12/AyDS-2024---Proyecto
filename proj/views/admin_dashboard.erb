@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AnatomyEasy - Bienvenido</title>
+  <title>AnatomyEasy - Dashboard Admin</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -22,6 +22,8 @@
       padding: 20px;
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
     }
     h1 {
       color: #2c3e50;
@@ -30,28 +32,37 @@
       font-size: 1.2em;
       margin-bottom: 20px;
     }
-    .btn {
-      text-decoration: none;
-      color: #fff;
+    .button-container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+    }
+    button {
       background-color: #3498db;
+      color: white;
+      border: none;
       padding: 10px 20px;
       border-radius: 5px;
-      margin: 10px;
-      transition: background-color 0.3s ease;
+      cursor: pointer;
+      font-size: 1em;
+      width: 100%;
+      max-width: 200px;
     }
-    .btn:hover {
+    button:hover {
       background-color: #2980b9;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Bienvenido a "AnatomyEasy"</h1>
-    <p>Selecciona tu tipo de usuario:</p>
-    <p>
-      <a href="/home_admin" class="btn">Admin</a>
-      <a href="/home_user" class="btn">User</a>
-    </p>
+    <h1>Bienvenido, Administrador</h1>
+    <p>Este es tu panel de control.</p>
+    
+    <div class="button-container">
+      <button onclick="window.location.href='/admin/cargar-preguntas'">Cargar Preguntas</button>
+      <button onclick="window.location.href='/admin/consultas'">Consultas</button>
+    </div>
   </div>
 </body>
 </html>

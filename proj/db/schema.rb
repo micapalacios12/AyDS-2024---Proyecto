@@ -47,6 +47,7 @@ ActiveRecord::Schema[7.1].define(version: 2024_10_09_155622) do
     t.datetime "updated_at", precision: nil, null: false
     t.string "avatar"
     t.string "level_completed", default: "1,1,1,1"
+    t.string "role", default: "user"
   end
 
   add_foreign_key "options", "questions"
