@@ -59,6 +59,24 @@ get '/admin/consultas' do
   erb :consultas
 end
 
+# Ruta que procesa la consulta
+post '/admin/consultas/resultado' do
+  tipo_consulta = params[:tipo_consulta]
+  cantidad = params[:cantidad].to_i
+  level = params[:level].to_i
+
+  if tipo_consulta == "incorrectas"
+    @questions = Question.where(level: level).order(incorrect_count: :desc).limit(cantidad)
+  elsif tipo_consulta == "correctas"
+    @questions = Question.where(level: level).order(correc_count: :desc).limit(cantidad)
+  end
+
+  #Agrupa preguntas por sistema
+  @group_questions = @questions.group_by(&:system)
+
+  erb :result_consultas
+end
+
 # Página de login
 get '/login' do
   erb :login

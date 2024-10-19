@@ -19,37 +19,75 @@
     .container {
       text-align: center;
       background-color: #fff;
-      padding: 20px;
+      padding: 30px;
       border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      max-width: 400px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      max-width: 450px;
       width: 100%;
     }
     h1 {
       color: #2c3e50;
+      margin-bottom: 20px;
     }
-    .back-button {
-      background-color: #3498db;
-      padding: 10px 20px;
-      border: none;
+    label {
+      display: block;
+      font-size: 1.2em;
+      color: #333;
+      margin-top: 10px;
+    }
+    select, button {
+      width: 100%;
+      max-width: 250px;
+      padding: 10px;
+      margin-top: 10px;
       border-radius: 5px;
-      cursor: pointer;
+      border: 1px solid #ccc;
       font-size: 1em;
+    }
+    button {
+      background-color: #3498db;
+      color: white;
+      cursor: pointer;
       margin-top: 20px;
     }
-    .back-button:hover {
+    button:hover {
       background-color: #2980b9;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Consultas Disponibles</h1>
-    <ul>
-      <li>Listar las N preguntas que han sido contestadas de manera incorrecta mayor cantidad de veces.</li>
-      <li>Listar las N preguntas que han sido contestadas de manera correcta mayor cantidad de veces.</li>
-    </ul>
-    <button class="back-button" onclick="window.location.href='/admin/dashboard'">Volver al Panel</button>
+    <h1>Consultas de Preguntas</h1>
+    <form action="/admin/consultas/resultado" method="post">
+      <label for="tipo_consulta">Selecciona tipo de consulta:</label>
+      <select id="tipo_consulta" name="tipo_consulta" required>
+        <option value="incorrectas">Listar preguntas incorrectas</option>
+        <option value="correctas">Listar preguntas correctas</option>
+      </select>
+
+      <label for="cantidad">Cantidad de preguntas a listar:</label>
+      <select id="cantidad" name="cantidad" required>
+        <% (5..60).step(5).each do |i| %>
+          <option value="<%= i %>"><%= i %> preguntas</option>
+        <% end %>
+      </select>
+
+      <!-- Seleccionar el nivel -->
+      <label for="level">Selecciona el nivel:</label>
+      <select id="level" name="level">
+        <option value="1">Nivel 1</option>
+        <option value="2">Nivel 2</option>
+        <option value="3">Nivel 3</option>
+      </select>
+
+      <button type="submit">Consultar</button>
+      <button class="back-button" onclick="window.history.back()">Volver</button>
+    </form>
   </div>
 </body>
 </html>
