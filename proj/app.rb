@@ -61,21 +61,29 @@ end
 
 # Ruta que procesa la consulta
 post '/admin/consultas/resultado' do
-  tipo_consulta = params[:tipo_consulta]
   cantidad = params[:cantidad].to_i
-  level = params[:level].to_i
-
-  if tipo_consulta == "incorrectas"
-    @questions = Question.where(level: level).order(incorrect_count: :desc).limit(cantidad)
-  elsif tipo_consulta == "correctas"
-    @questions = Question.where(level: level).order(correc_count: :desc).limit(cantidad)
+  veces = params[:veces].to_i
+  tipo = params[:tipo] # 'correctas' o 'incorrectas'
+    
+  if tipo == 'correctas'
+    @questions = Question.listar_correctas(cantidad, veces)
+    @mostrar_correctas = true
+    @mostrar_incorrectas = false
+  elsif tipo == 'incorrectas'
+    @questions = Question.listar_incorrectas(cantidad, veces)
+    @mostrar_correctas = false
+    @mostrar_incorrectas = true
+  else
+    @questions = [] # Maneja el caso de un tipo no válido
+    @mostrar_correctas = false
+    @mostrar_incorrectas = false
   end
-
-  #Agrupa preguntas por sistema
-  @group_questions = @questions.group_by(&:system)
 
   erb :result_consultas
 end
+
+
+
 
 # Página de login
 get '/login' do

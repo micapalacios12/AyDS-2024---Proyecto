@@ -24,7 +24,7 @@
       max-width: 800px;
       width: 100%;
     }
-    h1, h2, h3 {
+    h1 {
       text-align: center;
       color: #2c3e50;
     }
@@ -41,11 +41,7 @@
     h2 {
       margin-top: 30px;
       font-size: 1.5em;
-    }
-    h3 {
-      margin-top: 20px;
-      font-size: 1.2em;
-      color: #3498db;
+      text-align: center; /* Centrar el título del nivel */
     }
     table {
       width: 100%;
@@ -91,38 +87,37 @@
 <body>
   <div class="container">
     <h1>Resultados de la Consulta</h1>
-  <div class="scroll-container">
-    
-    <!-- Agrupamos por niveles -->
-    <% @questions.group_by(&:level).each do |level, questions_for_level| %>
-      <h2>Nivel <%= level %></h2>
-
-      <!-- Agrupamos por sistema dentro del nivel -->
-      <% questions_for_level.group_by(&:system).each do |system, questions_for_level| %>
-        <h3>Sistema: <%= system.capitalize %></h3>
-
-        <table>
-          <thead>
-            <tr>
-              <th>Pregunta</th>
-              <th>Correctas</th>
-              <th>Incorrectas</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% questions_for_level.each do |questions| %>
-              <tr>
-                <td><%= questions.text %></td>
-                <td><%= questions.correc_count %></td>
-                <td><%= questions.incorrect_count %></td>
-              </tr>
+    <div class="scroll-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Pregunta</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if @mostrar_correctas %>
+            <% @questions.each do |questions| %>
+              <% if questions.correc_count > 0 %> <!-- Solo mostrar preguntas que tienen respuestas correctas -->
+                <tr>
+                  <td><%= questions.text %></td>
+                  
+                </tr>
+              <% end %>
             <% end %>
-          </tbody>
-        </table>
-      <% end %>
-    <% end %>
-
-    <button class="back-button" onclick="window.history.back()">Volver</button>
+          <% elsif @mostrar_incorrectas %>
+            <% @questions.each do |questions| %>
+              <% if questions.incorrect_count > 0 %> <!-- Solo mostrar preguntas que tienen respuestas incorrectas -->
+                <tr>
+                  <td><%= questions.text %></td>
+                  
+                </tr>
+              <% end %>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <button class="back-button" onclick="window.history.back()"> Volver</button>
   </div>
 </body>
 </html>
