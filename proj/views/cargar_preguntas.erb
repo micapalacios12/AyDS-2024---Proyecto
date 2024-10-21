@@ -10,30 +10,100 @@
       background-color: #f0f8ff;
       color: #333;
       margin: 0;
-      padding: 0;
+      padding: 20px;
       display: flex;
       justify-content: center;
-      align-items: center;
-      height: 100vh;
+      align-items: flex-start;
+      min-height: 100vh;
+      overflow-y: auto;
     }
     .container {
       text-align: center;
       background-color: #fff;
-      padding: 20px;
+      padding: 30px;
       border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      max-width: 400px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
       width: 100%;
+      min-height: 300px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+    select, input[type="text"], textarea, button {
+      padding: 12px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+      width: 100%;
+    }
+    button {
+      background-color: #3498db;
+      color: #fff;
+      cursor: pointer;
+      font-size: 1.1em;
+      padding: 10px;
+    }
+    button:hover {
+      background-color:  #2980b9;
     }
     h1 {
       color: #2c3e50;
+      margin-bottom: 20px;
+    }
+    .back-button {
+      background-color: #3498db;
+      margin-top: 20px;
+    }
+    .back-button:hover {
+      background-color:  #2980b9;
     }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Página para cargar preguntas</h1>
-    
+    <h1>Cargar Nueva Pregunta</h1>
+    <form action="/admin/add_question" method="post">
+      <label for="system">Sistema:</label>
+      <select name="system" id="system" required>
+        <option value="digestivo">Digestivo</option>
+        <option value="respiratorio">Respiratorio</option>
+        <option value="circulatorio">Circulatorio</option>
+        <option value="reproductor">Reproductor</option>
+      </select>
+      
+      <label for="level">Nivel:</label>
+      <select name="level" id="level" required>
+        <option value="1">Nivel 1</option>
+        <option value="2">Nivel 2</option>
+        <option value="3">Nivel 3</option>
+      </select>
+
+      <label for="text">Pregunta:</label>
+      <textarea name="text" id="text" rows="4" required></textarea>
+
+      <label for="option1">Opción 1:</label>
+      <input type="text" name="option1" required>
+
+      <label for="option2">Opción 2:</label>
+      <input type="text" name="option2" required>
+
+      <label for="option3">Opción 3:</label>
+      <input type="text" name="option3" required>
+
+      <label for="option4">Opción 4:</label>
+      <input type="text" name="option4" required>
+
+      <label for="correct_option">Opción Correcta (1, 2, 3 o 4):</label>
+      <input type="number" name="correct_option" min="1" max="4" required>
+
+      <button type="submit">Agregar Pregunta</button>
+    </form>
+    <a href="/admin/dashboard">
+      <button class="back-button">Volver</button>
+    </a>
   </div>
 </body>
 </html>

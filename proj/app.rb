@@ -54,6 +54,34 @@ get '/admin/cargar-preguntas' do
   erb :cargar_preguntas
 end
 
+# Ruta para procesar la adición de nuevas preguntas
+post '/admin/add_question' do
+  system = params[:system]
+  level = params[:level].to_i
+  text = params[:text]
+  options = [
+    params[:option1],
+    params[:option2],
+    params[:option3],
+    params[:option4]
+  ]
+  correct_option_index = params[:correct_option].to_i - 1
+
+  # Crear la nueva pregunta
+  question = Question.create(system: system, text: text, level: level)
+
+  # Crear las opciones de respuesta
+  options.each_with_index do |option_text, index|
+    Option.create(
+      text: option_text,
+      correct: index == correct_option_index,
+      question_id: question.id
+    )
+  end
+
+  redirect '/admin/cargar-preguntas'
+end
+
 # Ruta para consultas
 get '/admin/consultas' do
   erb :consultas
