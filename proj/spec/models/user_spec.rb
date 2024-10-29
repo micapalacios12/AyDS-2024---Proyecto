@@ -7,6 +7,19 @@ RSpec.describe User, type: :model do
     User.destroy_all # Limpiar la base de datos antes de cada prueba
   end
 
+  context 'level completion methods' do
+    it 'returns the correct level completed for a system' do
+      user = User.create(names: 'Test User', username: 'testuser', email: 'testuser@example.com', password: 'password', level_completed: '1,0,0')
+      expect(user.get_level_completed(0)).to eq(1)  # Sistema 0
+    end
+  
+    it 'sets the level completed for a system' do
+      user = User.create(names: 'Test User', username: 'testuser', email: 'testuser@example.com', password: 'password', level_completed: '0,0,0')
+      user.set_level_completed(1, 2)  # Establecer nivel para sistema 1
+      expect(user.get_level_completed(1)).to eq(2)
+    end
+  end
+
   context 'validations' do
     it 'is valid with valid attributes' do
         # Test para verificar si un usuario es válido con atributos válidos

@@ -8,6 +8,11 @@ RSpec.describe Question, type: :model do
   end
 
   context 'validations' do
+    it 'is not valid without a level' do
+      question = Question.new(system: 'Test System', text: 'Test Question')
+      expect(question).to_not be_valid
+      expect(question.errors[:level]).to include("can't be blank")
+    end
     it 'is valid with valid attributes' do
       # Test para verificar si una pregunta es válida con atributos válidos
       question = Question.new(system: 'Test System', text: 'Test Question')

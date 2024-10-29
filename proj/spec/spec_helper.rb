@@ -1,7 +1,9 @@
 # spec/spec_helper.rb
 
 require 'simplecov'
-SimpleCov.start
+SimpleCov.start do
+  add_filter '/spec/'  # Ignorar la carpeta de pruebas
+end
 
 # Configurar el entorno de pruebas
 ENV['RACK_ENV'] = 'test'
