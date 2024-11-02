@@ -11,14 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.1].define(version: 2024_11_02_195335) do
-  create_table "lessons", force: :cascade do |t|
-    t.string "system"
-    t.integer "level"
-    t.string "content"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "options", force: :cascade do |t|
     t.string "text"
     t.boolean "correct", default: false
