@@ -17,6 +17,8 @@ User.create!(
   role: 'admin'
 )
 
+
+
 # Eliminar las preguntas y opciones existentes para evitar duplicados
 Question.destroy_all
 Option.destroy_all

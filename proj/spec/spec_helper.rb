@@ -16,6 +16,7 @@ require 'rspec'
 require 'rack/test'
 require 'database_cleaner'
 
+
 # Configurar RSpec
 RSpec.configure do |config|
   # Incluye Rack::Test para poder hacer pruebas de integración de tu aplicación web
