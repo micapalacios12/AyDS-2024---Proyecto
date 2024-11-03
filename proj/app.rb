@@ -84,6 +84,7 @@ end
 
 # Ruta para consultas
 get '/admin/consultas' do
+  redirect '/home_admin' unless session[:user_id] && User.find(session[:user_id]).role == 'admin'
   erb :consultas
 end
 
@@ -216,9 +217,6 @@ post '/configuracion' do
   end
 end
 
-
-
-
 # Página de selección de sistema
 get '/select_system' do
   if session[:user_id]
@@ -243,9 +241,6 @@ get '/select_level/:system' do
     redirect '/login'
   end
 end
-
-
-
 
 
 # Ruta para mostrar la leccion del nivel seleccionado
@@ -296,10 +291,6 @@ post '/level/:level/start_play' do
     redirect '/login'
   end
 end
-
-
-
-
 
 
 # Ruta para mostrar la pregunta actual y manejar la respuesta del usuario
@@ -462,9 +453,6 @@ get '/logout' do
   redirect '/'
 end
 
-
-
-
 helpers do
 
   #Método para obtener el usuario actual
@@ -473,7 +461,6 @@ helpers do
   end
   
   
-
   def get_questions_for_level(system, level)
     Question.where(system: system, level: level)
   end
