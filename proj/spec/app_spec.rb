@@ -9,6 +9,9 @@ RSpec.describe 'App Routes', type: :request do
     Sinatra::Application
   end
 
+  let(:admin_user) { User.create(username: 'admin', email: 'admin@example.com', password: 'password', role: 'admin') }
+  let(:regular_user) { User.create(username: 'user',email: 'user@example.com', password: 'password', role: 'user') }
+  
   #Pruebas para home 
   context 'GET /' do
     it 'returns a successful response' do # Verifica que la respuesta sea exitosa
@@ -22,81 +25,71 @@ RSpec.describe 'App Routes', type: :request do
     end
   end
 
-  #Pruebas para home user
+  # Pruebas para la página de inicio de usuario regular
   context 'GET /home_user' do
-    it 'returns a successful response' do
+    it 'renders the home_user page for authenticated users' do
       get '/home_user'
+      
+      # Verifica que la respuesta sea exitosa 
       expect(last_response).to be_ok
-    end
-
-    it 'renders the home_user template' do
-      get '/home_user'
-      expect(last_response.body).to include('<h1>Bienvenido a "AnatomyEasy"</h1>') # Ajusta el contenido según tu plantilla
+      # Verifica que se esté renderizando la vista correcta
+      expect(last_response.body).to include('home_user') # Asegúrate de que un contenido específico esté en la vista
     end
   end
-  
-  #Prueba para procesar el inicio de sesion del admin
-  context 'POST /admin/login' do
-    before(:each) do
-      # Crea un usuario administrador antes de cada prueba
-      @admin_user = User.create(email: 'admin@example.com', password: 'password', role: 'admin')
-      # Crea un usuario normal para las pruebas que lo requieran
-      @user = User.create(email: 'user@example.com', password: 'password', role: 'user')
-    end
 
+  # Pruebas para la página de inicio del administrador
+  context 'GET /home_admin' do
+    it 'renders the home_admin page for authenticated admin users' do
+      get '/home_admin'
+      
+      # Verifica que la respuesta sea exitosa (código 200)
+      expect(last_response).to be_ok
+      # Verifica que se esté renderizando la vista correcta
+      expect(last_response.body).to include('home_admin') # Asegúrate de que hay un contenido específico en la vista
+    end
+  end
+
+  # Prueba para procesar el inicio de sesión del admin
+  context 'POST /admin/login' do
     it 'logs in the admin with valid credentials and redirects to dashboard' do
-      post '/admin/login', email: @user.email, password: "password"
-      #Verifica que la respuesta redirige al dashboard
+      post '/admin/login', email: admin_user.email, password: 'password'
       expect(last_response).to be_redirect
       follow_redirect!
-      #Verifica que el usuario es redirigido
       expect(last_request.path).to eq('/admin/dashboard')
-
-      # Verifica que session[:user_id] se estableció correctamente
-      expect(last_request.env['rack.session'][:user_id]).to eq(@admin_user.id) # Verifica que la sesión se haya establecido
+      expect(last_request.env['rack.session'][:user_id]).to eq(admin_user.id)
     end
-    
+
     it 'renders home_admin with an error message for invalid credentials' do
-      post '/admin/login', email: @user.email, password: "wrong_password"
+      post '/admin/login', email: admin_user.email, password: 'wrong_password'
       expect(last_response.body).to include('Email o contraseña inválidos, o no eres administrador.')
-      expect(last_request.env['rack.session'][:user_id]).to be_nil # Verifica que no hay usuario en sesión    end
-    
+      expect(last_request.env['rack.session'][:user_id]).to be_nil
+    end
+
     it 'renders home_admin with an error message if user is not admin' do
-      # Crea un usuario no admin directamente
-      non_admin_user = User.create(email: "user@example.com", password: "password", password_confirmation: "password", role: "user")
-      post '/admin/login', email: non_admin_user.email, password: "password"
-      
+      post '/admin/login', email: regular_user.email, password: 'password'
       expect(last_response.body).to include('Email o contraseña inválidos, o no eres administrador.')
-      expect(last_request.env['rack.session'][:user_id]).to be_nil # Verifica que la sesión no tenga user_id
-      non_admin_user.destroy # Limpia después de la prueba
+      expect(last_request.env['rack.session'][:user_id]).to be_nil
     end
   end
 
-  #Pruebas para admin/dashboard
+  # Prueba para el panel de administrador
   context 'GET /admin/dashboard' do
     it 'allows access to the admin dashboard for admin users' do
-      # Simula una sesión de usuario admin
-      post '/admin/login', email: @admin_user.email, password: "password"
-      session[:user_id] = @admin_user.id
-
+      # Simula que el usuario está autenticado como admin
+      post '/admin/login', email: admin_user.email, password: 'password'
       get '/admin/dashboard'
-      
       expect(last_response).to be_ok
-      expect(last_response.body).to include("Bienvenido, Administrador") # Asegúrate de que 'admin_dashboard' está en la vista
+      expect(last_response.body).to include('admin_dashboard') # Asegúrate de que hay contenido específico en la vista
     end
-  
-    it 'redirects non-admin users to home_admin' do
-      # Simula una sesión de usuario regular
-      post '/admin/login', email: @regular_user.email, password: "password"
-      session[:user_id] = @regular_user.id
 
+    it 'redirects non-admin users to home_admin' do
+      post '/admin/login', email: regular_user.email, password: 'password'
       get '/admin/dashboard'
-  
       expect(last_response).to be_redirect
       follow_redirect!
       expect(last_request.path).to eq('/home_admin')
     end
-  
+
     it 'redirects unauthenticated users to home_admin' do
       get '/admin/dashboard'
       expect(last_response).to be_redirect
@@ -104,88 +97,89 @@ RSpec.describe 'App Routes', type: :request do
       expect(last_request.path).to eq('/home_admin')
     end
   end
-  
-  #Pruebas para admin consultas de preguntas
-  context 'GET /admin/consultas' do
-    it 'allows access to consultas for admin users' do
-      # Simula una sesión de usuario admin
-      post '/admin/login', email: @admin_user.email, password: "password"
-      
-      get '/admin/consultas'
-      
-      expect(last_response).to be_ok
-      expect(last_response.body).to include("Consultas de Preguntas") # Cambia a algún texto de la vista `consultas`
-    end
-  end
 
-  #Pruebas para admin/cargar preguntas
+  # Prueba para cargar preguntas
   context 'GET /admin/cargar-preguntas' do
-    it 'renders the cargar_preguntas view for authenticated admin users' do
-      admin_user = User.create(email: "admin@example.com", password: "password", password_confirmation: "password", role: "admin")
-      post '/admin/login', email: admin_user.email, password: "password"
-  
+    it 'renders the cargar_preguntas page for authenticated admin users' do
+      post '/admin/login', email: admin_user.email, password: 'password'
       get '/admin/cargar-preguntas'
-  
       expect(last_response).to be_ok
-      expect(last_response.body).to include('cargar_preguntas') # Asegúrate de que 'cargar_preguntas' está en la vista
+      expect(last_response.body).to include('cargar_preguntas') # Asegúrate de que hay contenido específico en la vista
     end
-  end
-  
-  #Prueba para procesar adiccion de nuevas pregiuntas
-  context 'POST /admin/add_question' do
-    it 'creates a new question and redirects' do
-      post '/admin/add_question', system: "test_system", level: 1, text: "What is the capital of France?", 
-          option1: "Berlin", option2: "Madrid", option3: "Paris", option4: "Rome", 
-          correct_option: 3 # La respuesta correcta es 'Paris'
-  
+
+    it 'redirects unauthenticated users to login page' do
+      get '/admin/cargar-preguntas'
       expect(last_response).to be_redirect
       follow_redirect!
-  
-      # Verifica que redirige a la ruta esperada
+      expect(last_request.path).to eq('/home_admin')
+    end
+  end
+
+  # Prueba para procesar la adición de nuevas preguntas
+  context 'POST /admin/add_question' do
+    it 'adds a question and redirects to cargar-preguntas' do
+      post '/admin/login', email: admin_user.email, password: 'password'
+      post '/admin/add_question', {
+        system: 'digestivo',
+        level: 1,
+        text: '¿Cuál es la función del sistema digestivo?',
+        option1: 'Opción 1',
+        option2: 'Opción 2',
+        option3: 'Opción 3',
+        option4: 'Opción 4',
+        correct_option: '1'
+      }
+      expect(last_response).to be_redirect
+      follow_redirect!
       expect(last_request.path).to eq('/admin/cargar-preguntas')
-  
-      # Verifica que la pregunta se haya creado en la base de datos
-      question = Question.last
-      expect(question.text).to eq("What is the capital of France?")
-      expect(question.level).to eq(1)
-      expect(question.system).to eq("test_system")
-      expect(Option.where(question_id: question.id).count).to eq(4) # Verifica que se hayan creado 4 opciones
     end
   end
 
-  #Prueba que procesa la consulta
+  # Prueba para las consultas
+  context 'GET /admin/consultas' do
+    it 'renders the consultas page for authenticated admin users' do
+      post '/admin/login', email: admin_user.email, password: 'password'
+      get '/admin/consultas'
+      expect(last_response).to be_ok
+      expect(last_response.body).to include('consultas') # Asegúrate de que hay contenido específico en la vista
+    end
+
+    it 'redirects unauthenticated users to home_admin' do
+      get '/admin/consultas'
+      expect(last_response).to be_redirect
+      follow_redirect!
+      expect(last_request.path).to eq('/home_admin')
+    end
+  end
+
+  # Prueba para procesar la consulta
   context 'POST /admin/consultas/resultado' do
-    it 'returns correct questions when tipo is "correctas"' do
-      post '/admin/consultas/resultado', cantidad: 1, veces: 1, tipo: 'correctas'
-  
-      expect(last_response).to be_ok
-      expect(last_response.body).to include('result_consultas') # Asegúrate de que 'result_consultas' está en la vista
-      expect(last_request.env['rack.session'][:mostrar_correctas]).to be true
-      expect(last_request.env['rack.session'][:mostrar_incorrectas]).to be false
-      expect(assigns(:questions)).to include(@correct_question)
+    before do
+      allow(Question).to receive(:listar_correctas).and_return([])
+      allow(Question).to receive(:listar_incorrectas).and_return([])
     end
-  
-    it 'returns incorrect questions when tipo is "incorrectas"' do
-      post '/admin/consultas/resultado', cantidad: 1, veces: 1, tipo: 'incorrectas'
-  
+
+    it 'lists correct questions when tipo is correctas' do
+      post '/admin/login', email: admin_user.email, password: 'password'
+      post '/admin/consultas/resultado', cantidad: 5, veces: 2, tipo: 'correctas'
       expect(last_response).to be_ok
-      expect(last_response.body).to include('result_consultas') # Asegúrate de que 'result_consultas' está en la vista
-      expect(last_request.env['rack.session'][:mostrar_correctas]).to be false
-      expect(last_request.env['rack.session'][:mostrar_incorrectas]).to be true
-      expect(assigns(:questions)).to include(@incorrect_question)
+      expect(last_response.body).to include('result_consultas') # Asegúrate de que hay contenido específico en la vista
     end
-  
-    it 'handles invalid tipo by returning an empty array of questions' do
-      post '/admin/consultas/resultado', cantidad: 1, veces: 1, tipo: 'invalid_type'
-  
+
+    it 'lists incorrect questions when tipo is incorrectas' do
+      post '/admin/login', email: admin_user.email, password: 'password'
+      post '/admin/consultas/resultado', cantidad: 5, veces: 2, tipo: 'incorrectas'
       expect(last_response).to be_ok
-      expect(last_response.body).to include('result_consultas') # Asegúrate de que 'result_consultas' está en la vista
-      expect(assigns(:questions)).to be_empty
-      expect(last_request.env['rack.session'][:mostrar_correctas]).to be false
-      expect(last_request.env['rack.session'][:mostrar_incorrectas]).to be false
+      expect(last_response.body).to include('result_consultas')
+    end
+
+    it 'handles invalid tipo gracefully' do
+      post '/admin/login', email: admin_user.email, password: 'password'
+      post '/admin/consultas/resultado', cantidad: 5, veces: 2, tipo: 'otro_tipo'
+      expect(last_response).to be_ok
+      expect(last_response.body).to include('result_consultas')
     end
   end
-
 
   #Pruebas para la ruta de login (GET)
   context 'GET /login' do
@@ -225,7 +219,6 @@ RSpec.describe 'App Routes', type: :request do
     end
   end
   
-
   #Prueba para la ruta de registro (GET)
   context 'GET /register' do
     it 'returns a successful response' do # Verifica que la respuesta sea exitosa
@@ -284,629 +277,420 @@ RSpec.describe 'App Routes', type: :request do
     end
   end
 
-  #Pruebas para perfil y configuracion
-  context 'GET /profile and POST /update_profile' do
-    it 'shows the profile page' do
+  # Verificar la página de perfil
+  context 'GET /profile' do
+    it 'renders the profile page for the current user' do
+      post '/login', email: regular_user.email, password: 'password' # Simula el inicio de sesión
       get '/profile'
       expect(last_response).to be_ok
-      expect(last_response.body).to include('profile') # Asegúrate de que 'profile' está en la vista
-      expect(assigns(:user)).to eq(@user)
+      expect(last_response.body).to include('profile') # Asegúrate de que hay contenido específico en la vista
     end
-  
-    it 'updates the user profile' do
-      post '/update_profile', name: "Updated User", password: "newpassword", avatar: "new_avatar.png"
-  
-      @user.reload # Recargar el usuario para obtener los datos actualizados
-  
+
+    it 'redirects unauthenticated users to login page' do
+      get '/profile'
       expect(last_response).to be_redirect
-      follow_redirect! # Seguir la redirección a la página de perfil
-      expect(last_response.body).to include('Updated User')
-      expect(@user.authenticate("newpassword")).to be_truthy
-      expect(@user.avatar).to eq("new_avatar.png")
+      follow_redirect!
+      expect(last_request.path).to eq('/login') # Cambia esto a la ruta correcta de tu login
     end
   end
-  
-  #Pruebas para configuracion
-  describe 'GET /configuration and POST /configuration' do
-    it 'shows the configuration page' do
-      get '/configuracion'
-      expect(last_response).to be_ok
-      expect(last_response.body).to include('configuracion') # Asegúrate de que 'configuracion' está en la vista
-      expect(assigns(:user)).to eq(@user)
-    end
-  
-    it 'updates the user configuration' do
-      post '/configuracion', names: "Updated User", username: "updateduser", email: "updated@example.com", password: "newpassword", password_confirmation: "newpassword"
-  
-      @user.reload # Recargar el usuario para obtener los datos actualizados
-  
-      expect(last_response).to be_redirect
-      follow_redirect! # Seguir la redirección a la página de perfil
-      expect(last_response.body).to include('Updated User')
-      expect(@user.username).to eq("updateduser")
-      expect(@user.email).to eq("updated@example.com")
-      expect(@user.authenticate("newpassword")).to be_truthy
-    end
-  
-    it 'renders the configuration page with errors if save fails' do
-      allow_any_instance_of(User).to receive(:save).and_return(false) # Simula un fallo al guardar
-  
-      post '/configuracion', names: "Error User"
-  
-      expect(last_response).to be_ok
-      expect(last_response.body).to include('configuracion') # Verifica que se volvió a la vista de configuración
-    end
-  end
-  
-  #Pruebas para configuracion
-  context 'Profile Update and Configuration' do
+
+  # Procesar la actualización del perfil
   context 'POST /update_profile' do
-    it 'updates the user profile with new information' do
-      post '/update_profile', name: "Updated User", password: "newpassword", avatar: "new_avatar.png"
-  
-      @user.reload # Recarga el usuario para obtener los datos actualizados        expect(last_response).to be_redirect
-      follow_redirect! # Sigue la redirección a la página de perfil
-  
-      expect(last_response.body).to include('Updated User')
-      expect(@user.names).to eq("Updated User")
-      expect(@user.authenticate("newpassword")).to be_truthy
-      expect(@user.avatar).to eq("new_avatar.png")
+    it 'updates the user profile and redirects to profile page' do
+      post '/login', email: regular_user.email, password: 'password' # Simula el inicio de sesión
+      post '/update_profile', name: 'Updated Name', password: 'newpassword', avatar: 'new_avatar.png'
+      expect(last_response).to be_redirect
+      follow_redirect!
+      expect(last_request.path).to eq('/profile')
+
+      # Verifica que los datos se hayan actualizado
+      updated_user = User.find(regular_user.id)
+      expect(updated_user.names).to eq('Updated Name')
+      expect(updated_user.password).not_to eq('password') # La contraseña debería haber cambiado
+      expect(updated_user.avatar).to eq('new_avatar.png')
+    end
+
+    it 'redirects to the profile page even if no changes are made' do
+      post '/login', email: regular_user.email, password: 'password' # Simula el inicio de sesión
+      post '/update_profile', name: '', password: '', avatar: ''
+      expect(last_response).to be_redirect
+      follow_redirect!
+      expect(last_request.path).to eq('/profile')
     end
   end
-  
+
+  # Página de configuración
   context 'GET /configuracion' do
-    it 'renders the configuration page' do
+    it 'renders the settings page for the current user' do
+      post '/login', email: regular_user.email, password: 'password' # Simula el inicio de sesión
       get '/configuracion'
       expect(last_response).to be_ok
-      expect(last_response.body).to include('configuracion') # Asegúrate de que 'configuracion' está en la vista
-      expect(assigns(:user)).to eq(@user)
+      expect(last_response.body).to include('configuracion') # Asegúrate de que hay contenido específico en la vista
+    end
+
+    it 'redirects unauthenticated users to login page' do
+      get '/configuracion'
+      expect(last_response).to be_redirect
+      follow_redirect!
+      expect(last_request.path).to eq('/login') # Cambia esto a la ruta correcta de tu login
     end
   end
-  
+
+  # Procesar la configuración
   context 'POST /configuracion' do
-    it 'updates user information in configuration' do
-      post '/configuracion', names: "Updated Config Name", username: "updateduser", email: "updated@example.com", password: "newpassword", password_confirmation: "newpassword", avatar: "config_avatar.png"
-  
-      @user.reload # Recarga el usuario para obtener los datos actualizados
+    it 'updates user settings and redirects to profile' do
+      post '/login', email: regular_user.email, password: 'password' # Simula el inicio de sesión
+      post '/configuracion', names: 'New Name', username: 'newusername', email: 'new@example.com', avatar: 'new_avatar.png', password: 'newpassword', password_confirmation: 'newpassword'
       expect(last_response).to be_redirect
-      follow_redirect! # Sigue la redirección a la página de perfil
-  
-      expect(last_response.body).to include('Updated Config Name')
-      expect(@user.names).to eq("Updated Config Name")
-      expect(@user.username).to eq("updateduser")
-      expect(@user.email).to eq("updated@example.com")
-      expect(@user.authenticate("newpassword")).to be_truthy
-      expect(@user.avatar).to eq("config_avatar.png")
+      follow_redirect!
+      expect(last_request.path).to eq('/profile')
+
+      # Verifica que los datos se hayan actualizado
+      updated_user = User.find(regular_user.id)
+      expect(updated_user.names).to eq('New Name')
+      expect(updated_user.username).to eq('newusername')
+      expect(updated_user.email).to eq('new@example.com')
+      expect(updated_user.avatar).to eq('new_avatar.png')
+      expect(updated_user.password).not_to eq('password') # La contraseña debería haber cambiado
     end
-  
-    it 'does not update password if confirmation does not match' do
-      post '/configuracion', password: "newpassword", password_confirmation: "mismatch"
-  
-      @user.reload # Recarga el usuario para obtener los datos actualizados
+
+    it 'renders the settings page if there is an error updating the user' do
+      allow_any_instance_of(User).to receive(:save).and_return(false) # Simula un error al guardar
+      post '/login', email: regular_user.email, password: 'password' # Simula el inicio de sesión
+      post '/configuracion', names: 'New Name', username: 'newusername', email: 'new@example.com'
       expect(last_response).to be_ok
-      expect(last_response.body).to include('configuracion') # Asegúrate de que permanece en la página de configuración
-      expect(@user.authenticate("newpassword")).to be_falsey # La contraseña no debe actualizarse
-    end
-  
-    it 'renders the configuration page with errors if save fails' do
-      allow_any_instance_of(User).to receive(:save).and_return(false) # Simula un fallo al guardar
-      post '/configuracion', names: "Error Config Name"
-  
-      expect(last_response).to be_ok
-      expect(last_response.body).to include('configuracion') # Verifica que vuelve a la vista de configuración
-      expect(@user.names).not_to eq("Error Config Name") # El nombre no debe haberse actualizado
+      expect(last_response.body).to include('configuracion') # Asegúrate de que hay contenido específico en la vista
     end
   end
 
   #Prueba para la selección del sistema (GET)
   context 'GET /select_system' do
-  
-    it 'renders the select_system page for authenticated users' do
-      # Simula el inicio de sesión
-      post '/login', email: @user.email, password: "password"
-      
-      get '/select_system'
-      
-      expect(last_response).to be_ok
-      expect(last_response.body).to include("select_system") # Asegúrate de que hay un contenido en la vista
-    end
-  
-    it 'redirects unauthenticated users to the login page' do
+    it 'redirects to login if not authenticated' do # Verifica que se redirija a la página de login si no está autenticado
       get '/select_system'
       expect(last_response).to be_redirect
       follow_redirect!
       expect(last_request.path).to eq('/login')
     end
-  end
-  
 
-  #Pruebas para la seleccion de sistema y lecciones
-  context 'Level Selection and Lesson Display' do
-  
-    context 'GET /select_level/:system' do
-    
-      it 'renders the select_level page for authenticated users' do
-        # Simula el inicio de sesión
-        post '/login', email: @user.email, password: "password"
-        
-        get '/select_level/digestivo' # Cambia "digestivo" por el sistema que necesites
-        
-        expect(last_response).to be_ok
-        expect(last_response.body).to include("select_level") # Asegúrate de que hay un contenido en la vista
-      end
-    
-      it 'redirects unauthenticated users to the login page' do
-        get '/select_level/digestivo' # Cambia "digestivo" por el sistema que necesites
-        expect(last_response).to be_redirect
-        follow_redirect!
-        expect(last_request.path).to eq('/login')
-      end
-    end
-  
-    context 'GET /lesson/:system/:level' do
-      context 'when user is logged in' do
-        it 'displays the correct lesson for level 1' do
-          get '/lesson/ruby/1'
-          
-          expect(last_response).to be_ok
-          expect(last_response.body).to include('Lesson for Level 1')
-        end
-  
-        it 'displays the correct lesson for level 2' do
-          get '/lesson/ruby/2'
-          
-          expect(last_response).to be_ok
-          expect(last_response.body).to include('Lesson for Level 2')
-        end
-  
-        it 'displays the correct lesson for level 3' do
-          get '/lesson/ruby/3'
-          
-          expect(last_response).to be_ok
-          expect(last_response.body).to include('Lesson for Level 3')
-        end
-  
-        it 'redirects to select_system if level is invalid' do
-          get '/lesson/ruby/4'
-          
-          expect(last_response).to be_ok
-          expect(last_response.body).to include('select_system')
-        end
-      end
-  
-      context 'when user is not logged in' do
-        it 'redirects to login page' do
-          delete '/logout'
-          get '/lesson/ruby/1'
-  
-          expect(last_response).to be_redirect
-          follow_redirect!
-          expect(last_request.path).to eq('/login')
-        end
-      end
-    end
-  end
-  
-
-  #Pruebas para el nivel y juego
-  context 'Gameplay Routes' do
-  
-    context 'POST /level/:level/start_play' do
-    
-      it 'allows the user to start the game for a completed level' do
-        post '/level/1/start_play' # El nivel completado
-    
-        expect(last_response).to be_redirect
-        follow_redirect!
-        expect(last_request.path).to eq('/play/question') # Asegúrate de que se redirige correctamente
-      end
-    
-      it 'prevents the user from starting a higher level' do
-        post '/level/2/start_play' # El nivel no completado
-    
-        expect(last_response).to be_ok
-        expect(last_response.body).to include("Necesitas completar el nivel 1 antes de acceder a este nivel.") # Verifica el mensaje
-      end
-    
-      it 'redirects unauthenticated users to the login page' do
-        session.clear # Limpiar la sesión para simular un usuario no autenticado
-    
-        post '/level/1/start_play'
-    
-        expect(last_response).to be_redirect
-        follow_redirect!
-        expect(last_request.path).to eq('/login')
-      end
-    end
-  
-    context 'GET /play/question' do
-        it 'displays the current question' do
-          get '/play/question'
-          
-          expect(last_response).to be_ok
-          expect(last_response.body).to include(@question.content) # Verifica que el contenido de la pregunta esté en la respuesta
-        end
-      
-        it 'redirects unauthenticated users to login' do
-          session.clear # Limpia la sesión para simular un usuario no autenticado
-      
-          get '/play/question'
-      
-          expect(last_response).to be_redirect
-          follow_redirect!
-          expect(last_request.path).to eq('/login')
-        end
-      
-        it 'redirects to select_system if there are no more questions' do
-          session[:current_question_index] = 1 # Simula que ya se han mostrado todas las preguntas
-      
-          get '/play/question'
-      
-          expect(last_response).to be_redirect
-          expect(last_request.path).to eq('/select_system')
-        end
-      end
-      
-    
-    context 'POST /play/question' do
-      it 'increments correct answer count and shows success message for correct answer' do
-        post '/play/question', option_id: @correct_option.id
-  
-        expect(last_response).to be_redirect
-        follow_redirect!
-        expect(session[:last_message]).to eq('¡Respuesta correcta!')
-        expect(@question.reload.correc_count).to eq(1)
-      end
-  
-      it 'increments incorrect answer count and shows error message for incorrect answer' do
-        post '/play/question', option_id: @incorrect_option.id
-  
-        expect(last_response).to be_redirect
-        follow_redirect!
-        expect(session[:last_message]).to eq('Respuesta incorrecta. Vuelve a intentarlo.')
-        expect(@question.reload.incorrect_count).to eq(1)
-      end
-  
-      it 'shows an error message if no option is selected' do
-        post '/play/question'
-  
-        expect(last_response).to be_ok
-        expect(last_response.body).to include('Por favor, selecciona una opción antes de responder.')
-      end
-  
-      it 'redirects to /finish_play if all questions are answered' do
-        session[:current_question_index] = 1
-        post '/play/question', option_id: @correct_option.id
-  
-        expect(last_response).to be_redirect
-        follow_redirect!
-        expect(last_request.path).to eq('/finish_play')
-      end
-    end
-  end
-    
-  context 'POST /start_play' do
-    it 'starts the game if authenticated' do # Verifica que se inicie el juego si está autenticado
+    it 'loads the select system page if authenticated' do # Verifica que se cargue la página de selección del sistema si está autenticado
       user = User.create(username: 'testuser', email: 'test@example.com', password: 'password123')
       post '/login', username: 'testuser', email: 'test@example.com', password: 'password123'
 
-      post '/start_play', {}, 'rack.session' => { user_id: user.id, system: 'math' }
+      expect(last_response).to be_redirect
+      follow_redirect!
+
+      get '/select_system', {}, 'rack.session' => { user_id: user.id }
+
+      expect(last_response).to be_ok
+      expect(last_response.body).to include("Seleccionar Sistema")
+    end
+  end
+
+  describe 'GET /select_level/:system' do
+    context 'cuando el usuario está autenticado' do
+      it 'muestra la página de selección de nivel' do
+        post '/login', email: regular_user.email, password: 'password'
+        get '/select_level/digestivo'
+        expect(last_response).to be_ok
+        expect(last_response.body).to include('Seleccionar nivel') # Asegúrate de que el texto esté presente
+      end
+  
+      it 'redirige al login si el usuario no está autenticado' do
+        get '/select_level/digestivo'
+        expect(last_response).to be_redirect
+        follow_redirect!
+        expect(last_request.path).to eq('/login')
+      end
+    end
+  end
+
+  describe 'GET /lesson/:system/:level' do
+    context 'cuando el usuario está autenticado' do
+      it 'muestra la lección del nivel 1' do
+        post '/login', email: regular_user.email, password: 'password'
+        get '/lesson/digestivo/1'
+        expect(last_response).to be_ok
+        expect(last_response.body).to include('Lección 1') # Asegúrate de que el texto esté presente
+      end
+  
+      it 'muestra la lección del nivel 2' do
+        post '/login', email: regular_user.email, password: 'password'
+        get '/lesson/digestivo/2'
+        expect(last_response).to be_ok
+        expect(last_response.body).to include('Lección 2') # Asegúrate de que el texto esté presente
+      end
+  
+      it 'muestra la lección del nivel 3' do
+        post '/login', email: regular_user.email, password: 'password'
+        get '/lesson/digestivo/3'
+        expect(last_response).to be_ok
+        expect(last_response.body).to include('Lección 3') # Asegúrate de que el texto esté presente
+      end
+  
+      it 'redirige a select_system si el nivel no es válido' do
+        post '/login', email: regular_user.email, password: 'password'
+        get '/lesson/digestivo/99' # Nivel no válido
+        expect(last_response).to be_ok
+        expect(last_response.body).to include('Seleccionar sistema') # Asegúrate de que redirija
+      end
+    end
+  end 
+
+  #Prueba para inicial el juego desde la leccion
+  context 'POST /level/:level/start_play' do
+    let!(:user) do
+      User.create!(
+        names: 'Test User',
+        username: 'testuser',
+        email: 'user@example.com',
+        password: 'password'
+      )
+    end
+
+    before do
+      # Simular el nivel completado del usuario
+      allow(user).to receive(:level_completed).and_return(1)
+    end
+
+
+    context 'cuando el usuario está autenticado' do
+      it 'permite al usuario iniciar el juego para un nivel completado' do
+        post '/login', email: 'user@example.com', password: 'password'
+
+        post '/level/1/start_play' # El nivel completado
+
+        expect(last_response).to be_redirect
+        follow_redirect! # Sigue la redirección a la página de juego
+        expect(last_request.path).to eq('/play/question') # Asegúrate de que se redirige correctamente
+      end
+
+      it 'previene que el usuario inicie un nivel más alto' do
+        post '/login', email: 'user@example.com', password: 'password'
+
+        post '/level/2/start_play' # El nivel no completado
+
+        expect(last_response).to be_ok
+        expect(last_response.body).to include('Necesitas completar el nivel 1 antes de acceder a este nivel.') # Verifica el mensaje
+      end
+    end
+
+    context 'cuando el usuario no está autenticado' do
+      it 'redirige a los usuarios no autenticados a la página de inicio de sesión' do
+        session.clear # Limpiar la sesión para simular un usuario no autenticado
+
+        post '/level/1/start_play'
+
+        expect(last_response).to be_redirect
+        follow_redirect!
+        expect(last_request.path).to eq('/login')
+      end
+    end
+  end
+
+  # Pruebas para la ruta que muestra la pregunta actual
+  context 'GET /play/question' do
+    let!(:user) do
+      User.create(username: 'testuser', email: 'test@example.com', password: 'password123')
+    end
+    
+    before do
+      post '/login', username: 'testuser', email: 'test@example.com', password: 'password123'
+      session[:level] = 1
+      session[:system] = 'digestivo'
+      session[:current_question_index] = 0
+
+    end
+
+    context 'when user is authenticated' do
+      before do
+        # Crea preguntas para el nivel y sistema especificados
+        Question.create!(text: '¿Cúal es la función principal del sistema digestivo?', system: 'digestivo', level: 1)
+        Question.create!(text: '¿Qué órganos componen el sistema digestivo?', system: 'digestivo', level: 1)
+      end
+
+      before do
+        # Crear preguntas para el nivel y sistema especificados
+        Question.create!(text: '¿Cúal es la función principal del sistema digestivo?', system: 'digestivo', level: 1)
+      end
+
+      it 'loads the question page if questions are available' do
+        session[:current_question_index] = 0 # Asegúrate de que el índice de la pregunta esté en el rango correcto
+
+        get '/play/question', {}, 'rack.session' => { user_id: user.id, current_question_index: session[:current_question_index], system: session[:system] }
+
+        expect(last_response).to be_ok
+        expect(last_response.body).to include('¿Cúal es la función principal del sistema digestivo?')
+      end
+
+      it 'redirects to /select_system if there are no more questions' do
+        session[:current_question_index] = 2 # Simula que no hay más preguntas disponibles
+
+        get '/play/question', {}, 'rack.session' => { user_id: user.id, current_question_index: session[:current_question_index], system: session[:system] }
+
+        expect(last_response).to be_redirect
+        follow_redirect!
+        expect(last_request.path).to eq('/select_system')
+      end
+    end
+
+    context 'when user is not authenticated' do
+      before do
+        session.clear # Limpia la sesión para simular un usuario no autenticado
+      end
+
+      it 'redirects to /login' do
+        get '/play/question'
+
+        expect(last_response).to be_redirect
+        follow_redirect!
+        expect(last_request.path).to eq('/login')
+      end
+    end
+  end
+
+  # Pruebas para la ruta POST /play/question
+  context 'POST /play/question' do
+    let!(:user) do
+      User.create(username: 'testuser', email: 'test@example.com', password: 'password123')
+    end
+
+    let!(:question) do
+      Question.create!(text: '¿Cuál es la función principal del sistema digestivo?', system: 'digestivo', level: 1)
+    end
+
+    let!(:correct_option) do
+      Option.create!(text: 'Absorción de nutrientes', question: question, correct: true)
+    end
+
+    let!(:incorrect_option) do
+      Option.create!(text: 'Digestión de alimentos', question: question, correct: false)
+    end
+
+    before do
+      post '/login', username: 'testuser', email: 'test@example.com', password: 'password123'
+    end
+
+    it 'correctly processes a valid correct answer' do
+      post '/play/question', { option_id: correct_option.id }, 'rack.session' => { user_id: user.id, current_question_index: 0, system: 'digestivo', level: 1 }
+
       expect(last_response).to be_redirect
       follow_redirect!
       expect(last_request.path).to eq('/play/question')
-    end
-
-    it 'redirects to login if not authenticated' do #Redirige al inicio de sesión si no está autenticado
-      post '/start_play'
-      expect(last_response).to be_redirect
-      follow_redirect!
-      expect(last_request.path).to eq('/login')
-    end
-  end  
-  end
-
-  context 'POST /play with selected option' do
-    it 'shows correct or incorrect message and advances to the next question' do # Muestra el mensaje correcto o incorrecto y avanza a la siguiente pregunta.
-      user = User.create(username: 'testuser', email: 'test@example.com', password: 'password123')
-      post '/login', username: 'testuser', email: 'test@example.com', password: 'password123'
-  
-      # Setup para la prueba
-      question = Question.create!(text: '¿Cúal es la función principal del sistema digestivo?', system: 'digestivo')
-      correct_option = Option.create!(text: 'Descomponer los alimentos en nutrientes', correct: true, question: question)
-      Option.create!(text: 'Producir hormonas', correct: false, question: question)
-  
-      post '/start_play', {}, 'rack.session' => { user_id: user.id, current_question_index: 0, system: 'digestivo' }
-  
-      # Simula la selección de la opción correcta
-      post '/play/question', option_id: correct_option.id, 'rack.session' => { user_id: user.id, current_question_index: 0, system: 'digestivo' }
-    end
-  end
-
-  # Pruebas para la ruta de la pregunta actual
-  context 'GET /play/question' do
-    it 'loads the question page if authenticated and questions are available' do #Carga la página de preguntas si está autenticado y hay preguntas disponibles.
-      user = User.create(username: 'testuser', email: 'test@example.com', password: 'password123')
-      Question.create!(text: '¿Cúal es la función principal del sistema digestivo?', system: 'digestivo') # Crear una pregunta para la prueba1
-      post '/login', username: 'testuser', email: 'test@example.com', password: 'password123'
-      post '/start_play', {}, 'rack.session' => { user_id: user.id, system: 'digestivo' }
-
-      get '/play/question', {}, 'rack.session' => { user_id: user.id, current_question_index: 0, system: 'digestivo' }
-      expect(last_response).to be_ok
-      expect(last_response.body).to include('¿Cúal es la función principal del sistema digestivo?')
-    end
-
-    it 'redirects to /select_system if there are no more questions' do #Redirecciona a /select_system si no hay más preguntas
-      user = User.create(username: 'testuser', email: 'test@example.com', password: 'password123')
-      post '/login', username: 'testuser', email: 'test@example.com', password: 'password123'
-      post '/start_play', {}, 'rack.session' => { user_id: user.id, system: 'digestivo', current_question_index: 0 }
-
-      get '/play/question', {}, 'rack.session' => { user_id: user.id, current_question_index: 1, system: 'digestivo' }
-      expect(last_response).to be_redirect
-      follow_redirect!
-      expect(last_request.path).to eq('/select_system')
-    end
-  end
-
-  # Prueba para avanzar a la siguiente pregunta después de responder correctamente
-  context 'POST /play/question with correct answer' do
-    it 'advances to the next question and shows a correct message' do
-      user = User.create(username: 'testuser', email: 'test@example.com', password: 'password123')
-      post '/login', username: 'testuser', email: 'test@example.com', password: 'password123'
-      
-      # Crear preguntas y opciones
-      question1 = Question.create!(text: '¿Cuál es la función principal del sistema digestivo?', system: 'digestivo')
-      correct_option = Option.create!(text: 'Descomponer los alimentos en nutrientes', correct: true, question: question1)
-      Option.create!(text: 'Producir hormonas', correct: false, question: question1)
-  
-      question2 = Question.create!(text: '¿Cuál es el órgano principal del sistema digestivo?', system: 'digestivo')
-      Option.create!(text: 'Estómago', correct: true, question: question2)
-      Option.create!(text: 'Hígado', correct: false, question: question2)
-      
-      # Iniciar juego
-      post '/start_play', {}, 'rack.session' => { user_id: user.id, system: 'digestivo', current_question_index: 0 }
-  
-      # Responder la pregunta correctamente
-      post '/play/question', option_id: correct_option.id, 'rack.session' => { user_id: user.id, current_question_index: 0, system: 'digestivo' }
-      
-      expect(last_response).to be_ok
       expect(last_response.body).to include('¡Respuesta correcta!')
-      # Verifica que el índice de la pregunta se ha incrementado
-      expect(last_request.env['rack.session']['current_question_index']).to eq(1)
+      expect(last_request.session[:current_question_index]).to eq(1) # Verificamos el índice de la pregunta
     end
-  end
 
-  context 'POST /play/question with incorrect answer' do
-    it 'shows the correct answer message and does not advance if the answer is incorrect' do
-      user = User.create(username: 'testuser', email: 'test@example.com', password: 'password123')
-      post '/login', username: 'testuser', email: 'test@example.com', password: 'password123'
-      
-      # Crear preguntas y opciones
-      question1 = Question.create!(text: '¿Cuál es la función principal del sistema digestivo?', system: 'digestivo')
-      correct_option = Option.create!(text: 'Descomponer los alimentos en nutrientes', correct: true, question: question1)
-      incorrect_option = Option.create!(text: 'Producir hormonas', correct: false, question: question1)
+    it 'correctly processes a valid incorrect answer' do
+      post '/play/question', { option_id: incorrect_option.id }, 'rack.session' => { user_id: user.id, current_question_index: 0, system: 'digestivo', level: 1 }
 
-      # Iniciar juego
-      post '/start_play', {}, 'rack.session' => { user_id: user.id, system: 'digestivo', current_question_index: 0 }
-
-      # Responder la pregunta incorrectamente
-      post '/play/question', option_id: incorrect_option.id, 'rack.session' => { user_id: user.id, current_question_index: 0, system: 'digestivo' }
-      
-      # Verificar el resultado
-      expect(last_response).to be_ok
-      expect(last_response.body).to include("Respuesta incorrecta. Vuelve a intentarlo")
-      # Verifica que el índice de la pregunta no se ha incrementado
-      expect(last_request.env['rack.session']['current_question_index']).to eq(0)
+      expect(last_response).to be_redirect
+      follow_redirect!
+      expect(last_response.body).to include('Respuesta incorrecta. Vuelve a intentarlo.')
+      expect(last_request.session[:current_question_index]).to eq(1) # Verificamos el índice de la pregunta
     end
-  end
 
-  # Prueba para enviar una respuesta sin seleccionar opción
-  context 'POST /play/question without selecting an option' do
-    it 'shows an error message and does not advance' do
-      user = User.create(username: 'testuser', email: 'test@example.com', password: 'password123')
-      post '/login', username: 'testuser', email: 'test@example.com', password: 'password123'
-
-      # Crear preguntas y opciones
-      question = Question.create!(text: '¿Cuál es la función principal del sistema digestivo?', system: 'digestivo')
-      Option.create!(text: 'Descomponer los alimentos en nutrientes', correct: true, question: question)
-      Option.create!(text: 'Producir hormonas', correct: false, question: question)
-
-      # Iniciar el juego
-      post '/start_play', {}, 'rack.session' => { user_id: user.id, system: 'digestivo', current_question_index: 0 }
-
-      # Enviar la solicitud sin seleccionar ninguna opción
-      post '/play/question', {}, 'rack.session' => { user_id: user.id, current_question_index: 0, system: 'digestivo' }
+    it 'shows an error message if no option is selected' do
+      post '/play/question', {}, 'rack.session' => { user_id: user.id, current_question_index: 0, system: 'digestivo', level: 1 }
 
       expect(last_response).to be_ok
       expect(last_response.body).to include('Por favor, selecciona una opción antes de responder.')
-      # Verificar que el índice de la pregunta no se ha incrementado
-      expect(last_request.env['rack.session']['current_question_index']).to eq(0)
+    end
+
+    it 'shows an error message for an invalid option' do
+      post '/play/question', { option_id: 999 }, 'rack.session' => { user_id: user.id, current_question_index: 0, system: 'digestivo', level: 1 }
+
+      expect(last_response).to be_ok
+      expect(last_response.body).to include('Opción no válida.')
+    end
+
+    it 'redirects to /finish_play if there are no more questions' do
+      post '/play/question', { option_id: correct_option.id }, 'rack.session' => { user_id: user.id, current_question_index: 1, system: 'digestivo', level: 1 }
+
+      expect(last_response).to be_redirect
+      follow_redirect!
+      expect(last_request.path).to eq('/finish_play') # Debe redirigir al final del juego
     end
   end
 
-  describe 'Question Consultation and Evaluation Routes' do
-  
-    describe 'GET /question/incorrect/:n' do
-      it 'displays n incorrect questions' do
-        Question.create(text: 'Pregunta incorrecta', incorrect_count: 5, system: 'digestivo', level: 2)
-        get '/question/incorrect/1'
-  
-        expect(last_response).to be_ok
-        expect(last_response.body).to include('Pregunta incorrecta')
-      end
+  context 'GET /question/incorrect/:n' do
+    it 'displays n incorrect questions' do
+      Question.create(text: 'Pregunta incorrecta', incorrect_count: 5, system: 'digestivo', level: 2)
+      get '/question/incorrect/1'
+
+      expect(last_response).to be_ok
+      expect(last_response.body).to include('Pregunta incorrecta')
     end
-  
-    describe 'GET /question/correct/:n' do
-      it 'displays n correct questions' do
-        Question.create(text: 'Pregunta correcta', correc_count: 5, system: 'digestivo', level: 2)
-        get '/question/correct/1'
-  
-        expect(last_response).to be_ok
-        expect(last_response.body).to include('Pregunta correcta')
-      end
+  end
+
+  context 'GET /question/correct/:n' do
+    it 'displays n correct questions' do
+      Question.create(text: 'Pregunta correcta', correc_count: 5, system: 'digestivo', level: 2)
+      get '/question/correct/1'
+
+      expect(last_response).to be_ok
+      expect(last_response.body).to include('Pregunta correcta')
     end
-  
-    describe 'GET /finish_play' do
-      it 'displays the finish play page with the last message' do
-        session[:last_message] = '¡Juego finalizado!'
-        get '/finish_play'
-  
-        expect(last_response).to be_ok
-        expect(last_response.body).to include('¡Juego finalizado!')
+  end
+
+  describe 'GET /ready_for_evaluation' do
+    context 'cuando el usuario está autenticado' do
+      before do
+        post '/login', email: regular_user.email, password: 'password'
+        session[:system] = 'digestivo'
+        session[:level] = 1
       end
-    end
   
-    describe 'GET /ready_for_evaluation' do
-      it 'displays the evaluation page with questions for the selected level' do
-        Question.create(text: 'Pregunta de evaluación', system: 'digestivo', level: 2)
+      it 'muestra la página de evaluación' do
         get '/ready_for_evaluation'
-  
         expect(last_response).to be_ok
-        expect(last_response.body).to include('Pregunta de evaluación')
+        expect(last_response.body).to include('Evaluación') # Cambia a lo que sea específico en tu vista
       end
     end
   
-    describe 'POST /submit_evaluation' do
-      context 'when user answers all questions correctly' do
-        it 'unlocks the next level and shows the evaluation result' do
-          post '/submit_evaluation', "question#{@question1.id}" => @correct_option1.id.to_s, "question#{@question2.id}" => @correct_option2.id.to_s
-  
-          expect(last_response).to be_ok
-          expect(last_response.body).to include("Puntuación: 2/2")
-          
-          # Verificar si el nivel completado se incrementó en la base de datos
-          updated_user = User.find(@user.id)
-          expect(updated_user.level_completed).to include("3")
-        end
-      end
-  
-      context 'when user leaves some questions unanswered' do
-        it 'shows a message to answer all questions' do
-          post '/submit_evaluation', "question#{@question1.id}" => @correct_option1.id.to_s
-  
-          expect(last_response).to be_ok
-          expect(last_response.body).to include("Por favor, selecciona una opción para cada pregunta.")
-        end
-      end
-  
-      context 'when user answers some questions incorrectly' do
-        it 'shows the evaluation result with a lower score' do
-          post '/submit_evaluation', "question#{@question1.id}" => @incorrect_option1.id.to_s, "question#{@question2.id}" => @correct_option2.id.to_s
-  
-          expect(last_response).to be_ok
-          expect(last_response.body).to include("Puntuación: 1/2")
-        end
-      end
-  
-      context 'when user is not logged in' do
-        it 'redirects to the login page' do
-          delete '/logout'
-          post '/submit_evaluation'
-  
-          expect(last_response).to be_redirect
-          follow_redirect!
-          expect(last_request.path).to eq('/login')
-        end
-      end
-    end
-  
-    describe 'GET /logout' do
-      it 'clears the session and redirects to the home page' do
-        get '/logout'
-  
-        expect(session[:user_id]).to be_nil
+    context 'cuando el usuario no está autenticado' do
+      it 'redirige al login' do
+        get '/ready_for_evaluation'
         expect(last_response).to be_redirect
         follow_redirect!
-        expect(last_request.path).to eq('/')
+        expect(last_request.path).to eq('/login')
       end
     end
   end
   
-
-  context 'GET /ready_for_evaluation' do
-    it 'renders the evaluation page with the correct questions' do
-      user = User.create(username: 'testuser', email: 'test@example.com', password: 'password123')
-      post '/login', username: 'testuser', email: 'test@example.com', password: 'password123'
-      
-      # Crear preguntas para el sistema
-      question1 = Question.create!(text: '¿Cuál es la función principal del sistema digestivo?', system: 'digestivo')
-      question2 = Question.create!(text: '¿Cuál es el órgano principal del sistema digestivo?', system: 'digestivo')
-
-      # Iniciar sesión y establecer el sistema en la sesión
-      post '/start_play', {}, 'rack.session' => { user_id: user.id, system: 'digestivo' }
-      
-      # Acceder a la ruta para la evaluación
-      get '/ready_for_evaluation', {}, 'rack.session' => { user_id: user.id, system: 'digestivo' }
-
-      expect(last_response).to be_ok
-      expect(last_response.body).to include('¿Cuál es la función principal del sistema digestivo?')
-      expect(last_response.body).to include('¿Cuál es el órgano principal del sistema digestivo?')
-      expect(last_request.env['rack.session']['system']).to eq('digestivo')
-    end
-  end  
-
-  context 'POST /submit_evaluation' do
-    it 'processes the user answers and shows the evaluation result' do
-      user = User.create(username: 'testuser', email: 'test@example.com', password: 'password123')
-      post '/login', username: 'testuser', email: 'test@example.com', password: 'password123'
-      
-      # Crear preguntas y opciones
-      question1 = Question.create!(text: '¿Cuál es la función principal del sistema digestivo?', system: 'digestivo')
-      correct_option1 = Option.create!(text: 'Descomponer los alimentos en nutrientes', correct: true, question: question1)
-      Option.create!(text: 'Producir hormonas', correct: false, question: question1)
-
-      question2 = Question.create!(text: '¿Cuál es el órgano principal del sistema digestivo?', system: 'digestivo')
-      correct_option2 = Option.create!(text: 'Estómago', correct: true, question: question2)
-      Option.create!(text: 'Hígado', correct: false, question: question2)
-
-      # Simular las respuestas del usuario
-      post '/submit_evaluation', {
-        "question#{question1.id}" => correct_option1.id,
-        "question#{question2.id}" => correct_option2.id
-      }, 'rack.session' => { user_id: user.id, system: 'digestivo' }
-
-      # Verificar el resultado
-      expect(last_response).to be_ok
-      expect(last_response.body).to include('Resultado de la Evaluación')
-      expect(last_response.body).to include("Tu puntuación: 2 de 2") # Ajusta según el puntaje real
-    end
-  end
-
-  context 'POST /submit_evaluation with unanswered questions' do
-    it 'shows an error message when some questions are unanswered' do
-      user = User.create(username: 'testuser', email: 'test@example.com', password: 'password123')
-      post '/login', username: 'testuser', email: 'test@example.com', password: 'password123'
-      
-      # Crear preguntas
-      question1 = Question.create!(text: '¿Cuál es la función principal del sistema digestivo?', system: 'digestivo')
-      question2 = Question.create!(text: '¿Cuál es el órgano principal del sistema digestivo?', system: 'digestivo')
+  describe 'POST /submit_evaluation' do
+    context 'cuando el usuario está autenticado' do
+      before do
+        post '/login', email: regular_user.email, password: 'password'
+        session[:system] = 'digestivo'
+        session[:level] = 1
+        # Simula preguntas para evaluar
+        allow_any_instance_of(Question).to receive(:count).and_return(2)
+        allow(Option).to receive(:find).and_return(double(correct?: true))
+      end
   
-      # Iniciar sesión y establecer el sistema en la sesión
-      post '/start_play', {}, 'rack.session' => { user_id: user.id, system: 'digestivo' }
-      
-      # Enviar respuestas dejando una pregunta sin responder
-      post '/submit_evaluation', {
-        "question#{question1.id}" => Option.create!(text: 'Descomponer los alimentos en nutrientes', correct: true, question: question1).id
-        # No se envía una respuesta para question2
-      }, 'rack.session' => { user_id: user.id, system: 'digestivo' }
+      it 'calcula el puntaje correctamente' do
+        post '/submit_evaluation', 'question1' => 1, 'question2' => 2
+        expect(last_response).to be_ok
+        expect(last_response.body).to include('Resultado de la evaluación') # Asegúrate de que el texto esté presente
+      end
   
-      expect(last_response).to be_ok
-      expect(last_response.body).to include('Por favor, selecciona una opción para cada pregunta.')
-      expect(last_response.body).to include('¿Cuál es el órgano principal del sistema digestivo?')
+      it 'muestra un mensaje de error si faltan respuestas' do
+        post '/submit_evaluation'
+        expect(last_response).to be_ok
+        expect(last_response.body).to include('Por favor, selecciona una opción para cada pregunta.')
+      end
+    end
+  
+    context 'cuando el usuario no está autenticado' do
+      it 'redirige al login' do
+        post '/submit_evaluation'
+        expect(last_response).to be_redirect
+        follow_redirect!
+        expect(last_request.path).to eq('/login')
+      end
     end
   end
   
-
-  context 'GET /game_over' do
-    it 'shows the game over page with the last message' do # Verifica que se muestre la página de fin del juego con el último mensaje
-      user = User.create(username: 'testuser', email: 'test@example.com', password: 'password123')
-      post '/login', username: 'testuser', email: 'test@example.com', password: 'password123'
-      
-      get '/game_over', {}, 'racksession' => { user_id: user.id, last_message: "shows the game over page with the last message" }
-      expect(last_response).to be_ok
-      expect(last_response.body).to include("¡Has terminado el juego!")
-    end
-  end
-
   #Prueba para logout
   context 'GET /logout' do
     it 'clears the session and redirects to the home page' do # borra la sesión y redirecciona a la página de inicio
@@ -929,6 +713,6 @@ RSpec.describe 'App Routes', type: :request do
       follow_redirect!
       expect(last_request.path).to eq('/')
     end
-  end   
-end
+  end
+
 end

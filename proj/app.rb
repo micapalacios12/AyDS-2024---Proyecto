@@ -1,12 +1,9 @@
 require 'sinatra'
 require 'sinatra/activerecord'
 require 'bcrypt'
-
-#Carga de modelos necesarios
 require './models/user'
 require './models/question'
 require './models/option'
-
 
 enable :sessions #Habilita uso de sesiones 
 set :database_file, './config/database.yml'
@@ -111,9 +108,6 @@ post '/admin/consultas/resultado' do
   erb :result_consultas
 end
 
-
-
-
 # Página de login
 get '/login' do
   erb :login
@@ -167,7 +161,6 @@ post '/register' do
   end
 end
 
-
 # Mostrar la página de perfil
 get '/profile' do
   @user = current_user #usuario actual
@@ -213,7 +206,7 @@ post '/configuracion' do
   if @user.save
     redirect '/profile'  # Redirigir de nuevo al perfil o a otra página
   else
-    erb :configuracion  # Volver a la vista de configuración en caso de error
+    erb :configuracion # Volver a la vista de configuración en caso de error
   end
 end
 
@@ -241,7 +234,6 @@ get '/select_level/:system' do
     redirect '/login'
   end
 end
-
 
 # Ruta para mostrar la leccion del nivel seleccionado
 get '/lesson/:system/:level' do
@@ -271,13 +263,7 @@ post '/level/:level/start_play' do
     @user = User.find(session[:user_id])
     @system = session[:system]
     @level = params[:level].to_i
-
-    puts "User Level Completed: #{@user.level_completed}"
-
     current_level_completed = get_level(@user, @system)
-    puts "Nivel solicitado: #{@level}"
-    puts "Nivel completado actual: #{current_level_completed}"
-
 
     if @level <= current_level_completed
       session[:level] = @level
@@ -291,7 +277,6 @@ post '/level/:level/start_play' do
     redirect '/login'
   end
 end
-
 
 # Ruta para mostrar la pregunta actual y manejar la respuesta del usuario
 get '/play/question' do
@@ -372,16 +357,12 @@ end
 get '/question/incorrect/:n' do
   n = params[:n].to_i
   @questions_incorrectas = Question.listar_preguntas_incorrectas(n)
-  erb :questions_incorrectas
 end
 
 get '/question/correct/:n' do
   n = params[:n].to_i
   @questions_correctas = Question.listar_preguntas_correctas(n)
-  erb :questions_correctas
 end
-
-
 
 get '/finish_play' do
   @system = session[:system]
@@ -446,7 +427,6 @@ post '/submit_evaluation' do
   end
 end
 
-
 # Cerrar sesión
 get '/logout' do
   session.clear
@@ -454,17 +434,14 @@ get '/logout' do
 end
 
 helpers do
-
   #Método para obtener el usuario actual
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
   end
   
-  
   def get_questions_for_level(system, level)
     Question.where(system: system, level: level)
   end
-
 
   # Obtiene el nivel actual del usuario para un sistema específico
   def get_level(user, system)
@@ -473,7 +450,6 @@ helpers do
     current_system_index = systems_list.index(system)
     
     if current_system_index && current_system_index < user_levels.size
-      puts "Nivel completado: #{user_levels[current_system_index]}"
       user_levels[current_system_index]
     else
       1 # Nivel predeterminado
