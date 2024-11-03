@@ -659,23 +659,34 @@ RSpec.describe 'App Routes', type: :request do
   
   describe 'POST /submit_evaluation' do
     context 'cuando el usuario está autenticado' do
+      let(:user) { regular_user } # Asegúrate de tener un usuario regular creado
+  
       before do
-        post '/login', email: regular_user.email, password: 'password'
-        session[:system] = 'digestivo'
-        session[:level] = 1
+        # Inicia sesión para el usuario regular
+        post '/login', email: user.email, password: 'password'
+        # Configura la sesión en el rack.session en lugar de usar session directamente
+        @session = { user_id: user.id, system: 'digestivo', level: 1 }
+  
         # Simula preguntas para evaluar
         allow_any_instance_of(Question).to receive(:count).and_return(2)
         allow(Option).to receive(:find).and_return(double(correct?: true))
       end
   
       it 'calcula el puntaje correctamente' do
-        post '/submit_evaluation', 'question1' => 1, 'question2' => 2
+        # Envía respuestas válidas
+        post '/submit_evaluation', {
+          'question1' => 1, # Respuesta correcta para la primera pregunta
+          'question2' => 2  # Respuesta correcta para la segunda pregunta
+        }, 'rack.session' => @session # Usa rack.session para la configuración de la sesión
+  
         expect(last_response).to be_ok
         expect(last_response.body).to include('Resultado de la evaluación') # Asegúrate de que el texto esté presente
       end
   
       it 'muestra un mensaje de error si faltan respuestas' do
-        post '/submit_evaluation'
+        # Envía sin respuestas para que se muestre el mensaje de error
+        post '/submit_evaluation', {}, 'rack.session' => @session # Usa rack.session para la configuración de la sesión
+  
         expect(last_response).to be_ok
         expect(last_response.body).to include('Por favor, selecciona una opción para cada pregunta.')
       end
@@ -690,6 +701,9 @@ RSpec.describe 'App Routes', type: :request do
       end
     end
   end
+  
+  
+  
   
   #Prueba para logout
   context 'GET /logout' do

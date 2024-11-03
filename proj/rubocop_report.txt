@@ -1,0 +1,39 @@
+
+480   Layout/SpaceInsideHashLiteralBraces[33m [Safe Correctable][0m
+183   Layout/TrailingWhitespace[33m [Safe Correctable][0m
+127   Style/StringLiterals[33m [Safe Correctable][0m
+120   Layout/FirstArrayElementIndentation[33m [Safe Correctable][0m
+92    Layout/LineLength[33m [Safe Correctable][0m
+48    Layout/LeadingCommentSpace[33m [Safe Correctable][0m
+26    Layout/IndentationConsistency[33m [Safe Correctable][0m
+26    Style/FrozenStringLiteralComment[33m [Unsafe Correctable][0m
+21    Layout/EmptyLines[33m [Safe Correctable][0m
+19    Metrics/BlockLength
+11    Style/Documentation
+7     Layout/ExtraSpacing[33m [Safe Correctable][0m
+6     Lint/UselessAssignment[33m [Safe Correctable][0m
+5     Layout/BlockAlignment[33m [Safe Correctable][0m
+4     Bundler/OrderedGems[33m [Safe Correctable][0m
+4     Layout/IndentationWidth[33m [Safe Correctable][0m
+4     Layout/TrailingEmptyLines[33m [Safe Correctable][0m
+3     Metrics/BlockNesting
+3     Style/IfUnlessModifier[33m [Safe Correctable][0m
+3     Style/SafeNavigation[33m [Unsafe Correctable][0m
+2     Layout/EmptyLineBetweenDefs[33m [Safe Correctable][0m
+2     Layout/EmptyLinesAroundBlockBody[33m [Safe Correctable][0m
+2     Layout/HashAlignment[33m [Safe Correctable][0m
+2     Lint/AmbiguousBlockAssociation[33m [Safe Correctable][0m
+2     Style/WordArray[33m [Safe Correctable][0m
+1     Layout/CommentIndentation[33m [Safe Correctable][0m
+1     Layout/EmptyLinesAroundClassBody[33m [Safe Correctable][0m
+1     Layout/LeadingEmptyLines[33m [Safe Correctable][0m
+1     Style/CaseLikeIf[33m [Unsafe Correctable][0m
+1     Style/ExpandPathArguments[33m [Safe Correctable][0m
+1     Style/GuardClause[33m [Safe Correctable][0m
+1     Style/MutableConstant[33m [Unsafe Correctable][0m
+1     Style/NumericLiterals[33m [Safe Correctable][0m
+1     Style/RedundantSelf[33m [Safe Correctable][0m
+1     Style/SoleNestedConditional[33m [Safe Correctable][0m
+--
+1212  Total in 26 files
+

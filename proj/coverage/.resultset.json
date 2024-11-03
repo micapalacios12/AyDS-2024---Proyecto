@@ -1,7 +1,7 @@
 {
   "RSpec": {
     "coverage": {
-      "/home/mary/Documentos/AyDS/AyDS-2024---Proyecto/proj/app.rb": {
+      "/home/micapalacios/1. UNRC/CURSADA 2024/3. INGENIERIA DE SOFTWARE/TALLER/AyDS-2024---Proyecto/proj/app.rb": {
         "lines": [
           1,
           1,
@@ -386,8 +386,29 @@
           null,
           null,
           1,
-          1,
+          3,
+          2,
+          2,
+          2,
+          null,
+          null,
+          2,
+          null,
+          null,
+          2,
+          2,
+          null,
+          null,
+          2,
           0,
+          null,
+          null,
+          2,
+          0,
+          0,
+          null,
+          null,
+          2,
           0,
           0,
           null,
@@ -395,37 +416,16 @@
           0,
           null,
           null,
-          0,
-          0,
           null,
-          null,
-          0,
-          0,
-          null,
-          null,
-          0,
-          0,
-          0,
-          null,
-          null,
-          0,
-          0,
-          0,
-          null,
-          null,
-          0,
-          null,
-          null,
-          null,
-          0,
-          0,
-          0,
-          0,
+          2,
+          2,
+          2,
+          2,
           null,
           null,
           null,
           null,
-          0,
+          2,
           null,
           null,
           1,
@@ -445,17 +445,17 @@
           null,
           null,
           1,
-          8,
+          10,
           null,
           null,
           null,
           1,
-          3,
-          3,
-          3,
+          5,
+          5,
+          5,
           null,
+          5,
           3,
-          1,
           null,
           2,
           null,
@@ -463,19 +463,19 @@
           null,
           null,
           1,
-          0,
-          0,
-          0,
+          2,
+          2,
+          2,
           null,
-          0,
-          0,
-          0,
+          2,
+          2,
+          2,
           null,
           null,
           null
         ]
       },
-      "/home/mary/Documentos/AyDS/AyDS-2024---Proyecto/proj/models/user.rb": {
+      "/home/micapalacios/1. UNRC/CURSADA 2024/3. INGENIERIA DE SOFTWARE/TALLER/AyDS-2024---Proyecto/proj/models/user.rb": {
         "lines": [
           null,
           1,
@@ -525,7 +525,7 @@
           null
         ]
       },
-      "/home/mary/Documentos/AyDS/AyDS-2024---Proyecto/proj/models/question.rb": {
+      "/home/micapalacios/1. UNRC/CURSADA 2024/3. INGENIERIA DE SOFTWARE/TALLER/AyDS-2024---Proyecto/proj/models/question.rb": {
         "lines": [
           1,
           null,
@@ -554,7 +554,7 @@
           null
         ]
       },
-      "/home/mary/Documentos/AyDS/AyDS-2024---Proyecto/proj/models/option.rb": {
+      "/home/micapalacios/1. UNRC/CURSADA 2024/3. INGENIERIA DE SOFTWARE/TALLER/AyDS-2024---Proyecto/proj/models/option.rb": {
         "lines": [
           1,
           null,
@@ -589,6 +589,6 @@
         ]
       }
     },
-    "timestamp": 1730664757
+    "timestamp": 1730677127
   }
 }
