@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'sinatra'
 require 'sinatra/activerecord'
 require 'bcrypt'
@@ -5,7 +7,7 @@ require './models/user'
 require './models/question'
 require './models/option'
 
-enable :sessions #Habilita uso de sesiones 
+enable :sessions # Habilita uso de sesiones
 set :database_file, './config/database.yml'
 
 # Página principal
@@ -32,7 +34,7 @@ post '/admin/login' do
   user = User.find_by(email: email)
 
   # Verifica si el usuario existe, la contraseña es correcta y es admin
-  if user && user.authenticate(password) && user.role == 'admin'
+  if user&.authenticate(password) && user.role == 'admin'
     session[:user_id] = user.id
     redirect '/admin/dashboard'
   else
@@ -90,7 +92,7 @@ post '/admin/consultas/resultado' do
   cantidad = params[:cantidad].to_i
   veces = params[:veces].to_i
   tipo = params[:tipo] # 'correctas' o 'incorrectas'
-    
+
   if tipo == 'correctas'
     @questions = Question.listar_correctas(cantidad, veces)
     @mostrar_correctas = true
@@ -117,9 +119,9 @@ post '/login' do
   email = params[:email]
   password = params[:password]
 
-  user = User.find_by(email: email) #Busca el usuario por su mail
+  user = User.find_by(email: email) # Busca el usuario por su mail
 
-  if user && user.authenticate(password)
+  if user&.authenticate(password)
     session[:user_id] = user.id
     redirect '/select_system'
   else
@@ -145,9 +147,7 @@ post '/register' do
   end
 
   # Validar coincidencia de contraseñas
-  if password != password_confirmation
-    return erb :register, locals: { message: 'Passwords do not match.' }
-  end
+  return erb :register, locals: { message: 'Passwords do not match.' } if password != password_confirmation
 
   # Crear el nuevo usuario
   user = User.new(names: names, username: username, email: email, password: password)
@@ -163,7 +163,7 @@ end
 
 # Mostrar la página de perfil
 get '/profile' do
-  @user = current_user #usuario actual
+  @user = current_user # usuario actual
   erb :profile
 end
 
@@ -171,16 +171,16 @@ end
 post '/update_profile' do
   user = current_user
   user.update(
-    names: params[:name],  
-    password: params[:password], 
+    names: params[:name],
+    password: params[:password],
     avatar: params[:avatar]
   )
   redirect '/profile'
 end
 
-#Pagina de configuracion
+# Pagina de configuracion
 get '/configuracion' do
-  @user = current_user 
+  @user = current_user
   erb :configuracion
 end
 
@@ -188,9 +188,7 @@ post '/configuracion' do
   @user = current_user
 
   # Actualizar el avatar si se selecciona uno
-  if params[:avatar].present?
-    @user.avatar = params[:avatar]
-  end
+  @user.avatar = params[:avatar] if params[:avatar].present?
 
   # Actualizar el nombre, username, email
   @user.names = params[:names] if params[:names].present?
@@ -204,7 +202,7 @@ post '/configuracion' do
 
   # Guardar los cambios
   if @user.save
-    redirect '/profile'  # Redirigir de nuevo al perfil o a otra página
+    redirect '/profile' # Redirigir de nuevo al perfil o a otra página
   else
     erb :configuracion # Volver a la vista de configuración en caso de error
   end
@@ -242,20 +240,20 @@ get '/lesson/:system/:level' do
     session[:system] = @system
     @level = params[:level].to_i
 
-    #Verificar el nivel y cargar la vista adecuada
+    # Verificar el nivel y cargar la vista adecuada
     #
-    if @level == 1
+    case @level
+    when 1
       erb :lesson
-    elsif @level == 2
+    when 2
       erb :lesson_level2
-    elsif @level == 3
+    when 3
       erb :lesson_level3
-    else 
+    else
       erb :select_system
     end
-  end  
+  end
 end
-
 
 # Ruta para iniciar el juego desde la lección
 post '/level/:level/start_play' do
@@ -284,9 +282,8 @@ get '/play/question' do
     @level = session[:level]
     @system = session[:system]
     @current_question_index = session[:current_question_index] || 0
-    
+
     @questions = get_questions_for_level(@system, @level)
-    
 
     if @current_question_index < @questions.count
       @current_question = @questions[@current_question_index]
@@ -305,35 +302,35 @@ post '/play/question' do
   @current_question_index = session[:current_question_index]
 
   @questions = get_questions_for_level(@system, @level)
-  
+
   if @current_question_index < @questions.count
     @current_question = @questions[@current_question_index]
 
     # Verificar si se ha seleccionado una opción
     if params[:option_id].nil? || params[:option_id].empty?
-      @message = "Por favor, selecciona una opción antes de responder."
+      @message = 'Por favor, selecciona una opción antes de responder.'
       erb :play, locals: { message: @message }
     else
       selected_option_id = params[:option_id].to_i
       selected_option = Option.find_by(id: selected_option_id)
-       
+
       if selected_option
-        #@correct_option = @current_question.options.find_by(correct: true)
+        # @correct_option = @current_question.options.find_by(correct: true)
 
         if selected_option.correct?
-        #Verificar si la opcion seleccionada es la correcta
-          @message = "¡Respuesta correcta!"
+          # Verificar si la opcion seleccionada es la correcta
+          @message = '¡Respuesta correcta!'
           session[:current_question_index] += 1 # Avanzar al siguiente índice
-          
-          #Actualiza el contador de respuestas correctas en la pregunta
+
+          # Actualiza el contador de respuestas correctas en la pregunta
           @current_question.increment(:correc_count)
         else
-          @message = "Respuesta incorrecta. Vuelve a intentarlo."
-          #Actualiza el contador de respuestas correctas en la pregunta
+          @message = 'Respuesta incorrecta. Vuelve a intentarlo.'
+          # Actualiza el contador de respuestas correctas en la pregunta
           @current_question.increment(:incorrect_count)
         end
 
-        #Guarda los cambios en la pregunta
+        # Guarda los cambios en la pregunta
         @current_question.save
 
         session[:last_message] = @message # Guardar el mensaje en la sesión
@@ -344,7 +341,7 @@ post '/play/question' do
           redirect '/finish_play' # Redirigir al final del juego
         end
       else
-        @message = "Opción no válida."
+        @message = 'Opción no válida.'
         erb :play, locals: { message: @message }
       end
     end
@@ -353,7 +350,7 @@ post '/play/question' do
   end
 end
 
-#Rutas para consultas de preguntas
+# Rutas para consultas de preguntas
 get '/question/incorrect/:n' do
   n = params[:n].to_i
   @questions_incorrectas = Question.listar_preguntas_incorrectas(n)
@@ -366,17 +363,16 @@ end
 
 get '/finish_play' do
   @system = session[:system]
-  @last_message = session[:last_message] #Recuperar el mensaje de las sesion
+  @last_message = session[:last_message] # Recuperar el mensaje de las sesion
   erb :finish_play
 end
 
-#Ruta para preparar la evaluacion
+# Ruta para preparar la evaluacion
 get '/ready_for_evaluation' do
   @system = session[:system]
   @level = session[:level]
   @questions = get_questions_for_level(@system, @level)
   erb :evaluation
-
 end
 
 # Ruta para procesar las respuestas del usuario y mostrar el resultado de la evaluación
@@ -399,7 +395,7 @@ post '/submit_evaluation' do
     end
 
     if @unanswered_questions.any?
-      @message = "Por favor, selecciona una opción para cada pregunta."
+      @message = 'Por favor, selecciona una opción para cada pregunta.'
       erb :evaluation, locals: { message: @message, questions: @questions }
     else
       # Calcular el puntaje
@@ -408,15 +404,13 @@ post '/submit_evaluation' do
         selected_option = Option.find(selected_option_id)
 
         # Incrementar el puntaje si la respuesta seleccionada es correcta
-        @score += 1 if selected_option && selected_option.correct?
+        @score += 1 if selected_option&.correct?
       end
 
       # Si el usuario ha respondido correctamente todas las preguntas, desbloquear el siguiente nivel
-      if @score == total_questions
-        if session[:level].to_i == current_level
-          next_level = [current_level + 1, 3].min # Asegurarse de que no exceda el nivel máximo
-          update_level(@user, @system, next_level)
-        end
+      if @score == total_questions && session[:level].to_i == (current_level)
+        next_level = [current_level + 1, 3].min # Asegurarse de que no exceda el nivel máximo
+        update_level(@user, @system, next_level)
       end
 
       # Mostrar la vista de resultado de la evaluación
@@ -434,21 +428,21 @@ get '/logout' do
 end
 
 helpers do
-  #Método para obtener el usuario actual
+  # Método para obtener el usuario actual
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
   end
-  
+
   def get_questions_for_level(system, level)
     Question.where(system: system, level: level)
   end
 
   # Obtiene el nivel actual del usuario para un sistema específico
   def get_level(user, system)
-    systems_list = ['digestivo', 'respiratorio', 'circulatorio', 'reproductor']
+    systems_list = %w[digestivo respiratorio circulatorio reproductor]
     user_levels = user.level_completed.present? ? user.level_completed.split(',').map(&:to_i) : [0] * systems_list.size
     current_system_index = systems_list.index(system)
-    
+
     if current_system_index && current_system_index < user_levels.size
       user_levels[current_system_index]
     else
@@ -458,13 +452,13 @@ helpers do
 
   # Actualiza el nivel completado del usuario para un sistema específico
   def update_level(user, system, new_level)
-    systems_list = ['digestivo', 'respiratorio', 'circulatorio', 'reproductor']
+    systems_list = %w[digestivo respiratorio circulatorio reproductor]
     user_levels = user.level_completed.present? ? user.level_completed.split(',').map(&:to_i) : [0] * systems_list.size
     current_system_index = systems_list.index(system)
-    
-    if current_system_index
-      user_levels[current_system_index] = [new_level, 3].min # Limitar el nivel máximo a 3
-      user.update(level_completed: user_levels.join(','))
-    end
+
+    return unless current_system_index
+
+    user_levels[current_system_index] = [new_level, 3].min # Limitar el nivel máximo a 3
+    user.update(level_completed: user_levels.join(','))
   end
 end

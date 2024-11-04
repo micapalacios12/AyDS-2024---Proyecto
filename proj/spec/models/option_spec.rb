@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # spec/models/option_spec.rb
 require 'spec_helper'
 require './models/option'
@@ -14,7 +16,10 @@ RSpec.describe Option, type: :model do
   end
 
   # Configuración de pruebas: creación de una pregunta y opciones correctas e incorrectas
-  let(:question) { Question.create(system: 'Digestivo', text: '¿Cuál es la función principal del sistema digestivo?', level: 1, correc_count: 0, incorrect_count: 0) }
+  let(:question) do
+    Question.create(system: 'Digestivo', text: '¿Cuál es la función principal del sistema digestivo?', level: 1,
+                    correc_count: 0, incorrect_count: 0)
+  end
   let(:correct_option) { question.options.create(text: 'Correcta', correct: true) }
   let(:incorrect_option) { question.options.create(text: 'Incorrecta', correct: false) }
 
@@ -41,7 +46,7 @@ RSpec.describe Option, type: :model do
 
       it 'does not increment incorrect_count' do
         # Verifica que el contador de respuestas incorrectas no se incrementa
-        expect { correct_option.submit_answer(correct_option) }.not_to change { question.reload.incorrect_count }
+        expect { correct_option.submit_answer(correct_option) }.not_to(change { question.reload.incorrect_count })
       end
     end
 
@@ -53,14 +58,16 @@ RSpec.describe Option, type: :model do
 
       it 'does not increment correc_count' do
         # Verifica que el contador de respuestas correctas no se incrementa
-        expect { incorrect_option.submit_answer(incorrect_option) }.not_to change { question.reload.correc_count }
+        expect { incorrect_option.submit_answer(incorrect_option) }.not_to(change { question.reload.correc_count })
       end
     end
 
     context 'when submit_answer is called with an invalid user type' do
       it 'raises an error' do
         # Verifica que se lanza un error si se pasa un tipo de usuario no válido
-        expect { correct_option.submit_answer("string") }.to raise_error(ArgumentError, "user_answer debe ser una instancia de Option")
+        expect do
+          correct_option.submit_answer('string')
+        end.to raise_error(ArgumentError, 'user_answer debe ser una instancia de Option')
       end
     end
   end

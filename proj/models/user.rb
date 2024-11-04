@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 
 require 'bcrypt'
 
@@ -16,7 +17,7 @@ class User < ActiveRecord::Base
 
   validates :avatar, presence: true, allow_nil: true
 
-  ROLES = %w[admin user]
+  ROLES = %w[admin user].freeze
   # Validar el rol
   validates :role, inclusion: { in: ROLES }
 
@@ -33,7 +34,7 @@ class User < ActiveRecord::Base
     self.level_completed = levels.join(',')
     save
   end
-  
+
   # Métodos para comprobar el rol
   def admin?
     role == 'admin'
@@ -42,5 +43,4 @@ class User < ActiveRecord::Base
   def user?
     role == 'user'
   end
-
 end

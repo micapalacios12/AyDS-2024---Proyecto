@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # spec/models/question_spec.rb
 require 'spec_helper' # Carga la configuración de pruebas
 require './models/question' # Carga el modelo Question para realizar las pruebas
@@ -9,7 +11,10 @@ RSpec.describe Question, type: :model do
   end
 
   # Define una instancia válida de Question para utilizar en las pruebas
-  let(:valid_question) { Question.create!(system: 'Digestivo', text: '¿Cuál es la función principal del sistema digestivo?', level: 1, correc_count: 0, incorrect_count: 0) }
+  let(:valid_question) do
+    Question.create!(system: 'Digestivo', text: '¿Cuál es la función principal del sistema digestivo?', level: 1,
+                     correc_count: 0, incorrect_count: 0)
+  end
 
   # Pruebas de validaciones
   context 'validations' do
@@ -17,7 +22,7 @@ RSpec.describe Question, type: :model do
       question = Question.new(system: 'Digestivo', text: '¿Cuál es la función principal del sistema digestivo?')
       expect(question).not_to be_valid # Verifica que la pregunta no sea válida sin el atributo level
     end
-    
+
     it 'is valid with valid attributes' do
       expect(valid_question).to be_valid # Verifica que una pregunta con atributos válidos sea válida
     end
@@ -46,9 +51,11 @@ RSpec.describe Question, type: :model do
 
     it 'destroys associated options when destroyed' do
       question = valid_question
-      option1 = question.options.create!(text: 'Option 1')
-      option2 = question.options.create!(text: 'Option 2')
-      expect { question.destroy }.to change { Option.count }.by(-2) # Verifica que al eliminar la pregunta, también se eliminen sus opciones asociadas
+      question.options.create!(text: 'Option 1')
+      question.options.create!(text: 'Option 2')
+      expect { question.destroy }.to change {
+        Option.count
+      }.by(-2) # Verifica que al eliminar la pregunta, también se eliminen sus opciones asociadas
     end
 
     it 'can access correc_count' do
@@ -60,9 +67,15 @@ RSpec.describe Question, type: :model do
   # Pruebas de los métodos listar_incorrectas y listar_correctas
   context 'listar_incorrectas and listar_correctas methods' do
     # Crea tres preguntas con distintos valores de correc_count e incorrect_count para probar los métodos de listado
-    let!(:question1) { Question.create!(system: 'Digestivo', text: 'Pregunta 1', level: 1, correc_count: 2, incorrect_count: 3) }
-    let!(:question2) { Question.create!(system: 'Digestivo', text: 'Pregunta 2', level: 1, correc_count: 1, incorrect_count: 5) }
-    let!(:question3) { Question.create!(system: 'Digestivo', text: 'Pregunta 3', level: 1, correc_count: 5, incorrect_count: 1) }
+    let!(:question1) do
+      Question.create!(system: 'Digestivo', text: 'Pregunta 1', level: 1, correc_count: 2, incorrect_count: 3)
+    end
+    let!(:question2) do
+      Question.create!(system: 'Digestivo', text: 'Pregunta 2', level: 1, correc_count: 1, incorrect_count: 5)
+    end
+    let!(:question3) do
+      Question.create!(system: 'Digestivo', text: 'Pregunta 3', level: 1, correc_count: 5, incorrect_count: 1)
+    end
 
     # Prueba del método listar_incorrectas
     describe '.listar_incorrectas' do

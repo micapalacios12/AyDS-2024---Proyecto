@@ -366,8 +366,8 @@ TvFXMeuCkZPcaEBLqvgPBhCuiZo8+sAAAAAASUVORK5CYII=
     <div class="information">
       <div class="infobox">
         <div class="total">
-          26 files inspected,
-          77 offenses detected:
+          25 files inspected,
+          63 offenses detected:
         </div>
         <ul class="offenses-list">
 
@@ -450,13 +450,6 @@ TvFXMeuCkZPcaEBLqvgPBhCuiZo8+sAAAAAASUVORK5CYII=
 
 
             <li>
-              <a href="#offense_models/lesson.rb">
-                models/lesson.rb - 1 offense
-              </a>
-            </li>
-
-
-            <li>
               <a href="#offense_models/option.rb">
                 models/option.rb - 1 offense
               </a>
@@ -479,7 +472,7 @@ TvFXMeuCkZPcaEBLqvgPBhCuiZo8+sAAAAAASUVORK5CYII=
 
             <li>
               <a href="#offense_spec/app_spec.rb">
-                spec/app_spec.rb - 26 offenses
+                spec/app_spec.rb - 13 offenses
               </a>
             </li>
 
@@ -522,7 +515,7 @@ TvFXMeuCkZPcaEBLqvgPBhCuiZo8+sAAAAAASUVORK5CYII=
 
           <div class="report">
             <div class="meta">
-              <span class="location">Line #306</span> –
+              <span class="location">Line #299</span> –
               <span class="severity convention">convention:</span>
               <span class="message">Metrics/BlockLength: Block has too many lines. [36/25]</span>
             </div>
@@ -533,7 +526,7 @@ TvFXMeuCkZPcaEBLqvgPBhCuiZo8+sAAAAAASUVORK5CYII=
 
           <div class="report">
             <div class="meta">
-              <span class="location">Line #327</span> –
+              <span class="location">Line #320</span> –
               <span class="severity convention">convention:</span>
               <span class="message">Metrics/BlockNesting: Avoid more than 3 levels of block nesting.</span>
             </div>
@@ -544,7 +537,7 @@ TvFXMeuCkZPcaEBLqvgPBhCuiZo8+sAAAAAASUVORK5CYII=
 
           <div class="report">
             <div class="meta">
-              <span class="location">Line #345</span> –
+              <span class="location">Line #338</span> –
               <span class="severity convention">convention:</span>
               <span class="message">Metrics/BlockNesting: Avoid more than 3 levels of block nesting.</span>
             </div>
@@ -555,7 +548,7 @@ TvFXMeuCkZPcaEBLqvgPBhCuiZo8+sAAAAAASUVORK5CYII=
 
           <div class="report">
             <div class="meta">
-              <span class="location">Line #388</span> –
+              <span class="location">Line #379</span> –
               <span class="severity convention">convention:</span>
               <span class="message">Metrics/BlockLength: Block has too many lines. [28/25]</span>
             </div>
@@ -1065,27 +1058,6 @@ TvFXMeuCkZPcaEBLqvgPBhCuiZo8+sAAAAAASUVORK5CYII=
 
 
 
-      <div class="offense-box" id="offense_models/lesson.rb">
-        <div class="box-title-placeholder"><h3>&nbsp;</h3></div>
-        <div class="box-title"><h3>models/lesson.rb - 1 offense</h3></div>
-        <div class="offense-reports">
-
-          <div class="report">
-            <div class="meta">
-              <span class="location">Line #3</span> –
-              <span class="severity convention">convention:</span>
-              <span class="message">Style/Documentation: Missing top-level documentation comment for <code>class Lesson</code>.</span>
-            </div>
-
-            <pre><code><span class="highlight convention">class Lesson</span> &lt; ActiveRecord::Base</code></pre>
-
-          </div>
-
-        </div>
-      </div>
-
-
-
       <div class="offense-box" id="offense_models/option.rb">
         <div class="box-title-placeholder"><h3>&nbsp;</h3></div>
         <div class="box-title"><h3>models/option.rb - 1 offense</h3></div>
@@ -1151,14 +1123,14 @@ TvFXMeuCkZPcaEBLqvgPBhCuiZo8+sAAAAAASUVORK5CYII=
 
       <div class="offense-box" id="offense_spec/app_spec.rb">
         <div class="box-title-placeholder"><h3>&nbsp;</h3></div>
-        <div class="box-title"><h3>spec/app_spec.rb - 26 offenses</h3></div>
+        <div class="box-title"><h3>spec/app_spec.rb - 13 offenses</h3></div>
         <div class="offense-reports">
 
           <div class="report">
             <div class="meta">
               <span class="location">Line #7</span> –
               <span class="severity convention">convention:</span>
-              <span class="message">Metrics/BlockLength: Block has too many lines. [683/25]</span>
+              <span class="message">Metrics/BlockLength: Block has too many lines. [567/25]</span>
             </div>
 
             <pre><code><span class="highlight convention">RSpec.describe &#39;App Routes&#39;, type: :request do</span> <span class="extra-code">...</span></code></pre>
@@ -1167,276 +1139,133 @@ TvFXMeuCkZPcaEBLqvgPBhCuiZo8+sAAAAAASUVORK5CYII=
 
           <div class="report">
             <div class="meta">
-              <span class="location">Line #36</span> –
+              <span class="location">Line #205</span> –
               <span class="severity convention">convention:</span>
-              <span class="message">Layout/LineLength: Line is too long. [123/120]</span>
+              <span class="message">Layout/LineLength: Line is too long. [140/120]</span>
             </div>
 
-            <pre><code>      expect(last_response.body).to include(&#39;&lt;h1&gt;Bienvenido a &quot;AnatomyEasy&quot;&lt;/h1&gt;&#39;) # Ajusta el contenido según tu planti<span class="highlight convention">lla</span></code></pre>
+            <pre><code>        password: &#39;password123&#39; # Esto se almacenará como texto plano en el modelo (y luego será cifrado por el modelo U<span class="highlight convention">ser si es necesario)</span></code></pre>
 
           </div>
 
           <div class="report">
             <div class="meta">
-              <span class="location">Line #41</span> –
-              <span class="severity convention">convention:</span>
-              <span class="message">Metrics/BlockLength: Block has too many lines. [657/25]</span>
-            </div>
-
-            <pre><code>  <span class="highlight convention">context &#39;POST /admin/login&#39; do</span> <span class="extra-code">...</span></code></pre>
-
-          </div>
-
-          <div class="report">
-            <div class="meta">
-              <span class="location">Line #58</span> –
-              <span class="severity convention">convention:</span>
-              <span class="message">Layout/LineLength: Line is too long. [123/120]</span>
-            </div>
-
-            <pre><code>      expect(last_request.env[&#39;rack.session&#39;][:user_id]).to eq(@admin_user.id) # Verifica que la sesión se haya establec<span class="highlight convention">ido</span></code></pre>
-
-          </div>
-
-          <div class="report">
-            <div class="meta">
-              <span class="location">Line #88</span> –
-              <span class="severity convention">convention:</span>
-              <span class="message">Layout/LineLength: Line is too long. [128/120]</span>
-            </div>
-
-            <pre><code>        expect(last_response.body).to include(&#39;Bienvenido, Administrador&#39;) # Asegúrate de que &#39;admin_dashboard&#39; está en <span class="highlight convention">la vista</span></code></pre>
-
-          </div>
-
-          <div class="report">
-            <div class="meta">
-              <span class="location">Line #212</span> –
-              <span class="severity convention">convention:</span>
-              <span class="message">Layout/LineLength: Line is too long. [142/120]</span>
-            </div>
-
-            <pre><code>          password: &#39;password123&#39; # Esto se almacenará como texto plano en el modelo (y luego será cifrado por el modelo<span class="highlight convention"> User si es necesario)</span></code></pre>
-
-          </div>
-
-          <div class="report">
-            <div class="meta">
-              <span class="location">Line #245</span> –
+              <span class="location">Line #238</span> –
               <span class="severity convention">convention:</span>
               <span class="message">Metrics/BlockLength: Block has too many lines. [34/25]</span>
             </div>
 
-            <pre><code>    <span class="highlight convention">context &#39;POST /register&#39; do</span> <span class="extra-code">...</span></code></pre>
+            <pre><code>  <span class="highlight convention">context &#39;POST /register&#39; do</span> <span class="extra-code">...</span></code></pre>
 
           </div>
 
           <div class="report">
             <div class="meta">
-              <span class="location">Line #350</span> –
+              <span class="location">Line #376</span> –
               <span class="severity convention">convention:</span>
-              <span class="message">Metrics/BlockLength: Block has too many lines. [197/25]</span>
+              <span class="message">Layout/LineLength: Line is too long. [122/120]</span>
             </div>
 
-            <pre><code>    <span class="highlight convention">context &#39;Profile Update and Configuration&#39; do</span> <span class="extra-code">...</span></code></pre>
+            <pre><code>    it &#39;redirects to login if not authenticated&#39; do # Verifica que se redirija a la página de login si no está autentica<span class="highlight convention">do</span></code></pre>
 
           </div>
 
           <div class="report">
             <div class="meta">
-              <span class="location">Line #355</span> –
+              <span class="location">Line #383</span> –
               <span class="severity convention">convention:</span>
-              <span class="message">Layout/LineLength: Line is too long. [123/120]</span>
+              <span class="message">Layout/LineLength: Line is too long. [137/120]</span>
             </div>
 
-            <pre><code>          @user.reload # Recarga el usuario para obtener los datos actualizados        expect(last_response).to be_redir<span class="highlight convention">ect</span></code></pre>
+            <pre><code>    it &#39;loads the select system page if authenticated&#39; do # Verifica que se cargue la página de selección del sistema si<span class="highlight convention"> está autenticado</span></code></pre>
 
           </div>
 
           <div class="report">
             <div class="meta">
-              <span class="location">Line #374</span> –
-              <span class="severity convention">convention:</span>
-              <span class="message">Metrics/BlockLength: Block has too many lines. [27/25]</span>
-            </div>
-
-            <pre><code>      <span class="highlight convention">context &#39;POST /configuracion&#39; do</span> <span class="extra-code">...</span></code></pre>
-
-          </div>
-
-          <div class="report">
-            <div class="meta">
-              <span class="location">Line #377</span> –
-              <span class="severity convention">convention:</span>
-              <span class="message">Layout/LineLength: Line is too long. [123/120]</span>
-            </div>
-
-            <pre><code>                                 password: &#39;newpassword&#39;, password_confirmation: &#39;newpassword&#39;, avatar: &#39;config_avatar.p<span class="highlight convention">ng&#39;</span></code></pre>
-
-          </div>
-
-          <div class="report">
-            <div class="meta">
-              <span class="location">Line #396</span> –
-              <span class="severity convention">convention:</span>
-              <span class="message">Layout/LineLength: Line is too long. [123/120]</span>
-            </div>
-
-            <pre><code>          expect(last_response.body).to include(&#39;configuracion&#39;) # Asegúrate de que permanece en la página de configurac<span class="highlight convention">ión</span></code></pre>
-
-          </div>
-
-          <div class="report">
-            <div class="meta">
-              <span class="location">Line #431</span> –
-              <span class="severity convention">convention:</span>
-              <span class="message">Metrics/BlockLength: Block has too many lines. [47/25]</span>
-            </div>
-
-            <pre><code>      <span class="highlight convention">context &#39;Level Selection and Lesson Display&#39; do</span> <span class="extra-code">...</span></code></pre>
-
-          </div>
-
-          <div class="report">
-            <div class="meta">
-              <span class="location">Line #451</span> –
-              <span class="severity convention">convention:</span>
-              <span class="message">Metrics/BlockLength: Block has too many lines. [31/25]</span>
-            </div>
-
-            <pre><code>        <span class="highlight convention">context &#39;GET /lesson/:system/:level&#39; do</span> <span class="extra-code">...</span></code></pre>
-
-          </div>
-
-          <div class="report">
-            <div class="meta">
-              <span class="location">Line #496</span> –
-              <span class="severity convention">convention:</span>
-              <span class="message">Metrics/BlockLength: Block has too many lines. [68/25]</span>
-            </div>
-
-            <pre><code>      <span class="highlight convention">context &#39;Gameplay Routes&#39; do</span> <span class="extra-code">...</span></code></pre>
-
-          </div>
-
-          <div class="report">
-            <div class="meta">
-              <span class="location">Line #510</span> –
-              <span class="severity convention">convention:</span>
-              <span class="message">Layout/LineLength: Line is too long. [136/120]</span>
-            </div>
-
-            <pre><code>            expect(last_response.body).to include(&#39;Necesitas completar el nivel 1 antes de acceder a este nivel.&#39;) # Ver<span class="highlight convention">ifica el mensaje</span></code></pre>
-
-          </div>
-
-          <div class="report">
-            <div class="meta">
-              <span class="location">Line #529</span> –
-              <span class="severity convention">convention:</span>
-              <span class="message">Layout/LineLength: Line is too long. [132/120]</span>
-            </div>
-
-            <pre><code>            expect(last_response.body).to include(@question.content) # Verifica que el contenido de la pregunta esté en <span class="highlight convention">la respuesta</span></code></pre>
-
-          </div>
-
-          <div class="report">
-            <div class="meta">
-              <span class="location">Line #552</span> –
+              <span class="location">Line #415</span> –
               <span class="severity convention">convention:</span>
               <span class="message">Metrics/BlockLength: Block has too many lines. [26/25]</span>
             </div>
 
-            <pre><code>        <span class="highlight convention">context &#39;POST /play/question&#39; do</span> <span class="extra-code">...</span></code></pre>
+            <pre><code>  <span class="highlight convention">describe &#39;GET /lesson/:system/:level&#39; do</span> <span class="extra-code">...</span></code></pre>
 
           </div>
 
           <div class="report">
             <div class="meta">
-              <span class="location">Line #610</span> –
+              <span class="location">Line #448</span> –
               <span class="severity convention">convention:</span>
-              <span class="message">Layout/LineLength: Line is too long. [159/120]</span>
+              <span class="message">Metrics/BlockLength: Block has too many lines. [35/25]</span>
             </div>
 
-            <pre><code>      it &#39;shows correct or incorrect message and advances to the next question&#39; do # Muestra el mensaje correcto o incor<span class="highlight convention">recto y avanza a la siguiente pregunta.</span></code></pre>
+            <pre><code>  <span class="highlight convention">context &#39;POST /level/:level/start_play&#39; do</span> <span class="extra-code">...</span></code></pre>
 
           </div>
 
           <div class="report">
             <div class="meta">
-              <span class="location">Line #630</span> –
+              <span class="location">Line #480</span> –
               <span class="severity convention">convention:</span>
-              <span class="message">Layout/LineLength: Line is too long. [162/120]</span>
+              <span class="message">Layout/LineLength: Line is too long. [132/120]</span>
             </div>
 
-            <pre><code>      it &#39;loads the question page if authenticated and questions are available&#39; do # Carga la página de preguntas si est<span class="highlight convention">á autenticado y hay preguntas disponibles.</span></code></pre>
+            <pre><code>        expect(last_response.body).to include(&#39;Necesitas completar el nivel 1 antes de acceder a este nivel.&#39;) # Verific<span class="highlight convention">a el mensaje</span></code></pre>
 
           </div>
 
           <div class="report">
             <div class="meta">
-              <span class="location">Line #632</span> –
+              <span class="location">Line #498</span> –
               <span class="severity convention">convention:</span>
-              <span class="message">Layout/LineLength: Line is too long. [144/120]</span>
+              <span class="message">Metrics/BlockLength: Block has too many lines. [44/25]</span>
             </div>
 
-            <pre><code>        Question.create!(text: &#39;¿Cúal es la función principal del sistema digestivo?&#39;, system: &#39;digestivo&#39;) # Crear una <span class="highlight convention">pregunta para la prueba1</span></code></pre>
+            <pre><code>  <span class="highlight convention">context &#39;GET /play/question&#39; do</span> <span class="extra-code">...</span></code></pre>
 
           </div>
 
           <div class="report">
             <div class="meta">
-              <span class="location">Line #641</span> –
+              <span class="location">Line #526</span> –
               <span class="severity convention">convention:</span>
-              <span class="message">Layout/LineLength: Line is too long. [128/120]</span>
+              <span class="message">Layout/LineLength: Line is too long. [134/120]</span>
             </div>
 
-            <pre><code>      it &#39;redirects to /select_system if there are no more questions&#39; do # Redirecciona a /select_system si no hay más p<span class="highlight convention">reguntas</span></code></pre>
+            <pre><code>            &#39;rack.session&#39; =&gt; { user_id: user.id, current_question_index: session[:current_question_index], system: sess<span class="highlight convention">ion[:system] }</span></code></pre>
 
           </div>
 
           <div class="report">
             <div class="meta">
-              <span class="location">Line #734</span> –
+              <span class="location">Line #536</span> –
               <span class="severity convention">convention:</span>
-              <span class="message">Metrics/BlockLength: Block has too many lines. [77/25]</span>
+              <span class="message">Layout/LineLength: Line is too long. [134/120]</span>
             </div>
 
-            <pre><code>    <span class="highlight convention">describe &#39;Question Consultation and Evaluation Routes&#39; do</span> <span class="extra-code">...</span></code></pre>
+            <pre><code>            &#39;rack.session&#39; =&gt; { user_id: user.id, current_question_index: session[:current_question_index], system: sess<span class="highlight convention">ion[:system] }</span></code></pre>
 
           </div>
 
           <div class="report">
             <div class="meta">
-              <span class="location">Line #775</span> –
+              <span class="location">Line #560</span> –
               <span class="severity convention">convention:</span>
-              <span class="message">Metrics/BlockLength: Block has too many lines. [34/25]</span>
+              <span class="message">Metrics/BlockLength: Block has too many lines. [51/25]</span>
             </div>
 
-            <pre><code>      <span class="highlight convention">describe &#39;POST /submit_evaluation&#39; do</span> <span class="extra-code">...</span></code></pre>
+            <pre><code>  <span class="highlight convention">context &#39;POST /play/question&#39; do</span> <span class="extra-code">...</span></code></pre>
 
           </div>
 
           <div class="report">
             <div class="meta">
-              <span class="location">Line #897</span> –
+              <span class="location">Line #673</span> –
               <span class="severity convention">convention:</span>
-              <span class="message">Layout/LineLength: Line is too long. [141/120]</span>
+              <span class="message">Metrics/BlockLength: Block has too many lines. [30/25]</span>
             </div>
 
-            <pre><code>          &quot;question#{question1.id}&quot; =&gt; Option.create!(text: &#39;Descomponer los alimentos en nutrientes&#39;, correct: true, qu<span class="highlight convention">estion: question1).id</span></code></pre>
-
-          </div>
-
-          <div class="report">
-            <div class="meta">
-              <span class="location">Line #908</span> –
-              <span class="severity convention">convention:</span>
-              <span class="message">Layout/LineLength: Line is too long. [135/120]</span>
-            </div>
-
-            <pre><code>      it &#39;shows the game over page with the last message&#39; do # Verifica que se muestre la página de fin del juego con el<span class="highlight convention"> último mensaje</span></code></pre>
+            <pre><code>  <span class="highlight convention">describe &#39;POST /submit_evaluation&#39; do</span> <span class="extra-code">...</span></code></pre>
 
           </div>
 

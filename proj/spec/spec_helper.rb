@@ -1,21 +1,22 @@
+# frozen_string_literal: true
+
 # spec/spec_helper.rb
 
 require 'simplecov'
 SimpleCov.start do
-  add_filter '/spec/'  # Ignorar la carpeta de pruebas
+  add_filter '/spec/' # Ignorar la carpeta de pruebas
 end
 
 # Configurar el entorno de pruebas
 ENV['RACK_ENV'] = 'test'
 
 # Cargar la aplicación principal de Sinatra
-require File.expand_path('../../app.rb', __FILE__)
+require File.expand_path('../app.rb', __dir__)
 
 # Requiere las bibliotecas necesarias para las pruebas
 require 'rspec'
 require 'rack/test'
 require 'database_cleaner'
-
 
 # Configurar RSpec
 RSpec.configure do |config|
