@@ -311,8 +311,8 @@ question1 = Question.create(
 Option.create([
                 { text: 'Convierte los alimentos en bilis con ayuda de la saliva', correct: false,
                   question_id: question1.id },
-                { text: 'Convierte los alimentos en pequeños trozos con la ayuda de los dientes y la saliva', correct: true,
-                  question_id: question1.id },
+                { text: 'Convierte los alimentos en pequeños trozos con la ayuda de los dientes y la saliva',
+                  correct: true, question_id: question1.id },
                 { text: 'Absorbe los nutrientes de los alimentos', correct: false, question_id: question1.id },
                 { text: 'Almacena temporalmente los alimentos', correct: false, question_id: question1.id }
               ])
@@ -412,15 +412,18 @@ question3 = Question.create(
 )
 
 Option.create([
-                { text: 'El dióxido de carbono entra en los alvéolos y el oxígeno sale hacia la sangre por un proceso de difusión',
+                { text: <<-TEXT.squish,
+                    El dióxido de carbono entra en los alvéolos y el oxígeno sale hacia la sangre por un proceso de difusión.
+                TEXT
                   correct: true, question_id: question3.id },
-                {
-                  text: 'El oxígeno se difunde desde los capilares hacia los bronquiolos, y el dióxido de carbono se almacena en las células', correct: false, question_id: question3.id
-                },
-                { text: 'Los alvéolos convierten el oxígeno en dióxido de carbono para que sea exhalado', correct: false,
-                  question_id: question3.id },
-                { text: 'El oxígeno y el dióxido de carbono intercambian lugares directamente en la tráquea', correct: false,
-                  question_id: question3.id }
+                { text: <<-TEXT.squish,
+                    El oxígeno se difunde desde los capilares hacia los bronquiolos, y el dióxido de carbono se almacena en las células.
+                TEXT
+                  correct: false, question_id: question3.id },
+                { text: 'Los alvéolos convierten el oxígeno en dióxido de carbono para que sea exhalado',
+                  correct: false, question_id: question3.id },
+                { text: 'El oxígeno y el dióxido de carbono intercambian lugares directamente en la tráquea',
+                  correct: false, question_id: question3.id }
               ])
 
 question4 = Question.create(
@@ -468,20 +471,25 @@ Option.create([
 
 question2 = Question.create(
   system: 'circulatorio',
-  text: 'Describe el recorrido de la sangre a través del corazón, mencionando las aurículas, los ventrículos y su paso por los pulmones.',
+  text: <<-TEXT.squish,
+      Describe el recorrido de la sangre a través del corazón, mencionando las aurículas, los ventrículos y su paso por los pulmones.
+  TEXT
   level: 2
 )
 
 Option.create([
-                { text: 'La sangre entra por el ventrículo derecho, pasa por las aurículas y llega a los pulmones', correct: false,
-                  question_id: question2.id },
-                {
-                  text: 'La sangre entra por la aurícula derecha, pasa por el ventrículo derecho, va a los pulmones, regresa a la aurícula izquierda y sale por el ventrículo izquierdo', correct: true, question_id: question2.id
-                },
-                { text: 'La sangre entra por la aurícula izquierda y pasa por los ventrículos hasta salir por la aurícula derecha',
+                { text: 'La sangre entra por el ventrículo derecho, pasa por las aurículas y llega a los pulmones',
                   correct: false, question_id: question2.id },
-                { text: 'La sangre entra en los pulmones, luego pasa por las aurículas y sale por los ventrículos', correct: false,
-                  question_id: question2.id }
+                { text: <<-TEXT.squish,
+                      La sangre entra por la aurícula derecha, pasa por el ventrículo derecho, va a los pulmones, regresa a la aurícula izquierda y sale por el ventrículo izquierdo.
+                TEXT
+                  correct: true, question_id: question2.id },
+                { text: <<-TEXT.squish,
+                     La sangre entra por la aurícula izquierda y pasa por los ventrículos hasta salir por la aurícula derecha
+                TEXT
+                  correct: false, question_id: question2.id },
+                { text: 'La sangre entra en los pulmones, luego pasa por las aurículas y sale por los ventrículos',
+                  correct: false, question_id: question2.id }
               ])
 
 question3 = Question.create(
@@ -491,41 +499,54 @@ question3 = Question.create(
 )
 
 Option.create([
-                {
-                  text: 'Glóbulos rojos transportan oxígeno, glóbulos blancos combaten infecciones, plaquetas coagulan y plasma es el líquido en el que flotan', correct: true, question_id: question3.id
-                },
-                {
-                  text: 'Plaquetas transportan oxígeno, glóbulos rojos combaten infecciones, plasma coagula y glóbulos blancos son el líquido', correct: false, question_id: question3.id
-                },
-                {
-                  text: 'Glóbulos blancos transportan oxígeno, plasma combate infecciones, plaquetas coagulan y glóbulos rojos son el líquido', correct: false, question_id: question3.id
-                },
-                {
-                  text: 'Plasma transporta oxígeno, glóbulos rojos combaten infecciones, glóbulos blancos coagulan y plaquetas son el líquido', correct: false, question_id: question3.id
-                }
+                { text: <<-TEXT.squish,
+                    Glóbulos rojos transportan oxígeno, glóbulos blancos combaten infecciones, plaquetas coagulan y plasma es el líquido en el que flotan
+                TEXT
+                  correct: true, question_id: question3.id },
+                { text: <<-TEXT.squish,
+                    Plaquetas transportan oxígeno, glóbulos rojos combaten infecciones, plasma coagula y glóbulos blancos son el líquido
+                TEXT
+                  correct: false, question_id: question3.id },
+                { text: <<-TEXT.squish,
+                    Glóbulos blancos transportan oxígeno, plasma combate infecciones, plaquetas coagulan y glóbulos rojos son el líquido
+                TEXT
+                  correct: false, question_id: question3.id },
+                { text: <<-TEXT.squish,
+                    Plasma transporta oxígeno, glóbulos rojos combaten infecciones, glóbulos blancos coagulan y plaquetas son el líquido
+                TEXT
+                  correct: false, question_id: question3.id }
               ])
 
 question4 = Question.create(
   system: 'circulatorio',
-  text: '¿Qué diferencias existen entre los tres tipos de vasos sanguíneos (arterias, venas y capilares) en cuanto a su estructura y función?',
+  text: <<-TEXT.squish,
+      ¿Qué diferencias existen entre los tres tipos de vasos sanguíneos (arterias, venas y capilares) en cuanto a su estructura y función?
+  TEXT
   level: 2
 )
 
 Option.create([
-                { text: 'Las arterias llevan sangre al corazón, las venas sacan sangre y los capilares intercambian gases',
+                { text: <<-TEXT.squish,
+                    Las arterias llevan sangre al corazón, las venas sacan sangre y los capilares intercambian gases
+                TEXT
                   correct: false, question_id: question4.id },
-                {
-                  text: 'Las arterias llevan sangre lejos del corazón, las venas traen la sangre de vuelta al corazón y los capilares permiten el intercambio de sustancias', correct: true, question_id: question4.id
-                },
-                { text: 'Las arterias y venas son lo mismo, y los capilares solo transportan oxígeno', correct: false,
-                  question_id: question4.id },
-                { text: 'Las venas y arterias llevan sangre oxigenada, mientras que los capilares transportan dióxido de carbono',
+                { text: <<-TEXT.squish,
+                    Las arterias llevan sangre lejos del corazón, las venas traen la sangre de vuelta al corazón y los capilares permiten el intercambio de sustancias
+                TEXT
+                  correct: true, question_id: question4.id },
+                { text: 'Las arterias y venas son lo mismo, y los capilares solo transportan oxígeno',
+                  correct: false, question_id: question4.id },
+                { text: <<-TEXT.squish,
+                    Las venas y arterias llevan sangre oxigenada, mientras que los capilares transportan dióxido de carbono
+                TEXT
                   correct: false, question_id: question4.id }
               ])
 
 question5 = Question.create(
   system: 'circulatorio',
-  text: '¿Cómo se lleva a cabo un análisis de sangre para separar sus componentes, y cuál es el propósito de esta separación?',
+  text: <<-TEXT.squish,
+      ¿Cómo se lleva a cabo un análisis de sangre para separar sus componentes, y cuál es el propósito de esta separación?
+  TEXT
   level: 2
 )
 
@@ -534,10 +555,10 @@ Option.create([
                   correct: true, question_id: question5.id },
                 { text: 'La sangre se separa dejando reposar el líquido hasta que los componentes se dividan por peso',
                   correct: false, question_id: question5.id },
-                { text: 'La sangre no se separa en análisis, sino que se examina directamente', correct: false,
-                  question_id: question5.id },
-                { text: 'El propósito es descartar componentes que no sean necesarios para el análisis', correct: false,
-                  question_id: question5.id }
+                { text: 'La sangre no se separa en análisis, sino que se examina directamente',
+                  correct: false, question_id: question5.id },
+                { text: 'El propósito es descartar componentes que no sean necesarios para el análisis',
+                  correct: false, question_id: question5.id }
               ])
 
 question1 = Question.create(
@@ -547,12 +568,14 @@ question1 = Question.create(
 )
 
 Option.create([
-                { text: 'Conjunto de órganos y estructuras involucrados en la reproducción', correct: true,
-                  question_id: question1.id },
-                { text: 'Sistema encargado de la digestión de alimentos', correct: false, question_id: question1.id },
-                { text: 'Conjunto de músculos y huesos que soportan el cuerpo', correct: false,
-                  question_id: question1.id },
-                { text: 'Órganos que filtran la sangre y eliminan toxinas', correct: false, question_id: question1.id }
+                { text: 'Conjunto de órganos y estructuras involucrados en la reproducción',
+                  correct: true, question_id: question1.id },
+                { text: 'Sistema encargado de la digestión de alimentos',
+                  correct: false, question_id: question1.id },
+                { text: 'Conjunto de músculos y huesos que soportan el cuerpo',
+                  correct: false, question_id: question1.id },
+                { text: 'Órganos que filtran la sangre y eliminan toxinas',
+                  correct: false, question_id: question1.id }
               ])
 
 question2 = Question.create(
@@ -562,11 +585,13 @@ question2 = Question.create(
 )
 
 Option.create([
-                { text: 'Producir y almacenar espermatozoides', correct: false, question_id: question2.id },
-                { text: 'Permitir la reproducción en las mujeres a través de la producción de óvulos', correct: true,
-                  question_id: question2.id },
+                { text: 'Producir y almacenar espermatozoides',
+                  correct: false, question_id: question2.id },
+                { text: 'Permitir la reproducción en las mujeres a través de la producción de óvulos',
+                  correct: true, question_id: question2.id },
                 { text: 'Transportar sangre por el cuerpo', correct: false, question_id: question2.id },
-                { text: 'Almacenar nutrientes para el crecimiento del feto', correct: false, question_id: question2.id }
+                { text: 'Almacenar nutrientes para el crecimiento del feto',
+                  correct: false, question_id: question2.id }
               ])
 
 question3 = Question.create(
@@ -626,8 +651,8 @@ Option.create([
                   question_id: question1.id },
                 { text: 'Convierte la comida directamente en grasa para que el cuerpo la utilice', correct: false,
                   question_id: question1.id },
-                { text: 'Descompone la comida en pequeñas partes para ser eliminada inmediatamente del cuerpo', correct: false,
-                  question_id: question1.id },
+                { text: 'Descompone la comida en pequeñas partes para ser eliminada inmediatamente del cuerpo',
+                  correct: false, question_id: question1.id },
                 { text: 'Desintegra los alimentos por completo para convertirlos en agua', correct: false,
                   question_id: question1.id }
               ])
@@ -655,9 +680,10 @@ question3 = Question.create(
 )
 
 Option.create([
-                {
-                  text: 'El hígado procesa los nutrientes absorbidos, los almacena o los convierte en sustancias útiles para el cuerpo', correct: true, question_id: question3.id
-                },
+                { text: <<-TEXT.squish,
+                    El hígado procesa los nutrientes absorbidos, los almacena o los convierte en sustancias útiles para el cuerpo
+                TEXT
+                  correct: true, question_id: question3.id },
                 { text: 'El hígado descompone la comida con jugos gástricos', correct: false,
                   question_id: question3.id },
                 { text: 'El hígado filtra las toxinas antes de que los alimentos lleguen al estómago', correct: false,
@@ -673,12 +699,12 @@ question4 = Question.create(
 )
 
 Option.create([
-                { text: 'El intestino grueso absorbe agua y forma los desechos que serán eliminados del cuerpo', correct: true,
-                  question_id: question4.id },
+                { text: 'El intestino grueso absorbe agua y forma los desechos que serán eliminados del cuerpo',
+                  correct: true, question_id: question4.id },
                 { text: 'El intestino grueso descompone los nutrientes y los convierte en energía', correct: false,
                   question_id: question4.id },
-                { text: 'El intestino grueso almacena los desechos hasta que sean eliminados por el hígado', correct: false,
-                  question_id: question4.id },
+                { text: 'El intestino grueso almacena los desechos hasta que sean eliminados por el hígado',
+                  correct: false, question_id: question4.id },
                 { text: 'El intestino grueso convierte los desechos en nutrientes utilizables', correct: false,
                   question_id: question4.id }
               ])
@@ -805,7 +831,9 @@ question3 = Question.create(
 )
 
 Option.create([
-                { text: 'Conectar las arterias con las venas y hacer circular sangre, nutrientes y oxígeno a las células',
+                { text: <<-TEXT.squish,
+                    Conectar las arterias con las venas y hacer circular sangre, nutrientes y oxígeno a las células
+                TEXT
                   correct: true, question_id: question3.id },
                 { text: 'Transportar sangre desde el corazón a los órganos principales', correct: false,
                   question_id: question3.id },
@@ -821,20 +849,27 @@ question4 = Question.create(
 )
 
 Option.create([
-                { text: 'Las venas transportan sangre hacia el corazón, mientras que las arterias la transportan fuera del corazón',
+                { text: <<-TEXT.squish,
+                    Las venas transportan sangre hacia el corazón, mientras que las arterias la transportan fuera del corazón
+                TEXT
                   correct: true, question_id: question4.id },
-                { text: 'Las arterias solo transportan oxígeno, mientras que las venas solo transportan dióxido de carbono',
+                { text: <<-TEXT.squish,
+                    Las arterias solo transportan oxígeno, mientras que las venas solo transportan dióxido de carbono
+                TEXT
                   correct: false, question_id: question4.id },
-                {
-                  text: 'Las arterias conectan los capilares con los órganos, mientras que las venas conectan los capilares con el corazón', correct: false, question_id: question4.id
-                },
+                { text: <<-TEXT.squish,
+                    Las arterias conectan los capilares con los órganos, mientras que las venas conectan los capilares con el corazón
+                TEXT
+                  correct: false, question_id: question4.id },
                 { text: 'Las venas tienen paredes más gruesas que las arterias para soportar la alta presión sanguínea',
                   correct: false, question_id: question4.id }
               ])
 
 question5 = Question.create(
   system: 'circulatorio',
-  text: '¿Qué órgano principal bombea la sangre en el sistema circulatorio?',
+  text: <<-TEXT.squish,
+      ¿Qué órgano principal bombea la sangre en el sistema circulatorio?
+  TEXT
   level: 3
 )
 
@@ -901,7 +936,9 @@ Option.create([
 
 question5 = Question.create(
   system: 'reproductor',
-  text: '¿Qué órgano produce el líquido seminal que forma la mayor parte del semen en el sistema reproductor masculino?',
+  text: <<-TEXT.squish,
+      ¿Qué órgano produce el líquido seminal que forma la mayor parte del semen en el sistema reproductor masculino?
+  TEXT
   level: 3
 )
 
