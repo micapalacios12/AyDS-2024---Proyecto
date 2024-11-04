@@ -7,6 +7,14 @@ require './models/user'
 require './models/question'
 require './models/option'
 
+require_relative 'helpers/game_helpers'
+require_relative 'helpers/user_helpers'
+require_relative 'helpers/evaluation_helpers'
+
+helpers GameHelpers
+helpers EvaluationHelpers
+helpers UserHelpers
+
 enable :sessions # Habilita uso de sesiones
 set :database_file, './config/database.yml'
 
@@ -297,56 +305,10 @@ get '/play/question' do
 end
 
 post '/play/question' do
-  @level = session[:level]
-  @system = session[:system]
-  @current_question_index = session[:current_question_index]
-
-  @questions = get_questions_for_level(@system, @level)
-
-  if @current_question_index < @questions.count
-    @current_question = @questions[@current_question_index]
-
-    # Verificar si se ha seleccionado una opción
-    if params[:option_id].nil? || params[:option_id].empty?
-      @message = 'Por favor, selecciona una opción antes de responder.'
-      erb :play, locals: { message: @message }
-    else
-      selected_option_id = params[:option_id].to_i
-      selected_option = Option.find_by(id: selected_option_id)
-
-      if selected_option
-        # @correct_option = @current_question.options.find_by(correct: true)
-
-        if selected_option.correct?
-          # Verificar si la opcion seleccionada es la correcta
-          @message = '¡Respuesta correcta!'
-          session[:current_question_index] += 1 # Avanzar al siguiente índice
-
-          # Actualiza el contador de respuestas correctas en la pregunta
-          @current_question.increment(:correc_count)
-        else
-          @message = 'Respuesta incorrecta. Vuelve a intentarlo.'
-          # Actualiza el contador de respuestas correctas en la pregunta
-          @current_question.increment(:incorrect_count)
-        end
-
-        # Guarda los cambios en la pregunta
-        @current_question.save
-
-        session[:last_message] = @message # Guardar el mensaje en la sesión
-
-        if session[:current_question_index] < @questions.count
-          redirect '/play/question' # Redirigir para mostrar la siguiente pregunta
-        else
-          redirect '/finish_play' # Redirigir al final del juego
-        end
-      else
-        @message = 'Opción no válida.'
-        erb :play, locals: { message: @message }
-      end
-    end
+  if session[:user_id]
+    handle_play_question
   else
-    redirect '/finish_play' # Redirigir si no hay más preguntas
+    redirect '/login'
   end
 end
 
@@ -377,88 +339,11 @@ end
 
 # Ruta para procesar las respuestas del usuario y mostrar el resultado de la evaluación
 post '/submit_evaluation' do
-  if session[:user_id]
-    @score = 0
-    @user = User.find(session[:user_id])
-    @system = session[:system]
-
-    # Obtener el nivel actual completado por el usuario en este sistema
-    current_level = get_level(@user, @system)
-
-    # Obtener las preguntas para el nivel actual
-    @questions = get_questions_for_level(@system, session[:level])
-    total_questions = @questions.count
-
-    # Verifica si se ha seleccionado una opción para cada pregunta
-    @unanswered_questions = @questions.select do |question|
-      params["question#{question.id}"].nil? || params["question#{question.id}"].empty?
-    end
-
-    if @unanswered_questions.any?
-      @message = 'Por favor, selecciona una opción para cada pregunta.'
-      erb :evaluation, locals: { message: @message, questions: @questions }
-    else
-      # Calcular el puntaje
-      @questions.each do |question|
-        selected_option_id = params["question#{question.id}"].to_i
-        selected_option = Option.find(selected_option_id)
-
-        # Incrementar el puntaje si la respuesta seleccionada es correcta
-        @score += 1 if selected_option&.correct?
-      end
-
-      # Si el usuario ha respondido correctamente todas las preguntas, desbloquear el siguiente nivel
-      if @score == total_questions && session[:level].to_i == (current_level)
-        next_level = [current_level + 1, 3].min # Asegurarse de que no exceda el nivel máximo
-        update_level(@user, @system, next_level)
-      end
-
-      # Mostrar la vista de resultado de la evaluación
-      erb :evaluation_result, locals: { score: @score, questions: @questions }
-    end
-  else
-    redirect '/login'
-  end
+  process_evaluation_submission
 end
 
 # Cerrar sesión
 get '/logout' do
   session.clear
   redirect '/'
-end
-
-helpers do
-  # Método para obtener el usuario actual
-  def current_user
-    @current_user ||= User.find(session[:user_id]) if session[:user_id]
-  end
-
-  def get_questions_for_level(system, level)
-    Question.where(system: system, level: level)
-  end
-
-  # Obtiene el nivel actual del usuario para un sistema específico
-  def get_level(user, system)
-    systems_list = %w[digestivo respiratorio circulatorio reproductor]
-    user_levels = user.level_completed.present? ? user.level_completed.split(',').map(&:to_i) : [0] * systems_list.size
-    current_system_index = systems_list.index(system)
-
-    if current_system_index && current_system_index < user_levels.size
-      user_levels[current_system_index]
-    else
-      1 # Nivel predeterminado
-    end
-  end
-
-  # Actualiza el nivel completado del usuario para un sistema específico
-  def update_level(user, system, new_level)
-    systems_list = %w[digestivo respiratorio circulatorio reproductor]
-    user_levels = user.level_completed.present? ? user.level_completed.split(',').map(&:to_i) : [0] * systems_list.size
-    current_system_index = systems_list.index(system)
-
-    return unless current_system_index
-
-    user_levels[current_system_index] = [new_level, 3].min # Limitar el nivel máximo a 3
-    user.update(level_completed: user_levels.join(','))
-  end
 end
