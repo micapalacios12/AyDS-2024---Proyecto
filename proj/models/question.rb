@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+# modelos/question.rb
+
+# La clase Question representa una pregunta en el sistema.
+# Cada pregunta tiene un sistema asociado, un nivel y puede tener varias opciones.
 class Question < ActiveRecord::Base
   # Establece la relación de uno a muchos con las opciones y configura la eliminación en cascada
   has_many :options, dependent: :destroy

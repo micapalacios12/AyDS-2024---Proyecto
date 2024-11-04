@@ -1,5 +1,9 @@
 # frozen_string_literal: true
 
+# modelos/option.rb
+
+# La clase Option representa una opción de respuesta en una pregunta.
+# Cada opción pertenece a una pregunta y puede ser correcta o incorrecta.
 class Option < ActiveRecord::Base
   # Cada opción pertenece a una pregunta, lo cual establece una relación de clave foránea en la base de datos
   belongs_to :question
