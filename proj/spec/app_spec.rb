@@ -202,7 +202,7 @@ RSpec.describe 'App Routes', type: :request do
       User.create!(
         username: 'testuser',
         email: 'test@example.com',
-        password: 'password123' # Esto se almacenará como texto plano en el modelo (y luego será cifrado por el modelo User si es necesario)
+        password: 'password123'
       )
     end
 
@@ -373,14 +373,14 @@ RSpec.describe 'App Routes', type: :request do
 
   # Prueba para la selección del sistema (GET)
   context 'GET /select_system' do
-    it 'redirects to login if not authenticated' do # Verifica que se redirija a la página de login si no está autenticado
+    it 'redirects to login if not authenticated' do # Ve que se redirija a la página de login si no está autenticado
       get '/select_system'
       expect(last_response).to be_redirect
       follow_redirect!
       expect(last_request.path).to eq('/login')
     end
 
-    it 'loads the select system page if authenticated' do # Verifica que se cargue la página de selección del sistema si está autenticado
+    it 'loads the select system page if authenticated' do
       user = User.create(username: 'testuser', email: 'test@example.com', password: 'password123')
       post '/login', username: 'testuser', email: 'test@example.com', password: 'password123'
 
@@ -477,7 +477,7 @@ RSpec.describe 'App Routes', type: :request do
         post '/level/2/start_play' # El nivel no completado
 
         expect(last_response).to be_ok
-        expect(last_response.body).to include('Necesitas completar el nivel 1 antes de acceder a este nivel.') # Verifica el mensaje
+        expect(last_response.body).to include('Necesitas completar el nivel 1 antes de acceder a este nivel.')
       end
     end
 
@@ -523,7 +523,11 @@ RSpec.describe 'App Routes', type: :request do
         session[:current_question_index] = 0 # Asegúrate de que el índice de la pregunta esté en el rango correcto
 
         get '/play/question', {},
-            'rack.session' => { user_id: user.id, current_question_index: session[:current_question_index], system: session[:system] }
+            'rack.session' => {
+              user_id: user.id,
+              current_question_index: session[:current_question_index],
+              system: session[:system]
+            }
 
         expect(last_response).to be_ok
         expect(last_response.body).to include('¿Cúal es la función principal del sistema digestivo?')
@@ -533,7 +537,11 @@ RSpec.describe 'App Routes', type: :request do
         session[:current_question_index] = 2 # Simula que no hay más preguntas disponibles
 
         get '/play/question', {},
-            'rack.session' => { user_id: user.id, current_question_index: session[:current_question_index], system: session[:system] }
+            'rack.session' => {
+              user_id: user.id,
+              current_question_index: session[:current_question_index],
+              system: session[:system]
+            }
 
         expect(last_response).to be_redirect
         follow_redirect!

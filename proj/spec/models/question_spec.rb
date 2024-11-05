@@ -46,7 +46,7 @@ RSpec.describe Question, type: :model do
       question = valid_question
       option1 = question.options.create!(text: 'Option 1')
       option2 = question.options.create!(text: 'Option 2')
-      expect(question.options).to include(option1, option2) # Verifica que se pueden crear opciones asociadas a la pregunta
+      expect(question.options).to include(option1, option2) # Ve si se pueden crear opciones asociadas a la pregunta
     end
 
     it 'destroys associated options when destroyed' do
@@ -60,7 +60,7 @@ RSpec.describe Question, type: :model do
 
     it 'can access correc_count' do
       question = valid_question
-      expect(question.correc_count).to eq(0) # Verifica que el atributo correc_count se pueda acceder y sea inicialmente 0
+      expect(question.correc_count).to eq(0) # Ve que el atributo correc_count se pueda acceder y sea inicialmente 0
     end
   end
 
@@ -91,7 +91,7 @@ RSpec.describe Question, type: :model do
       it 'returns questions with correc_count greater than or equal to the specified value' do
         result = Question.listar_correctas(2, 3) # Busca preguntas con correc_count >= 3 y límite de 2 resultados
         expect(result).to include(question3) # Verifica que la pregunta 3 esté en los resultados
-        expect(result).not_to include(question1, question2) # Verifica que las preguntas 1 y 2 no estén en los resultados
+        expect(result).not_to include(question1, question2) # Ve que las preguntas 1 y 2 no estén en los resultados
       end
     end
   end
