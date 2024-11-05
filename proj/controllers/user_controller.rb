@@ -67,7 +67,7 @@ class UserController < Sinatra::Base
 
   # Mostrar la página de perfil
   get '/profile' do
-    @user = current_user #usuario actual
+    @user = current_user # usuario actual
     erb :profile
   end
 
@@ -75,8 +75,8 @@ class UserController < Sinatra::Base
   post '/update_profile' do
     user = current_user
     user.update(
-      names: params[:name],  
-      password: params[:password], 
+      names: params[:name],
+      password: params[:password],
       avatar: params[:avatar]
     )
     redirect '/profile'

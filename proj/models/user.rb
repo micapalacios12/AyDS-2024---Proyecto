@@ -34,7 +34,7 @@ class User < ActiveRecord::Base
     role == 'user'
   end
 
-   # Método para obtener el nivel completado de un sistema específico
+  # Método para obtener el nivel completado de un sistema específico
   def get_level_completed(system_index)
     levels = level_completed.split(',').map(&:to_i)
     levels[system_index] || 0
