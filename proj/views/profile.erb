@@ -152,7 +152,7 @@
       <span><%= system_name %></span>
       <div class="progress-bar">
         <% 3.times do |level| %>
-          <div class="progress-level <%= 'completed' if get_level(@user, system_name) > level %>"></div>
+          <div class="progress-level <%= 'completed' if @user.get_level_completed(index) > level + 1 %>"></div>
         <% end %>
       </div>
     </div>

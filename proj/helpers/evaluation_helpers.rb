@@ -56,7 +56,7 @@ module EvaluationHelpers
 
     return unless @score == total_questions && session[:level].to_i == current_level
 
-    next_level = [current_level + 1, 3].min
+    next_level = [current_level + 1, 4].min
     update_level(@user, @system, next_level)
   end
 end
