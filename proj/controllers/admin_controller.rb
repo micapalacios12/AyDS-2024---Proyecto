@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Controlador de administración para gestionar las funciones y rutas específicas del administrador.
 class AdminController < Sinatra::Base
   enable :sessions
   set :views, File.expand_path('../views', __dir__)

@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Controlador de usuario para gestionar las funciones y rutas específicas de los usuarios regulares.
 class UserController < Sinatra::Base
   enable :sessions
   set :views, File.expand_path('../views', __dir__)
