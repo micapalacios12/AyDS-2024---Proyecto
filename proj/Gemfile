@@ -1,16 +1,18 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
-
-gem "sinatra"
-gem "sinatra-activerecord"
+gem 'bcrypt'
+gem 'puma'
+gem 'rackup'
+gem 'sinatra'
+gem 'sinatra-activerecord'
 gem 'sqlite3', '~> 1.4'
-gem "bcrypt"
-gem "rackup"
-gem "puma"
 group :development, :test do
-    gem 'rspec'
-    gem 'rack-test'
-    gem 'rake'
-  end
-  gem 'database_cleaner'
-gem "simplecov"
+  gem 'rack-test'
+  gem 'rake'
+  gem 'rspec'
+end
+gem 'database_cleaner'
+gem 'rubocop', require: false
+gem 'simplecov'

@@ -43,19 +43,6 @@
       width: 100%;
       height: 500px;
     }
-    .video-container {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 20px 0;
-    }
-    video {
-      max-width: 100%;
-      height: auto;
-      border: 2px solid #3498db;
-      border-radius: 10px;
-    }
-
     .start-button {
       background-color: #3498db;
       color: white;
@@ -91,27 +78,19 @@
   </style>
 </head>
 <body>
+
+
 <div class="container">
   <h1 class="title">Lección Nivel 3 - <%= @system.capitalize %></h1>
   <h1 class="subtitle">Lee detalladamente</h1>
 
- <!-- Mostrar solo PDF si está disponible -->
-  <% if File.exist?(File.join(settings.public_folder, 'files', 'level3', "#{@system}.pdf")) %>
-    <div class="pdf-container">
+  <div class="pdf-container">
+    <% if @system %>
       <embed src="/files/level3/<%= @system %>.pdf" type="application/pdf" />
-    </div>
-  <% elsif File.exist?(File.join(settings.public_folder, 'files', 'level3', "#{@system}.mp4")) %>
-    <!-- Si no hay PDF, mostrar video si está disponible -->
-    <div class="video-container">
-      <video width="640" height="360" controls>
-        <source src="/files/level3/<%= @system %>.mp4" type="video/mp4" />
-        Tu navegador no soporta la reproducción de videos.
-      </video>
-    </div>
-  <% else %>
-    <!-- Si ninguno está disponible -->
-    <p>No se encontró ningún material de lección para este sistema.</p>
-  <% end %>
+    <% else %>
+      <p>No se ha seleccionado ningún sistema.</p>
+    <% end %>
+  </div>
   
   <form method="POST" action="/level/<%= @level %>/start_play">
     <button type="submit" class="start-button">Estoy listo para responder las preguntas</button>

@@ -1,0 +1,21 @@
+current directory: /home/micapalacios/1. UNRC/CURSADA 2024/3. INGENIERIA DE SOFTWARE/TALLER/AyDS-2024---Proyecto/proj/vendor/bundle/ruby/3.2.0/gems/json-2.7.5/ext/json/ext/parser
+/home/micapalacios/.rvm/rubies/ruby-3.2.0/bin/ruby -I /home/micapalacios/.rvm/rubies/ruby-3.2.0/lib/ruby/3.2.0 extconf.rb
+checking for rb_enc_raise() in ruby.h... yes
+checking for rb_enc_interned_str() in ruby.h... yes
+checking for whether -std=c99 is accepted as CFLAGS... yes
+creating Makefile
+
+current directory: /home/micapalacios/1. UNRC/CURSADA 2024/3. INGENIERIA DE SOFTWARE/TALLER/AyDS-2024---Proyecto/proj/vendor/bundle/ruby/3.2.0/gems/json-2.7.5/ext/json/ext/parser
+make DESTDIR\= sitearchdir\=./.gem.20241103-158127-6hr0ow sitelibdir\=./.gem.20241103-158127-6hr0ow clean
+
+current directory: /home/micapalacios/1. UNRC/CURSADA 2024/3. INGENIERIA DE SOFTWARE/TALLER/AyDS-2024---Proyecto/proj/vendor/bundle/ruby/3.2.0/gems/json-2.7.5/ext/json/ext/parser
+make DESTDIR\= sitearchdir\=./.gem.20241103-158127-6hr0ow sitelibdir\=./.gem.20241103-158127-6hr0ow
+compiling parser.c
+linking shared-object json/ext/parser.so
+
+current directory: /home/micapalacios/1. UNRC/CURSADA 2024/3. INGENIERIA DE SOFTWARE/TALLER/AyDS-2024---Proyecto/proj/vendor/bundle/ruby/3.2.0/gems/json-2.7.5/ext/json/ext/parser
+make DESTDIR\= sitearchdir\=./.gem.20241103-158127-6hr0ow sitelibdir\=./.gem.20241103-158127-6hr0ow install
+/usr/bin/install -c -m 0755 parser.so ./.gem.20241103-158127-6hr0ow/json/ext
+
+current directory: /home/micapalacios/1. UNRC/CURSADA 2024/3. INGENIERIA DE SOFTWARE/TALLER/AyDS-2024---Proyecto/proj/vendor/bundle/ruby/3.2.0/gems/json-2.7.5/ext/json/ext/parser
+make DESTDIR\= sitearchdir\=./.gem.20241103-158127-6hr0ow sitelibdir\=./.gem.20241103-158127-6hr0ow clean

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AnatomyEasy - Trivia del Cuerpo Humano</title>
+  <title>AnatomyEasy - Bienvenido</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -30,30 +30,27 @@
       font-size: 1.2em;
       margin-bottom: 20px;
     }
-    a {
+    .btn {
       text-decoration: none;
       color: #fff;
       background-color: #3498db;
       padding: 10px 20px;
       border-radius: 5px;
+      margin: 10px;
       transition: background-color 0.3s ease;
     }
-    a:hover {
+    .btn:hover {
       background-color: #2980b9;
-    }
-    .footer {
-      margin-top: 20px;
-      font-size: 0.9em;
-      color: #888;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Bienvenido a "AnatomyEasy"</h1>
-    <p>¡Pon a prueba tus conocimientos sobre el cuerpo humano con nuestra divertida trivia!</p>
+    <p>Selecciona tu tipo de usuario:</p>
     <p>
-      <a href="/login">Iniciar sesión</a> o <a href="/register">Registrarse</a>
+      <a href="/home_admin" class="btn">Admin</a>
+      <a href="/home_user" class="btn">User</a>
     </p>
   </div>
 </body>

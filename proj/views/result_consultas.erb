@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resultado de Consultas - AnatomyEasy</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f8ff;
+      color: #333;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .container {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      max-width: 800px;
+      width: 100%;
+    }
+    h1 {
+      text-align: center;
+      color: #2c3e50;
+    }
+    
+    .scroll-container {
+      max-height: 400px; /* Altura máxima del contenedor */
+      overflow-y: auto; /* Habilitar desplazamiento vertical */
+      margin-top: 20px;
+      border: 1px solid #ccc; /* Añadir borde opcional */
+      border-radius: 5px;
+      padding: 10px;
+      background-color: #fafafa; /* Fondo opcional para el contenedor */
+    }
+    h2 {
+      margin-top: 30px;
+      font-size: 1.5em;
+      text-align: center; /* Centrar el título del nivel */
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: center;
+      word-wrap: break-word;
+      word-break: break-word;
+    }
+    th {
+      background-color: #3498db;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+    td {
+      max-width: 600px; /* Limita el ancho máximo de las celdas */
+      white-space: normal; /* Permite que el texto haga saltos de línea */
+    }
+    .back-button {
+      background-color: #3498db;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 1em;
+      margin-top: 20px;
+      display: block;
+      width: 100px;
+      text-align: center;
+      margin: 0 auto;
+    }
+    .back-button:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Resultados de la Consulta</h1>
+    <div class="scroll-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Pregunta</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% if @mostrar_correctas %>
+            <% @questions.each do |questions| %>
+              <% if questions.correc_count > 0 %> <!-- Solo mostrar preguntas que tienen respuestas correctas -->
+                <tr>
+                  <td><%= questions.text %></td>
+                  
+                </tr>
+              <% end %>
+            <% end %>
+          <% elsif @mostrar_incorrectas %>
+            <% @questions.each do |questions| %>
+              <% if questions.incorrect_count > 0 %> <!-- Solo mostrar preguntas que tienen respuestas incorrectas -->
+                <tr>
+                  <td><%= questions.text %></td>
+                  
+                </tr>
+              <% end %>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <button class="back-button" onclick="window.history.back()"> Volver</button>
+  </div>
+</body>
+</html>

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Define una migración para crear la tabla de opciones
 class CreateOptions < ActiveRecord::Migration[7.1]
   def change
@@ -9,4 +11,3 @@ class CreateOptions < ActiveRecord::Migration[7.1]
     end
   end
 end
-

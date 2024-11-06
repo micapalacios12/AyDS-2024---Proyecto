@@ -1,6 +1,11 @@
+# frozen_string_literal: true
 
 require 'bcrypt'
 
+# modelos/user.rb
+
+# La clase User representa a un usuario en el sistema.
+# Almacena el progreso del usuario, incluyendo el nivel completado para cada sistema.
 class User < ActiveRecord::Base
   # Utiliza el módulo bcrypt para cifrar y validar contraseñas de forma segura
   has_secure_password
@@ -16,20 +21,30 @@ class User < ActiveRecord::Base
 
   validates :avatar, presence: true, allow_nil: true
 
- # Método para obtener el nivel completado de un sistema específico
-def get_level_completed(system_index)
-  levels = level_completed.split(',').map(&:to_i)
-  levels[system_index] || 0
-end
+  ROLES = %w[admin user].freeze
+  # Validar el rol
+  validates :role, inclusion: { in: ROLES }
 
-# Método para establecer el nivel completado de un sistema específico
-def set_level_completed(system_index, level)
-  levels = level_completed.split(',').map(&:to_i)
-  levels[system_index] = level if system_index.between?(0, levels.length - 1)
-  self.level_completed = levels.join(',')
-  save
-end
+  # Métodos para comprobar el rol
+  def admin?
+    role == 'admin'
+  end
 
+  def user?
+    role == 'user'
+  end
 
+  # Método para obtener el nivel completado de un sistema específico
+  def get_level_completed(system_index)
+    levels = level_completed.split(',').map(&:to_i)
+    levels[system_index] || 0
+  end
 
+  # Método para establecer el nivel completado de un sistema específico
+  def set_level_completed(system_index, level)
+    levels = level_completed.split(',').map(&:to_i)
+    levels[system_index] = level if system_index.between?(0, levels.length - 1)
+    self.level_completed = levels.join(',')
+    save
+  end
 end
