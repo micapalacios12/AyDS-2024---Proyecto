@@ -92,24 +92,32 @@
         <thead>
           <tr>
             <th>Pregunta</th>
+            <th>Total Respuestas</th>
+            <% if @mostrar_incorrectas %>
+              <th>Veces Respondida Incorrectamente</th>
+            <% elsif @mostrar_correctas %>
+              <th>Veces Respondida Correctamente</th>
+            <% end %>
           </tr>
         </thead>
         <tbody>
           <% if @mostrar_correctas %>
-            <% @questions.each do |questions| %>
-              <% if questions.correc_count > 0 %> <!-- Solo mostrar preguntas que tienen respuestas correctas -->
+            <% @questions.each do |question| %>
+              <% if question.correc_count > 0 %>
                 <tr>
-                  <td><%= questions.text %></td>
-                  
+                  <td><%= question.text %></td>
+                  <td><%= question.correc_count + question.incorrect_count %></td>
+                  <td><%= question.correc_count %></td>
                 </tr>
               <% end %>
             <% end %>
           <% elsif @mostrar_incorrectas %>
-            <% @questions.each do |questions| %>
-              <% if questions.incorrect_count > 0 %> <!-- Solo mostrar preguntas que tienen respuestas incorrectas -->
+            <% @questions.each do |question| %>
+              <% if question.incorrect_count > 0 %>
                 <tr>
-                  <td><%= questions.text %></td>
-                  
+                  <td><%= question.text %></td>
+                  <td><%= question.correc_count + question.incorrect_count %></td>
+                  <td><%= question.incorrect_count %></td>
                 </tr>
               <% end %>
             <% end %>
